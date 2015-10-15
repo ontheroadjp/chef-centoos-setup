@@ -66,19 +66,28 @@ end
 
 execute "install_laravel" do
   command "composer create-project laravel/laravel laravel --prefer-dist"
-  creates "/var/www/html/laravel"
+  # creates "/var/www/laravel"
   action :run
 end
 
 execute "move_laravel" do
   command "mv laravel/ /var/www/html/laravel"
-  creates "/var/www/html/laravel"
+  # creates "/var/www/html/laravel"
   action :run
 end
+
+=begin
+link "/var/www/html/public" do
+  to "/var/www/laravel/public"
+  link_type :symbolic
+end
+=end
 
 execute "chmod_laravel_public" do
   command "chmod -R 777 /var/www/html/laravel/storage"
   action :run
+  only_if { ::File.exists?("/var/www/html/laravel/storage")}
+
 end
 
 service "iptables" do
@@ -89,4 +98,5 @@ service "httpd" do
   action [:start, :enable]
   supports :status => true, :restart => true
 end
+
 
