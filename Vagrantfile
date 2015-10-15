@@ -1,38 +1,28 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-VAGRANTFILE_API_VERSION = "2"
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
 
-Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "centos"
+Vagrant.configure(2) do |config|
+
+  # The most common configuration options are documented and commented below.
+  # For a complete reference, please see the online documentation at
+  # https://docs.vagrantup.com.
+
+  # Every Vagrant development environment requires a box. You can search for
+  # boxes at https://atlas.hashicorp.com/search.
+
+  config.vm.box = "nrel/CentOS-6.5-x86_64"
   config.vm.hostname = "centos"
-  config.vm.box_url = "https://github.com/2creatives/vagrant-centos/releases/download/v6.5.1/centos65-x86_64-20131205.box"
 
-  config.vm.network :forwarded_port, guest: 80, host: 8082
-  config.vm.network :forwarded_port, guest: 3306, host: 8806
+	config.vm.network :private_network, ip: "192.168.33.10"
+	config.vm.network :forwarded_port, guest: 80, host: 8080
+	config.vm.synced_folder "www", "/var/www"
 
-  config.vm.provision :chef_solo do |chef|
-    chef.add_recipe     "apache2"
-    chef.add_recipe     "apache2::mod_php5"
-    chef.add_recipe     "mysql"
-    chef.add_recipe     "mysql::client"
-    chef.add_recipe     "mysql::server"
-    chef.add_recipe     "php"
-    chef.add_recipe     "vim"
+#	config.omnibus.chef_version = :latest
+#	config.berkshelf.enabled = true
 
-    chef.json = {
-      :apache => {
-        :default_site_enabled => true
-      },
-      :mysql => {
-        :server_root_password => "123456",
-        :server_repl_password => "123456",
-        :server_debian_password => "123456"
-      }
-    }
-  end
-
-  config.omnibus.chef_version = :latest
-  config.berkshelf.enabled = true
-  
 end
