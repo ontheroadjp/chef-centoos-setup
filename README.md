@@ -1,1 +1,1 @@
-#vagrant-centos65_x86_64
+#vagrant-chef-for-laravel5.1
