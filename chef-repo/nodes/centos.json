@@ -1,8 +1,20 @@
 {
-  "run_list": [
-    "recipe[centos]"
-  ],
-  "automatic": {
-    "ipaddress": "centos"
-  }
+	"httpd" : {
+		"server_admin" : "root@localhost",
+		"server_name" : "www.example.com:80",
+		"document_root" : "/var/www/html",
+		"docroot_allow_override" : "All"
+	},
+	"run_list": [
+		"recipe[users]",
+		"recipe[yum]",
+		"recipe[apache2]",
+		"recipe[mysql56]",
+		"recipe[php55]",
+		"recipe[tools]",
+		"recipe[iptables]"
+	],
+	"automatic": {
+		"ipaddress": "centos"
+	}
 }

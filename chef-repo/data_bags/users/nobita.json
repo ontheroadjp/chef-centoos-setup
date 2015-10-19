@@ -1,0 +1,8 @@
+
+{
+	"id": "nobita",
+	"shell":"/bin/bash",
+	"password":"$6$56235a11$URksdER6qHDUgv.5gR5lCdaTgf/6KKJ3EGvMOznSo7qlt.pa4WqNCI/HxU5pUi5SKNL9xJo47F7aLXKGyyp1v.",
+	"wheel":true,
+	"sshkey":""
+}
