@@ -7,6 +7,11 @@
 # All rights reserved - Do Not Redistribute
 #
 
+# install fastestmirror plugin 
+yum_package "yum-fastestmirror" do
+  action :install
+end
+
 # update
 execute "yum-update" do
   user "root"
@@ -14,7 +19,7 @@ execute "yum-update" do
   action :run
 end
 
-# install yum-priorities
+# install yum-priorities plugin
 %w{yum-plugin-priorities}.each do |pkg|
   package pkg do
     action :install
@@ -29,7 +34,7 @@ template "/etc/yum.repos.d/CentOS-Base.repo" do
   mode 0644
 end
 
-# add official-mysql yum repository
+# add official-mysql yum repository and settings
 remote_file "#{Chef::Config[:file_cache_path]}/mysql-community-release-el6-5.noarch.rpm" do
 	source 'http://repo.mysql.com/mysql-community-release-el6-5.noarch.rpm'
 	action :create
@@ -38,6 +43,13 @@ end
 rpm_package "mysql-community-release" do
 	source "#{Chef::Config[:file_cache_path]}/mysql-community-release-el6-5.noarch.rpm"
 	action :install
+end
+
+template "/etc/yum.repos.d/mysql-community.repo" do
+  source "mysql-community.repo.erb"
+  owner "root"
+  group "root"
+  mode 0644
 end
 
 
@@ -92,10 +104,6 @@ template "/etc/yum.repos.d/remi.repo" do
   mode 0644
 end
 
-# install fastestmirror 
-#yum_package "yum-fastestmirror" do
-#  action :install
-#end
 
 # finally clean-up and update
 execute "yum-clean_and_update" do

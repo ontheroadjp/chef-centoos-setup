@@ -1,8 +1,7 @@
-
 {
 	"id": "nobita",
 	"shell":"/bin/bash",
 	"password":"$6$56235a11$URksdER6qHDUgv.5gR5lCdaTgf/6KKJ3EGvMOznSo7qlt.pa4WqNCI/HxU5pUi5SKNL9xJo47F7aLXKGyyp1v.",
 	"wheel":true,
-	"sshkey":""
+	"sshkey":"ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAmyer2bTXw8nq87G8XjNuIz5mS7hO5E0AHD5NLqIsp5NAgkz7wZGGhGbNFwFGTfQa4ZhEgKas1IqEUWDLtkFcKdnlcq6smYbJKeDQMSrgGpmmjUP+Y8Uj+8jp9wply/Ipm5MUwS/GQJTeb+NIIHDipcgmggVTDzkYvXahPIrnvOkUnRMpDzc0NxWTUHhJWoIa+BwEW1Fzz6q0cKCLozmEkMIkLQlqyXYdKiI3zA/yurVdIx5MvOezWnkTXr3KNj6ieoQ4ovpNol3pLbJs9c9++8xeK9g56//vN1Tj9PCa1HBEcF+QBhqb7cmSYfZfMjV03Z2kDKbcHV8as7rwxOJ2ow== xiaozhe@sv80.xserver.jp"
 }

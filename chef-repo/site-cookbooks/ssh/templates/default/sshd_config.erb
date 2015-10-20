@@ -11,6 +11,8 @@
 # default value.
 
 #Port 22
+Port 10022
+
 #AddressFamily any
 #ListenAddress 0.0.0.0
 #ListenAddress ::
@@ -32,21 +34,23 @@ Protocol 2
 
 # Logging
 # obsoletes QuietMode and FascistLogging
-#SyslogFacility AUTH
-SyslogFacility AUTHPRIV
-#LogLevel INFO
+
+SyslogFacility AUTH
+#SyslogFacility AUTHPRIV
+LogLevel INFO
 
 # Authentication:
 
 #LoginGraceTime 2m
-#PermitRootLogin yes
+PermitRootLogin no
 #StrictModes yes
 #MaxAuthTries 6
 #MaxSessions 10
 
-#RSAAuthentication yes
-#PubkeyAuthentication yes
-#AuthorizedKeysFile	.ssh/authorized_keys
+RSAAuthentication yes
+PubkeyAuthentication yes
+AuthorizedKeysFile	.ssh/authorized_keys
+
 #AuthorizedKeysCommand none
 #AuthorizedKeysCommandRunAs nobody
 
@@ -63,7 +67,7 @@ SyslogFacility AUTHPRIV
 # To disable tunneled clear text passwords, change to no here!
 #PasswordAuthentication yes
 #PermitEmptyPasswords no
-PasswordAuthentication yes
+PasswordAuthentication no
 
 # Change to no to disable s/key passwords
 #ChallengeResponseAuthentication yes

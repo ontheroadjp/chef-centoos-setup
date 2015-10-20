@@ -51,6 +51,21 @@ data_ids.each do |id|
 	end
 end
 
+# sudo for members of the wheel grp.
+template "/etc/sudoers" do
+  source "sudoers.erb"
+  owner "root"
+  group "root"
+  mode 0440
+end
+
+# su for members of the wheel grp.
+template "/etc/pam.d/su" do
+  source "su.erb"
+  owner "root"
+  group "root"
+  mode 0644
+end
 
 
 
