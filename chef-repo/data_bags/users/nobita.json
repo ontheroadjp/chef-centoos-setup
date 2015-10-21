@@ -1,7 +1,27 @@
 {
-	"id": "nobita",
-	"shell":"/bin/bash",
-	"password":"$6$56235a11$URksdER6qHDUgv.5gR5lCdaTgf/6KKJ3EGvMOznSo7qlt.pa4WqNCI/HxU5pUi5SKNL9xJo47F7aLXKGyyp1v.",
-	"wheel":true,
-	"sshkey":"ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAmyer2bTXw8nq87G8XjNuIz5mS7hO5E0AHD5NLqIsp5NAgkz7wZGGhGbNFwFGTfQa4ZhEgKas1IqEUWDLtkFcKdnlcq6smYbJKeDQMSrgGpmmjUP+Y8Uj+8jp9wply/Ipm5MUwS/GQJTeb+NIIHDipcgmggVTDzkYvXahPIrnvOkUnRMpDzc0NxWTUHhJWoIa+BwEW1Fzz6q0cKCLozmEkMIkLQlqyXYdKiI3zA/yurVdIx5MvOezWnkTXr3KNj6ieoQ4ovpNol3pLbJs9c9++8xeK9g56//vN1Tj9PCa1HBEcF+QBhqb7cmSYfZfMjV03Z2kDKbcHV8as7rwxOJ2ow== xiaozhe@sv80.xserver.jp"
+  "id": "nobita",
+  "shell": {
+    "encrypted_data": "GoxjZe2oKD/5aXl7K1FZaoggu6PbTN3/KUaypZopk4Y=\n",
+    "iv": "rE1GUQkoBZgxdoA1K1mEnw==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "password": {
+    "encrypted_data": "M880ALBz9hXqTOyb5ZjIu1swg7FrFg5l+7C8jF6xeUlQ1oabV0b8xObksDEd\nlPSpRvWkO6VIfLT8+fdxu6ntqLemUrbESd++LPauiA05seNOXSSyrEtzF3A+\nuNV8Skedyyy1rPYKo02ShxWMAvy82yJQ5PpZ5MnfwvQmwOPk0PU=\n",
+    "iv": "q/78VjIvkaw/7Oym6tYhXw==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "wheel": {
+    "encrypted_data": "SFg6rNr4FsrRuFa1M7gcy6cgvtR+2zhPcS46j1KBwKc=\n",
+    "iv": "KAsK7tzkVHShRiDnjMhYrQ==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "sshkey": {
+    "encrypted_data": "fOO32alkxcgjhyHvP7/7Y6YAJj9wJZ7wiGKyfvCL6+fgoV3ZtV86REmwW6lY\n/3RHPpLzJVGvnsMMOr+fTAATynwcy1xlwREbig7tFGsyUZuDDT8l9FdfoyzC\nGVUvHCzfpDA9JZMuH3Emt+bAXnwsD8iCrNOX57TTFLcAZONBGfRgu/azp8c8\n2suIMLzKp49M9H5olitbNcil5I8bL+TXjATnIb4uPQgDokmJscGhazhnWL9z\nDQCVVVLiQTDzqN5xngaOCwBkwISkSMMjmh4e8g1okSmh1LcyMde7vMrTMaZ0\npP3eObUls2Tfjqjr/T9e/iyDTROOsODKl7859hbYPr8pxRVdrOfrGA/EqSS8\n9FOeDO1h02RGn9YhMOb1XdYkbvlBGCgbySVbc5YInFQnQ5VgeqoW4HQCJh0R\n2PnUD4O99zoOSKZVZr5XVX4qnfC6rAin+r7jhja3Ch2+0798bZVr+id1gjA8\n1WU0SdZIYJWTdY2UM6niqGj54HBe3tQb+A4WuT2lwrjLAX54igsJYJe8rPP4\nkjPj3A0j6313OjHUMv35SRzD37Wg33t2KxlA\n",
+    "iv": "S5i9/hp+lCToLtZ0ebRPdg==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  }
 }

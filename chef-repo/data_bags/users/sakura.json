@@ -1,7 +1,27 @@
 {
-	"id": "sakura",
-	"shell":"/bin/bash",
-	"password":"$6$56235a11$URksdER6qHDUgv.5gR5lCdaTgf/6KKJ3EGvMOznSo7qlt.pa4WqNCI/HxU5pUi5SKNL9xJo47F7aLXKGyyp1v.",
-	"wheel":false,
-	"sshkey":"ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAmyer2bTXw8nq87G8XjNuIz5mS7hO5E0AHD5NLqIsp5NAgkz7wZGGhGbNFwFGTfQa4ZhEgKas1IqEUWDLtkFcKdnlcq6smYbJKeDQMSrgGpmmjUP+Y8Uj+8jp9wply/Ipm5MUwS/GQJTeb+NIIHDipcgmggVTDzkYvXahPIrnvOkUnRMpDzc0NxWTUHhJWoIa+BwEW1Fzz6q0cKCLozmEkMIkLQlqyXYdKiI3zA/yurVdIx5MvOezWnkTXr3KNj6ieoQ4ovpNol3pLbJs9c9++8xeK9g56//vN1Tj9PCa1HBEcF+QBhqb7cmSYfZfMjV03Z2kDKbcHV8as7rwxOJ2ow== xiaozhe@sv80.xserver.jp"
+  "id": "sakura",
+  "shell": {
+    "encrypted_data": "aOrmred8NNoVQqvq3FPBUtCdukhKKOqdh7S1Dc7fAVA=\n",
+    "iv": "SrlsEX1BsWK01X+akWq7Tg==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "password": {
+    "encrypted_data": "gefyFDaFbUfHBCoVcyU3YF/Wf9MAcgHuYGkZ2BBKir/0lwXmdaYe/CFDwX7K\nqjSYk60lYigY8/VVO0GFtts7B3/i3B0M7RLL99W/gEwm4SQAN1rgHer8OsSI\nnpYFUEbK95AvK4pduuqCiSwpO5CDa0MPzGLwD7AHJz+24R1a79E=\n",
+    "iv": "JFNyFLu+yqVPMhP4HSuvUw==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "wheel": {
+    "encrypted_data": "rC3DX+RKVMjZ+jXKvBwHYOltwOs/Q2EcjMyaj/SGrsk=\n",
+    "iv": "7tlXi6zjxmHU4exuRId4JA==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "sshkey": {
+    "encrypted_data": "8j9s6sGZYAgXRtEK7EFTrt8qjHGO+1eOElCjLLA8mWqquDE3W/o723TQXXQr\nEIjO7eplKRDQhFAJ5cvmjQxYNMRJ94aVYOMaRBrJwHbAkLfeXhfdWxtV5hBr\nzuNQEj34PDvrcnV9HNl78GzRgjSu1W5GPp5VnKbOIzDlab16XcimnQAWAHwg\n/Wd3TK/j3cMobSY/MyC3n1CU1b8rv+BZaQPA1TK+4Htowbc8EtKktUYfMdI3\n+1cGpTHIe+C56R2RLJXWGgV9Gc4RdrHjvsLBGSVgcJZqKMCI+YabO60bZtD3\nhyGh6VUkRiGItkfVGRBtWFXCed8Kupb0MCHtgn9ZD93+Fesd0E9js8DE9XVg\nKvmM/k83bfj8nCqUdRTsQs0f49TYPNaF2B05SB9iWMLMAb6ZRVBT1gqJ1xml\nY1O6uXRVtvcDp9rl6YxzK0h9CQZN9hmURivo3UpC76KqwcJD0XCTC07x6kCh\n/UQ8j9nGUL/s/JB8bC2ifm3CdWsAv6lx70ARJ0+0k9mLkUhq6Qo58tP7rsx8\nHeyXaG+tQDevvSaOiFujCTFLsfNTdJp5rP0X\n",
+    "iv": "1MOj8aUQTP8DR9hR7kvX2Q==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  }
 }
