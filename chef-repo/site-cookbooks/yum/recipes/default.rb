@@ -2,7 +2,7 @@
 # Cookbook Name:: yum
 # Recipe:: default
 #
-# Copyright 2015, YOUR_COMPANY_NAME
+# Copyright 2015, @ontheroad_jp
 #
 # All rights reserved - Do Not Redistribute
 #
@@ -51,7 +51,6 @@ template "/etc/yum.repos.d/mysql-community.repo" do
   group "root"
   mode 0644
 end
-
 
 # add epel repository and settings
 bash 'add_epel' do

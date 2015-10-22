@@ -2,7 +2,7 @@
 # Cookbook Name:: apache2
 # Recipe:: default
 #
-# Copyright 2015, YOUR_COMPANY_NAME
+# Copyright 2015, @ontheroad_jp
 #
 # All rights reserved - Do Not Redistribute
 #
@@ -15,13 +15,13 @@
 	end
 end
 
-template "/etc/httpd/conf/httpd.conf" do
-  source "httpd.conf.erb"
-  owner "root"
-  group "root"
-  mode 0644
-  notifies :reload, 'service[httpd]'
-end
+#template "/etc/httpd/conf/httpd.conf" do
+#  source "httpd.conf.erb"
+#  owner "root"
+#  group "root"
+#  mode 0644
+#  notifies :reload, 'service[httpd]'
+#end
 
 service "httpd" do
   action [:start, :enable]

@@ -1,0 +1,12 @@
+/var/log/iptables-dnsamp.log
+/var/log/iptables-forward-drop.log
+/var/log/iptables-input-drop.log
+/var/log/iptables-ping-attack.log
+{
+	weekly
+	rotate 4
+	create
+	postrotate
+		/etc/init.d/iptables reload > /dev/null 2> /dev/null || true
+	 endscript
+}

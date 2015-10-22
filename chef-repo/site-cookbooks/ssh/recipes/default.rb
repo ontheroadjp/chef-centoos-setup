@@ -2,7 +2,7 @@
 # Cookbook Name:: ssh
 # Recipe:: default
 #
-# Copyright 2015, YOUR_COMPANY_NAME
+# Copyright 2015, @ontheroad_jp
 #
 # All rights reserved - Do Not Redistribute
 #

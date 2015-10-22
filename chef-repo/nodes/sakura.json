@@ -1,20 +1,14 @@
 {
-	"httpd" : {
-		"server_admin" : "root@localhost",
-		"server_name" : "www.example.com:80",
-		"document_root" : "/var/www/html",
-		"docroot_allow_override" : "All"
-	},
 	"run_list": [
-		"recipe[sakuravps_tuning]",
+		"recipe[daemonctl]",
 		"recipe[users]",
 		"recipe[yum]",
 		"recipe[apache2]",
 		"recipe[mysql56]",
 		"recipe[php55]",
 		"recipe[tools]",
-		"recipe[ssh]",
-		"recipe[iptables]"
+		"recipe[iptables]",
+		"recipe[ssh]"
 	],
 	"automatic": {
 		"ipaddress": "sakura"

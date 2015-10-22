@@ -2,7 +2,7 @@
 # Cookbook Name:: mysql56
 # Recipe:: default
 #
-# Copyright 2015, YOUR_COMPANY_NAME
+# Copyright 2015, @ontheroad_jp
 #
 # All rights reserved - Do Not Redistribute
 #
@@ -26,5 +26,4 @@ service "mysqld" do
   supports :status => true, :restart => true, :reload => true
   action [ :enable, :start ]
 end
-
 
