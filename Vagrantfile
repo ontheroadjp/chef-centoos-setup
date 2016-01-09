@@ -16,6 +16,7 @@ Vagrant.configure(2) do |config|
   # boxes at https://atlas.hashicorp.com/search.
 
   config.vm.box = "nrel/CentOS-6.5-x86_64"
+  # config.vm.box = "bento/centos-6.7"
   config.vm.hostname = "centos"
 
 	config.vm.network :private_network, ip: "192.168.33.10"
