@@ -33,7 +33,8 @@ httpd: #80（#8080 からフォワード）
 
 ```bash
 # Git クローン
-$ git clone
+$ git clone https://github.com/ontheroadjp/chef-centoos-setup.git
+$ git clone -b bk https://github.com/ontheroadjp/chef-centoos-setup.git
 $ cd chef-repo
 
 # 秘密鍵の生成

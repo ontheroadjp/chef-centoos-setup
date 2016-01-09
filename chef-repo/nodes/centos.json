@@ -11,8 +11,7 @@
 		"recipe[apache2]",
 		"recipe[mysql56]",
 		"recipe[php55]",
-		"recipe[tools]",
-		"recipe[iptables]"
+		"recipe[tools]"
 	],
 	"automatic": {
 		"ipaddress": "centos"
