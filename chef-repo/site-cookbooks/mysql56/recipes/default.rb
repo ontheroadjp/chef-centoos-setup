@@ -27,3 +27,11 @@ service "mysqld" do
   action [ :enable, :start ]
 end
 
+## phpMyAdmin
+#%w{phpMyAdmin}.each do |pkg|
+#  package pkg do
+#    # action [:install, :upgrade]
+#    action :install
+#    options "--enablerepo=remi --enablerepo=remi-php55"
+#  end
+#end

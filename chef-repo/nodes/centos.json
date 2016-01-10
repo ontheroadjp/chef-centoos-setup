@@ -10,7 +10,7 @@
 		"recipe[yum]",
 		"recipe[apache2]",
 		"recipe[mysql56]",
-		"recipe[php55]",
+		"recipe[php56]",
 		"recipe[tools]"
 	],
 	"automatic": {

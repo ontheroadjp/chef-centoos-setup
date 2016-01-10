@@ -5,16 +5,15 @@
 
 OS（BOX）: [nrel/CentOS-6.5-x86_64](https://vagrantcloud.com/nrel/boxes/CentOS-6.5-x86_64)
 
-* HTTPD
-* MySQL
-* PHP
+* Apache2
+* MySQL5.6
+* PHP5.5
 
 * php-devel
 * php-mbstring 
 * php-mysql 
 * php-xml 
 * php-mcrypt 
-
 * libmcrypt
 
 * vim-enhanced
@@ -128,4 +127,41 @@ Zend Engine v2.6.0, Copyright (c) 1998-2015 Zend Technologies
 $ mysql --version
 mysql  Ver 14.14 Distrib 5.6.27, for Linux (x86_64) using  EditLine wrapper
 -bash: __git_ps1: command not found
+```
+
+## Vagrant up
+
+```bash
+$ vagrant up
+
+Bringing machine 'default' up with 'virtualbox' provider...
+==> default: Checking if box 'nrel/CentOS-6.5-x86_64' is up to date...
+==> default: Clearing any previously set forwarded ports...
+==> default: Clearing any previously set network interfaces...
+==> default: Preparing network interfaces based on configuration...
+    default: Adapter 1: nat
+    default: Adapter 2: hostonly
+==> default: Forwarding ports...
+    default: 80 => 8080 (adapter 1)
+    default: 3306 => 3306 (adapter 1)
+    default: 22 => 2222 (adapter 1)
+==> default: Booting VM...
+==> default: Waiting for machine to boot. This may take a few minutes...
+    default: SSH address: 127.0.0.1:2222
+    default: SSH username: vagrant
+    default: SSH auth method: private key
+    default: Warning: Connection timeout. Retrying...
+==> default: Machine booted and ready!
+GuestAdditions 5.0.6 running --- OK.
+==> default: Checking for guest additions in VM...
+==> default: Checking for host entries
+==> default: adding to (/etc/hosts) : 192.168.33.10  centos  # VAGRANT: be48b7b8b740ca08f7fcb0f5d4bb247a (default) / e02002d5-f213-4d51-90b5-0edd67a94f99
+Password:
+==> default: Setting hostname...
+==> default: Configuring and enabling network interfaces...
+==> default: Mounting shared folders...
+    default: /vagrant => /Users/hideaki/Desktop/test/chef-centoos-setup
+    default: /var/www/html => /Users/hideaki/Desktop/test/chef-centoos-setup/html
+==> default: Machine already provisioned. Run `vagrant provision` or use the `--provision`
+==> default: flag to force provisioning. Provisioners marked to run always will still run.
 ```
