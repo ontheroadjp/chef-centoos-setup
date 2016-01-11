@@ -35,6 +35,33 @@ execute "stop_daemon" do
 		chkconfig smartd off > /dev/null 2>&1
 		chkconfig xfs off > /dev/null 2>&1
 		chkconfig yum-updatesd off > /dev/null 2>&1
+
+		yum -y remove cups > /dev/null 2>&1
+		yum -y remove kudzu > /dev/null 2>&1
+		yum -y remove wireless-tools > /dev/null 2>&1
+		yum -y remove wpa_supplicant > /dev/null 2>&1
+		yum -y remove pcmciautils > /dev/null 2>&1
+		yum -y remove irda-utils > /dev/null 2>&1
+		yum -y remove ccid > /dev/null 2>&1
+		yum -y remove gtk2 > /dev/null 2>&1
+		yum -y remove bluez-gnome > /dev/null 2>&1
+		yum -y remove bluez-utils > /dev/null 2>&1
+		yum -y remove blues-libs > /dev/null 2>&1
+		yum -y remove alsa-lib > /dev/null 2>&1
 	EOH
 	action :run
 end
+
+# yum remove の簡単な説明
+# 参考: http://www4413u.sakura.ne.jp/wiki/28.html
+#
+# cups：プリントサーバー
+# kudzu：ハードウェア構成変更検出
+# wireless-tools,wpa_supplicant：無線LAN関係
+# pcmciautils：ノートPC等のPCカードスロット用ドライバ
+# irda-utils：赤外線通信用
+# ccid：スマートカード用
+# gtk2：デスクトップ環境
+# bluez-gnome,bluez-utils,bluez-libs：BlueTooth用
+# alsa-lib：サウンド再生
+

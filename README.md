@@ -8,16 +8,15 @@ OS（BOX）: [nrel/CentOS-6.5-x86_64](https://vagrantcloud.com/nrel/boxes/CentOS
 * Apache2.2.15
 * MySQL5.6.27
 * PHP5.6.17
-
-* php-devel
-* php-mbstring 
-* php-mysql 
-* php-xml 
-* php-mcrypt 
-* libmcrypt
-
-* vim-enhanced
-* Git
+	* php
+	* php-devel
+	* php-mbstring 
+	* php-mysql 
+	* php-xml 
+	* php-mcrypt 
+	* libmcrypt
+* vim-enhanced 7.4.629
+* Git1.7.1
 
 ## サーバー概要
 
