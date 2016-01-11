@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: php55
+# Cookbook Name:: php56
 # Recipe:: default
 #
 # Copyright 2015, @ontheroad_jp

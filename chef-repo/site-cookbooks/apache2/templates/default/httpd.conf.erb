@@ -259,7 +259,7 @@ Group apache
 # e-mailed.  This address appears on some server-generated pages, such
 # as error documents.  e.g. admin@your-domain.com
 #
-# ServerAdmin root@localhost
+#ServerAdmin root@localhost
 ServerAdmin <%= node['httpd']['server_admin'] %>
 
 #
@@ -340,6 +340,8 @@ DocumentRoot "<%= node['httpd']['document_root'] %>"
 #
     #AllowOverride None
     AllowOverride <%= node['httpd']['docroot_allow_override'] %>
+
+
 #
 # Controls who can get stuff from this server.
 #
@@ -402,7 +404,7 @@ DocumentRoot "<%= node['httpd']['document_root'] %>"
 # negotiated documents.  The MultiViews Option can be used for the 
 # same purpose, but it is much slower.
 #
-DirectoryIndex index.html index.html.var
+DirectoryIndex index.html index.html.var index.php
 
 #
 # AccessFileName: The name of the file to look for in each directory
@@ -819,7 +821,8 @@ AddHandler type-map var
 AddType text/html .shtml
 AddOutputFilter INCLUDES .shtml
 
-#
+AddType application/x-httpd-php .php
+
 # Action lets you define media types that will execute a script whenever
 # a matching file is called. This eliminates the need for repeated URL
 # pathnames for oft-used CGI file processors.
@@ -990,9 +993,7 @@ BrowserMatch "^Dreamweaver-WebDAV-SCM1" redirect-carefully
 #
 # Use name-based virtual hosting.
 #
-
-NameVirtualHost *:80
-
+#NameVirtualHost *:80
 #
 # NOTE: NameVirtualHost cannot be used without a port specifier 
 # (e.g. :80) if mod_ssl is being used, due to the nature of the
@@ -1012,19 +1013,3 @@ NameVirtualHost *:80
 #    ErrorLog logs/dummy-host.example.com-error_log
 #    CustomLog logs/dummy-host.example.com-access_log common
 #</VirtualHost>
-
-<VirtualHost *:80>
-    DocumentRoot /var/www/html
-    ServerName localhost
-        <Directory "/var/www/html">
-                AllowOverride none
-        </Directory>
-</VirtualHost>
-<VirtualHost *:80>
-    DocumentRoot /var/www/laravel/public
-    ServerName lara.com
-        <Directory "/var/www/laravel/public">
-                AllowOverride All
-        </Directory>
-</VirtualHost>
-
