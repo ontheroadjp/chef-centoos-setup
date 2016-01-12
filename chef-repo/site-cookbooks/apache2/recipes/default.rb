@@ -12,7 +12,7 @@
 	package pkg do
 		# action [:install, :upgrade]
 		action :install
-		version '2.2.15-47.el6.centos.1'
+		# version '2.2.15-47.el6.centos.1'
 	end
 end
 
