@@ -34,6 +34,20 @@ $ git clone -b bk https://github.com/ontheroadjp/chef-centoos-setup.git
 
 ## Chef の実行
 
+### 0. SSH 設定
+
+```bash
+$ vagrant ssh-config --host centos >> ~/.ssh/config
+```
+
+とすれば、
+
+```bash
+$ ssh centos
+```
+
+で ゲスト OS へ SSH 接続が可能となる。
+
 ### 1. ホスト OS 側での準備
 
 ```bash
