@@ -1,6 +1,6 @@
 {
 	"run_list": [
-		"recipe[daemonctl]",
+		"recipe[sakuravps_tuning]",
 		"recipe[users]",
 		"recipe[yum]",
 		"recipe[apache2]",

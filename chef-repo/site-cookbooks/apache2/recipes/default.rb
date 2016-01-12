@@ -10,8 +10,9 @@
 # Apache2
 %w{httpd httpd-devel}.each do |pkg|
 	package pkg do
-    action [:install, :upgrade]
-		# action :install
+		# action [:install, :upgrade]
+		action :install
+		version '2.2.15-47.el6.centos.1'
 	end
 end
 
