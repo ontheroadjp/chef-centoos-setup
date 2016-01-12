@@ -9,10 +9,11 @@
 		"recipe[users]",
 		"recipe[sakuravps_tuning]",
 		"recipe[yum]",
+		"recipe[tools]",
+		"recipe[iptables]",
 		"recipe[apache2]",
 		"recipe[mysql56]",
-		"recipe[php56]",
-		"recipe[tools]"
+		"recipe[php56]"
 	],
 	"automatic": {
 		"ipaddress": "centos"

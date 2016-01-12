@@ -104,10 +104,11 @@ iptables -A OUTPUT -o lo -j ACCEPT
  
 # SSH（国制限 & ハッシュリミットなし）
 iptables -A INPUT -p tcp -m state --state NEW --dport 10022 -j ACCEPT
+iptables -A INPUT -p tcp -m state --state NEW --dport 22 -j ACCEPT
 
 # HTTP
 # iptables -A INPUT -p tcp -m state --state NEW --dport 80 -j ACCEPT
-#iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT
 
 # DNS - DDpS（DNS Amp）は適宜ログを取る
 iptables -N DNSAMP
