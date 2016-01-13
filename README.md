@@ -48,25 +48,42 @@ $ ssh centos
 
 で ゲスト OS へ SSH 接続が可能となる。
 
+**その他、``~/.ssh/config`` の設定例**
+
+```
+Host sakuraroot
+	HostName xxx.xxx.xxx.xxx
+	Port 22
+	User root
+```
+
 ### 1. ホスト OS 側での準備
 
 ```bash
-# 秘密鍵の生成
+# data bag を暗号化する秘密鍵の生成
 $ openssl rand -base64 512 > .chef/data_bag_key
 
 # 環境変数の設定
 $ export EDITOR=vim
 
+# ユーザー（nobita）のパスワード生成
+# PASSWORD の部分を実際のパスワードにすること
+$ php -r 'echo crypt("PASSWORD","$6$".substr(uniqid(),0,8));' >> password.txt
+
 # ユーザー（nobita）の作成
 $ knife data bag create --secret-file .chef/data_bag_key --local users nobita
 ```
 
-vim が起動するので、以下の通り編集
+* vim が起動するので、以下の通り編集
+* ``"password"`` の部分は上記で生成したパスワードを入力する
 
-```vim
+```json
 {
-	"id": "nobita", 
-	"password": "nobita" 
+	"id": "nobita",
+	"shell": "/bin/bash",
+	"password": "$6$5696018b$EPgCN6vj.jocDrBiax0HpIfAbI.24Dwov8K6ri45OAsiG1SxmFItFzlLEwp7eiwFjUvxDI0S/I/
+	"sshkey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDL+mG+DQcUGn2iwmtt13dBlyWbOk0d063uz6HrShDm3S+6g7WYR
+	"wheel": true
 }
 ```
 
