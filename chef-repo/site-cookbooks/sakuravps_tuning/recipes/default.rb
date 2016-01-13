@@ -36,18 +36,18 @@ execute "stop_daemon" do
 		chkconfig xfs off > /dev/null
 		chkconfig yum-updatesd off > /dev/null
 
-		yum -y remove cups > /dev/null
-		yum -y remove kudzu > /dev/null
-		yum -y remove wireless-tools > /dev/null
-		yum -y remove wpa_supplicant > /dev/null
-		yum -y remove pcmciautils > /dev/null
-		yum -y remove irda-utils > /dev/null
-		yum -y remove ccid > /dev/null
-		yum -y remove gtk2 > /dev/null
+		yum -y remove alsa-lib > /dev/null
 		yum -y remove bluez-gnome > /dev/null
 		yum -y remove bluez-utils > /dev/null
-		yum -y remove blues-libs > /dev/null
-		yum -y remove alsa-lib > /dev/null
+		yum -y remove bluez-libs > /dev/null
+		yum -y remove ccid > /dev/null
+		yum -y remove cups > /dev/null
+		yum -y remove gtk2 > /dev/null
+		yum -y remove irda-utils > /dev/null
+		yum -y remove kudzu > /dev/null
+		yum -y remove pcmciautils > /dev/null
+		yum -y remove wireless-tools > /dev/null
+		yum -y remove wpa_supplicant > /dev/null
 	EOH
 	action :run
 end
@@ -55,13 +55,16 @@ end
 # yum remove の簡単な説明
 # 参考: http://www4413u.sakura.ne.jp/wiki/28.html
 #
-# cups：プリントサーバー
-# kudzu：ハードウェア構成変更検出
-# wireless-tools,wpa_supplicant：無線LAN関係
-# pcmciautils：ノートPC等のPCカードスロット用ドライバ
-# irda-utils：赤外線通信用
-# ccid：スマートカード用
-# gtk2：デスクトップ環境
-# bluez-gnome,bluez-utils,bluez-libs：BlueTooth用
 # alsa-lib：サウンド再生
+# bluez-gnome：BlueTooth用
+# bluez-utils：BlueTooth用
+# bluez-libs：BlueTooth用
+# ccid：スマートカード用
+# cups：プリントサーバー
+# gtk2：デスクトップ環境
+# irda-utils：赤外線通信用
+# kudzu：ハードウェア構成変更検出
+# pcmciautils：ノートPC等のPCカードスロット用ドライバ
+# wireless-tools：無線LAN関連
+# wpa_supplicant：無線LAN関係
 

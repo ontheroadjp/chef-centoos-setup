@@ -1,10 +1,10 @@
 # vagrant-chef-for-laravel5.1
 
 
-## Vagrant
+## サーバー構成
 
-OS（BOX）: [nrel/CentOS-6.5-x86_64](https://vagrantcloud.com/nrel/boxes/CentOS-6.5-x86_64)
-
+* OS CentOS 6.5 64bit   
+	* （BOX）: [nrel/CentOS-6.5-x86_64](https://vagrantcloud.com/nrel/boxes/CentOS-6.5-x86_64)
 * Apache 2.2.15
 * MySQL 5.6.28
 * PHP 5.6.17
@@ -81,9 +81,6 @@ $ vagrant up
 
 # SSH 接続
 $ vagrant ssh
-
-# postfix.x86_64 の削除
-$ sudo yum remove -y postfix.x86_64
 
 # iptables のリセット
 $ sudo iptables --flush
