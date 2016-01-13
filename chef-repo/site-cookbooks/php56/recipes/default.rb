@@ -28,6 +28,7 @@ end
     action [:install, :upgrade]
     # action :install
     options "--enablerepo=remi --enablerepo=remi-php56"
+    notifies :restart, 'service[httpd]'
   end
 end
 

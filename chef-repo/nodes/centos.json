@@ -10,7 +10,6 @@
 		"recipe[sakuravps_tuning]",
 		"recipe[yum]",
 		"recipe[tools]",
-		"recipe[iptables]",
 		"recipe[apache2]",
 		"recipe[mysql56]",
 		"recipe[php56]"

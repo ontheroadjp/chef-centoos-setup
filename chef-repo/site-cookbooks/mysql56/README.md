@@ -1,20 +1,26 @@
-mysql56 Cookbook
-================
+# mysql56 Cookbook
+
 TODO: Enter the cookbook description here.
 
 e.g.
 This cookbook makes your favorite breakfast sandwich.
 
-Requirements
-------------
-TODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.
+## Requirements
 
-e.g.
-#### packages
-- `toaster` - mysql56 needs toaster to brown your bagel.
+### Platform
 
-Attributes
-----------
+* RHEL/CentOS and derivatives
+
+### Chef
+
+* Chef 11+
+
+### Cookbooks
+
+* yum
+
+## Attributes
+
 TODO: List your cookbook attributes here.
 
 e.g.
@@ -34,8 +40,8 @@ e.g.
   </tr>
 </table>
 
-Usage
------
+## Usage
+
 #### mysql56::default
 TODO: Write usage instructions for each cookbook.
 
@@ -51,8 +57,8 @@ Just include `mysql56` in your node's `run_list`:
 }
 ```
 
-Contributing
-------------
+## Contributing
+
 TODO: (optional) If this is a public cookbook, detail the process for contributing. If this is a private cookbook, remove this section.
 
 e.g.
@@ -63,6 +69,6 @@ e.g.
 5. Run the tests, ensuring they all pass
 6. Submit a Pull Request using Github
 
-License and Authors
--------------------
+## License and Authors
+
 Authors: TODO: List authors

@@ -21,10 +21,9 @@ template "/etc/httpd/conf/httpd.conf" do
   owner "root"
   group "root"
   mode 0644
-  notifies :reload, 'service[httpd]'
 end
 
 service "httpd" do
   action [:start, :enable]
-  supports :status => true, :restart => true
+  supports :status => true, :restart => true, :reload => true
 end
