@@ -66,3 +66,52 @@ e.g.
 License and Authors
 -------------------
 Authors: TODO: List authors
+
+
+```
+Chain INPUT (policy DROP)
+target     prot opt source               destination         
+DROP       all  --  loopback/8           anywhere            
+DROP       all  --  10.0.0.0/8           anywhere            
+DROP       all  --  172.16.0.0/12        anywhere            
+DROP       all  --  192.168.0.0/16       anywhere            
+DROP       all  --  192.168.0.0/24       anywhere            
+PING_ATTACK  icmp --  anywhere             anywhere            icmp echo-request 
+DROP       all  --  anywhere             255.255.255.255     
+DROP       all  --  anywhere             all-systems.mcast.net 
+DROP       all  --  anywhere             160.16.229.255      
+REJECT     tcp  --  anywhere             anywhere            tcp dpt:auth reject-with tcp-reset 
+DROP       tcp  --  anywhere             anywhere            tcp flags:!SYN,RST,ACK/SYN state NEW 
+ACCEPT     all  --  anywhere             anywhere            state RELATED,ESTABLISHED 
+ACCEPT     all  --  anywhere             anywhere            
+ACCEPT     tcp  --  anywhere             anywhere            state NEW tcp dpt:10022 
+ACCEPT     tcp  --  anywhere             anywhere            state NEW tcp dpt:ssh 
+ACCEPT     tcp  --  anywhere             anywhere            tcp dpt:http 
+DNSAMP     udp  --  anywhere             anywhere            state NEW udp dpt:domain 
+ACCEPT     tcp  --  anywhere             anywhere            state NEW tcp dpt:domain 
+ACCEPT     tcp  --  anywhere             anywhere            tcp dpt:http 
+LOG        all  --  anywhere             anywhere            limit: avg 1/sec burst 5 LOG level debug prefix `[IPTABLES DROP INPUT] : ' 
+DROP       all  --  anywhere             anywhere            
+
+Chain FORWARD (policy DROP)
+target     prot opt source               destination         
+LOG        all  --  anywhere             anywhere            limit: avg 1/sec burst 5 LOG level debug prefix `[IPTABLES DROP FORWARD] : ' 
+DROP       all  --  anywhere             anywhere            
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination         
+ACCEPT     all  --  anywhere             anywhere            
+
+Chain DNSAMP (1 references)
+target     prot opt source               destination         
+           all  --  anywhere             anywhere            recent: SET name: dnsamp side: source 
+LOG        all  --  anywhere             anywhere            recent: CHECK seconds: 60 hit_count: 5 name: dnsamp side: source LOG level debug prefix `[IPTABLES DNSAMP] : ' 
+DROP       all  --  anywhere             anywhere            recent: CHECK seconds: 60 hit_count: 5 name: dnsamp side: source 
+ACCEPT     all  --  anywhere             anywhere            
+
+Chain PING_ATTACK (1 references)
+target     prot opt source               destination         
+ACCEPT     all  --  anywhere             anywhere            length 0:85 limit: avg 1/sec burst 4 
+LOG        all  --  anywhere             anywhere            LOG level debug prefix `[IPTABLES PINGATTACK] : ' 
+DROP       all  --  anywhere             anywhere
+```
