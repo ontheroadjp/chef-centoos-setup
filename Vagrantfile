@@ -15,7 +15,8 @@ Vagrant.configure(2) do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
 
-  config.vm.box = "nrel/CentOS-6.5-x86_64"
+  # config.vm.box = "nrel/CentOS-6.5-x86_64"
+  config.vm.box = "nrel/CentOS-6.7-x86_64"
   # config.vm.box = "bento/centos-6.7"
   config.vm.hostname = "centos"
 
@@ -23,9 +24,8 @@ Vagrant.configure(2) do |config|
 	config.vm.network :forwarded_port, guest: 3306, host: 3306
 	config.vm.network :private_network, ip: "192.168.33.10"
 	config.vm.synced_folder "html", "/var/www/html/"
-#	config.vm.synced_folder "home", "/home/"
 
 #	config.omnibus.chef_version = :latest
-#	config.berkshelf.enabled = true
+#	config.berkshelf.enabled = false
 
 end
