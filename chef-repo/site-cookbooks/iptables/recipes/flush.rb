@@ -1,0 +1,16 @@
+#
+# Cookbook Name:: iptables
+# Recipe:: flush
+#
+# Copyright 2015, @ontheroad_jp
+#
+# All rights reserved - Do Not Redistribute
+#
+
+# settings for iptables
+execute "ipconfig_rules_setting" do
+	command "iptables --flush"
+end
+
+
+

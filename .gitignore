@@ -1,8 +1,9 @@
 chef-repo/data_bags/users/
 chef-repo/.chef/data_bag_key
 backup.sh
-www
 .DS_STORE
 *.box
 .vagrant
 .bashrc
+www
+html
