@@ -1,0 +1,20 @@
+{
+	"httpd" : {
+		"server_admin" : "root@localhost",
+		"server_name" : "www.example.com:80",
+		"document_root" : "/var/www/html",
+		"docroot_allow_override" : "All"
+	},
+	"run_list": [
+		"recipe[sakuravps_tuning]",
+		"recipe[users]",
+		"recipe[yum]",
+		"recipe[tools]",
+		"recipe[apache2]",
+		"recipe[mysql56]",
+		"recipe[php56]"
+	],
+	"automatic": {
+		"ipaddress": "centos"
+	}
+}
