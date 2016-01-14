@@ -6,8 +6,8 @@
 		"docroot_allow_override" : "All"
 	},
 	"run_list": [
-		"recipe[users]",
 		"recipe[sakuravps_tuning]",
+		"recipe[users]",
 		"recipe[yum]",
 		"recipe[tools]",
 		"recipe[apache2]",
