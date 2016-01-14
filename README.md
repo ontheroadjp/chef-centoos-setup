@@ -1,5 +1,6 @@
 # chef-centos-setup
 
+<<<<<<< HEAD
 CentOS6.x のサーバー環境を構築するための Chef レシピ集
 
 * 本番環境： さくらVPS CentOS6.7 64bit（標準OS）を想定
