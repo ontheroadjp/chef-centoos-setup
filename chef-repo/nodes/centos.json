@@ -1,7 +1,7 @@
 {
 	"httpd" : {
-		"server_admin" : "root@localhost",
-		"server_name" : "www.example.com:80",
+		"server_admin" : "vagrant@localhost",
+		"server_name" : "www.vagrant.com:80",
 		"document_root" : "/var/www/html",
 		"docroot_allow_override" : "All"
 	},
@@ -12,7 +12,8 @@
 		"recipe[tools]",
 		"recipe[apache2]",
 		"recipe[mysql56]",
-		"recipe[php56]"
+		"recipe[php56]",
+		"recipe[iptables::flush]"
 	],
 	"automatic": {
 		"ipaddress": "centos"

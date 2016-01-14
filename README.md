@@ -5,21 +5,26 @@ CentOS6.x のサーバー環境を構築するための Chef レシピ集
 * 本番環境： さくらVPS CentOS6.7 64bit（標準OS）を想定
 * テスト環境： ローカルの Vagrant CentOS6.7 64bit
 
-## クックブックのデフォルトレシピの内容
+## 適用されるレシピ
 
-|No|クックブック名|本番環境|テスト環境|備考|
-|:---|:---|:---|:---|:---|
-|1|sakuravps_tunig|○|○|不要なデーモン、パッケージの削除|
-|2|users|○|○|Root 権限のある一般ユーザーの作成|
-|3|yum|○|○|各種レポジトリなどの追加|
-|4|apache2|○|○|Apache 2.2.15 のインストール|
-|5|mysql56|○|○|Mysql 5.6.28 のインストール|
-|6|php56|○|○|PHP 5.6.17 のインストール|
-|7|tools|○|○|vim, git などのインストール|
-|8|ssh|○||sshd の設定（root 接続禁止など）
-|9|iptables|○||iptables の設定|
+|No|クックブック名|本番環境  (レシピ名)|テスト環境  （レシピ名）|備考|
+|:---|:---|:---:|:---:|:---|
+|1|sakuravps_tunig|default|default|不要なデーモン、パッケージの削除|
+|2|users|default|default|Root 権限のある一般ユーザーの作成|
+|3|yum|default|default|各種レポジトリなどの追加|
+|4|apache2|default|default|Apache 2.2.15 のインストール|
+|5|mysql56|default|default|Mysql 5.6.28 のインストール|
+|6|php56|default|default|PHP 5.6.17 のインストール|
+|7|tools|default|default|vim, git などのインストール|
+|8|ssh|default||sshd の設定（root 接続禁止など）
+|9|iptables|default|flush|iptables の設定|
 
-* 注意）テスト環境に ``SSH`` レシピ、または ``iptabbles`` レシピを適用すると SSH 接続ができなくなる
+（注意）テスト環境に ``SSH`` レシピ、または ``iptabbles`` レシピを適用すると SSH 接続ができなくなる
+
+* 空欄はレシピの適用なし
+* 本番環境の詳細は ``node/sakuraroot.json`` の ``run_list`` 参照
+* テスト環境の詳細は ``node/centos.json`` の ``run_list`` 参照
+
 
 ## 事前準備
 
