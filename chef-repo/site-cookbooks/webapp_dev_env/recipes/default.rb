@@ -43,6 +43,7 @@ end
 yum_package ['nodejs', 'npm'] do
     action :install
     options "--enablerepo=epel"
+    not_if 'which node'
 end
 
 # Install Bower
