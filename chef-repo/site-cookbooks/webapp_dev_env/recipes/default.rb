@@ -38,39 +38,8 @@ data_ids.each do |id|
 	end
 end
 
-# Install nvm
-git "#{Chef::Config[:file_cache_path]}/nvm" do
-    repository 'git://github.com/creationix/nvm.git'
-    revision 'master'
-    action :sync #:checkout
-    notifies :run, "bash[install_nvm]", :immediately
-end
 
-# nvm listしたときにalias/ディレクトリがないとおこられるので、、
-#directory '/usr/local/nvm/alias' do
-#    action :create
-#end
-
-bash "install_nvm" do
-    #cwd "#{Chef::Config[:file_cache_path]}/nvm"
-    #code "source #{Chef::Config[:file_cache_path]}/nvm/nvm.sh"
-    #code "source ./nvm.sh"
-    code 'source /var/chef/cache/nvm/nvm.sh'
-    action :nothing
-    #subscribes :run, "git[#{Chef::Config[:file_cache_path]}/nvm]", :immediately
-end
-
-# Install Nodejs & npm
-#bash 'install_node_&_npm' do
-#	code <<-EOH
-#        source /var/chef/cache/nvm/nvm.sh
-#        nvm install 0.12.8
-#        nvm use 0.12.8
-#        npm install bower -g
-#        npm install gulp -g
-#        EOH
-#end
-
+# Install Node.js & npm
 yum_package ['nodejs', 'npm'] do
     action :install
     options "--enablerepo=epel"
