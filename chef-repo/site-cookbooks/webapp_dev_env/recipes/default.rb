@@ -7,38 +7,6 @@
 # All rights reserved - Do Not Redistribute
 #
 
-data_ids = data_bag('users')
-data_ids.each do |id|
-	u = data_bag_item('users', id)
-	user u['id'] do
-		shell    u['shell']
-		password u['password']
-		supports :manage_home => true, :non_unique => false
-		action   [:create]
-	end
-
-    # dev グループ作成
-    group 'dev' do
-        action :create
-    end
-
-	# dev グループへ追加/から削除
-	if u['dev'] then
-		group 'dev' do
-			append true
-			members u['id']
-			action :modify
-		end
-	else
-		group 'dev' do
-			append true
-			excluded_members u['id']
-			action [:modify]
-		end
-	end
-end
-
-
 # Install Node.js & npm
 yum_package ['nodejs', 'npm'] do
     action :install
