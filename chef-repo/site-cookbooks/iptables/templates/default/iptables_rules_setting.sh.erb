@@ -1,65 +1,86 @@
-#!/bin/bash
+#!/bin/bash -x
 #
-# [http://oxynotes.com/?p=6401](http://oxynotes.com/?p=6401)
-#
+# 参考：[http://knowledge.sakura.ad.jp/beginner/4048/](http://knowledge.sakura.ad.jp/beginner/4048/)
+# 参考：[http://oxynotes.com/?p=6401](http://oxynotes.com/?p=6401)
 #
 
-PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+# PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 # iptables 停止して設定内容を全削除
 /etc/rc.d/init.d/iptables stop
 iptables -F
  
-##############################################################
-######                  ポリシーの設定                  ######
-##############################################################
+######################################################################
+######                      ポリシーの設定                      ######
+######################################################################
 
 iptables -P INPUT DROP
 iptables -P OUTPUT ACCEPT
 iptables -P FORWARD DROP
  
-##############################################################
-######                  クラック対策                    ######
-##############################################################
+######################################################################
+######                     不正アクセス対策                     ######
+######################################################################
 
-# IP Spoofing 対策
-iptables -A INPUT -i eth0 -s 127.0.0.1/8 -j DROP
-iptables -A INPUT -i eth0 -s 10.0.0.0/8 -j DROP
-iptables -A INPUT -i eth0 -s 172.16.0.0/12 -j DROP
-iptables -A INPUT -i eth0 -s 192.168.0.0/16 -j DROP
-iptables -A INPUT -i eth0 -s 192.168.0.0/24  -j DROP
+# --------------------------------------------------------------------
+# IP Spoofing 対策（外部（WAN側）からプライベートIPアドレスに成りすました通信を破棄）
+# --------------------------------------------------------------------
+iptables -A INPUT -i eth0 -s 127.0.0.1/8 -j DROP        # ループバック
+iptables -A INPUT -i eth0 -s 10.0.0.0/8 -j DROP         # クラスAのプライベートアドレス
+iptables -A INPUT -i eth0 -s 172.16.0.0/12 -j DROP      # クラスBのプライベートアドレス
+iptables -A INPUT -i eth0 -s 192.168.0.0/16 -j DROP     # クラスCのプライベートアドレス
+iptables -A INPUT -i eth0 -s 192.168.0.0/24  -j DROP    # クラスCのプライベートアドレス
  
-# Ping攻撃対策 + Ping Flood 対策
+# --------------------------------------------------------------------
+# Ping of Death & Ping Flood 対策
+# Ping 応答を1秒間に1セット（Ping は通常4回で1セット）に制限し、さらに 85 byte 以上のパケットを破棄
+# --------------------------------------------------------------------
 iptables -N PING_ATTACK
-iptables -A PING_ATTACK -m length --length :85 -m limit --limit 1/s --limit-burst 4 -j ACCEPT
+iptables -A PING_ATTACK -p icmp --icmp-type 8 -m length --length :85 -m limit --limit 1/s --limit-burst 4 -j ACCEPT
 iptables -A PING_ATTACK -j LOG --log-prefix "[IPTABLES PINGATTACK] : " --log-level=debug
 iptables -A PING_ATTACK -j DROP
 iptables -A INPUT -p icmp --icmp-type 8 -j PING_ATTACK
  
-# Smurf 対策 + 不要ログ破棄
+# --------------------------------------------------------------------
+# Smurf 対策 + 不要ログ破棄（ブロードキャストからのパケットを破棄）
+# --------------------------------------------------------------------
 iptables -A INPUT -d 255.255.255.255 -j DROP
 iptables -A INPUT -d 224.0.0.1 -j DROP
-# iptables -A INPUT -d 192.168.0.255 -j DROP 
-iptables -A INPUT -d 160.16.229.255 -j DROP # for Sakura VPS
- 
-# Smurf 対策
+
+BCAST=`ifconfig | grep Bcast | sed -e 's/^ *//' | cut -f4 -d' ' | sed 's/Bcast://'`
+iptables -A INPUT -d $BCAST -j DROP
+
+# --------------------------------------------------------------------
+# Smurf の踏み台対策（ブロードキャスト宛の Ping に応答しない）
+# --------------------------------------------------------------------
 sysctl -w net.ipv4.icmp_echo_ignore_broadcasts=1 > /dev/null
+
+# サーバー再起動後にも有効になるように /etc/sysctl.conf を書き換える
 sed -i '/# Disable Broadcast Ping/d' /etc/sysctl.conf
 sed -i '/net.ipv4.icmp_echo_ignore_broadcasts/d' /etc/sysctl.conf
 echo "# Disable Broadcast Ping" >> /etc/sysctl.conf
 echo "net.ipv4.icmp_echo_ignore_broadcasts=1" >> /etc/sysctl.conf
  
+# --------------------------------------------------------------------
 # SYN flood 対策（SYN cookies の有効化）
+# --------------------------------------------------------------------
 sysctl -w net.ipv4.tcp_syncookies=1 > /dev/null
+
+# サーバー再起動後にも有効になるように /etc/sysctl.conf を書き換える
 sed -i '/# Enable SYN Cookie/d' /etc/sysctl.conf
 sed -i '/net.ipv4.tcp_syncookies/d' /etc/sysctl.conf
 echo "# Enable SYN Cookie" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_syncookies=1" >> /etc/sysctl.conf
  
-# Auth/IDENT用の113番ポートは拒否
+# --------------------------------------------------------------------
+# Auth/IDENT用の113番ポートは拒否（DROP ではなく REJECT）
+# 参考：http://unixluser.org/techmemo/ident/
+# --------------------------------------------------------------------
 iptables -A INPUT -p tcp --dport 113 -i eth0 -j REJECT --reject-with tcp-reset
  
-# 拒否IPリストに記載されたIPを拒否する
+# --------------------------------------------------------------------
+# 拒否IPリスト（/root/deny_ip）があれば、そこに記載されたIPを拒否
+# --------------------------------------------------------------------
 if [ -s /root/deny_ip ]; then
     for ip in `cat /root/deny_ip`
     do
@@ -67,16 +88,22 @@ if [ -s /root/deny_ip ]; then
     done
 fi
  
-# 特定の国からのアクセスを許可する
+# --------------------------------------------------------------------
+# 特定の国からのアクセスを許可するための ACCEPT_COUNTRY_FILTER チェーン生成
+# (下記は、日本とアメリカからのみアクセスを許可)
+# --------------------------------------------------------------------
 #if [ -s /tmp/iplist ]; then
-#     iptables -N ACCEPT_JP_FILTER
-#     sed -n 's/^JP\t//p' /tmp/iplist | while read address;
+#     iptables -N ACCEPT_COUNTRY_FILTER
+#     sed -n 's/^\(JP\|US\)\t//p' /tmp/iplist | while read address;
 #     do
-#          iptables -A ACCEPT_JP_FILTER -s $address -j ACCEPT
+#          iptables -A ACCEPT_COUNTRY_FILTER -s $address -j ACCEPT
 #     done
 #fi
- 
-# 特定の国からのアクセスを拒否する
+
+# --------------------------------------------------------------------
+# 特定の国からのアクセスを拒否するための DROP_COUNTRY_FILTER チェーン生成
+# (下記は、中国/インド/エジプト/パキスタンからのアクセスを拒否)
+# --------------------------------------------------------------------
 #if [ -s /tmp/iplist ]; then
 #     iptables -N DROP_COUNTRY_FILTER
 #     sed -n 's/^\(CN\|IN\|EG\|PK\)\t//p' /tmp/iplist | while read address;
@@ -86,31 +113,27 @@ fi
 #     iptables -A INPUT -j DROP_COUNTRY_FILTER
 #fi
  
-# ステートフル・パケットインスペクション対応（正しいTCPと既に許可された接続を許可
+# --------------------------------------------------------------------
+# ステートフル・パケットインスペクション対応（正しいTCPと既に許可された接続を許可）
+# 参考：http://www.atmarkit.co.jp/ait/articles/1001/06/news101.html
+# --------------------------------------------------------------------
 iptables -A INPUT -p tcp ! --tcp-flags SYN,RST,ACK SYN -m state --state NEW -j DROP
 iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
- 
-##############################################################
-###### ここから個別のサービスで利用するポートを開放する ######
-##############################################################
 
 
+######################################################################
+######                      ポート開放                          ######
+######################################################################
+
+# --------------------------------------------------------------------
 # lo（ループバックインターフェース）の許可
+# --------------------------------------------------------------------
 iptables -A INPUT -i lo -j ACCEPT
 iptables -A OUTPUT -o lo -j ACCEPT
  
-# SSH（日本からのみ許可 & ハッシュリミット）
-#iptables -A INPUT -p tcp -m state --state NEW --dport 22 -m hashlimit --hashlimit-burst 10 --hashlimit 1/h --hashlimit-mode srcip --hashlimit-htable-expire 3600000 --hashlimit-name ssh-limit -j ACCEPT_JP_FILTER
- 
-# SSH（国制限 & ハッシュリミットなし）
-iptables -A INPUT -p tcp -m state --state NEW --dport 10022 -j ACCEPT
-iptables -A INPUT -p tcp -m state --state NEW --dport 22 -j ACCEPT
-
-# HTTP
-# iptables -A INPUT -p tcp -m state --state NEW --dport 80 -j ACCEPT
-iptables -A INPUT -p tcp --dport 80 -j ACCEPT
-
-# DNS - DDpS（DNS Amp）は適宜ログを取る
+# --------------------------------------------------------------------
+# DNS （DDpS（DNS Amp）は適宜ログを取り、60秒に5回以上のアクセスで遮断）
+# --------------------------------------------------------------------
 iptables -N DNSAMP
 iptables -A DNSAMP -m recent --name dnsamp --set
 iptables -A DNSAMP -m recent --name dnsamp --rcheck --seconds 60 --hitcount 5 -j LOG --log-prefix "[IPTABLES DNSAMP] : " --log-level=debug
@@ -119,8 +142,17 @@ iptables -A DNSAMP -j ACCEPT
 iptables -A INPUT -p udp -m state --state NEW --dport 53 -i eth0 -j DNSAMP
 iptables -A INPUT -p tcp -m state --state NEW --dport 53 -j ACCEPT
 
-# ---------------
+# --------------------------------------------------------------------
+# SSH（1時間に5回までの接続に制限. 1時間経つごとに1つリミットを解除）
+# --------------------------------------------------------------------
+#iptables -A INPUT -p tcp -m state --state NEW --dport 10022 -m hashlimit --hashlimit-burst 10 --hashlimit 1/h --hashlimit-mode srcip --hashlimit-htable-expire 3600000 --hashlimit-name ssh-limit -j ACCEPT
 
+# --------------------------------------------------------------------
+# SSH（接続制限なし）
+# --------------------------------------------------------------------
+iptables -A INPUT -p tcp -m state --state NEW --dport 10022 -j ACCEPT
+
+# --------------------------------------------------------------------
 # 80	: HTTP
 # 483	: HTTPS(http protocol over TLS/SSL) 
 # 25	: SMTP
@@ -130,49 +162,32 @@ iptables -A INPUT -p tcp -m state --state NEW --dport 53 -j ACCEPT
 # 995	: POP3s(imap4 over TLS/SSL)
 # 143	: IMAP4
 # 993	: IMAP4s(pop3 over TLS/SSL)
+# --------------------------------------------------------------------
 
-
-for port in 80
-do
-	if [ $port -eq 80 ]; then
-		iptables -A INPUT -p tcp --dport ${port} -j ACCEPT
-	else 
-		iptables -A INPUT -p tcp -m state --state NEW --dport ${port} -j ACCEPT
-	fi
+# アクセス国制限なく解放するポート番号をスペース区切りで指定する
+SERVICE_PORTS=(80 483)
+for port in ${SERVICE_PORTS[@]}; do
+    iptables -A INPUT -p tcp --dport ${port} -j ACCEPT
 done
 
-# SMTPs
-#iptables -A INPUT -p tcp -m state --state NEW --dport 465 -j ACCEPT
- 
-# IMAP4s(pop3 over TLS/SSL)
-#iptables -A INPUT -p tcp -m state --state NEW --dport 993 -j ACCEPT
- 
-# POP3s(imap4 over TLS/SSL)
-#iptables -A INPUT -p tcp -m state --state NEW --dport 995 -j ACCEPT
- 
-# SMTP
-#iptables -A INPUT -p tcp -m state --state NEW --dport 25 -j ACCEPT
- 
-# SMTP（Submission port）
-#iptables -A INPUT -p tcp -m state --state NEW --dport 587 -j ACCEPT
- 
-# HTTPS(http protocol over TLS/SSL) 
-#iptables -A INPUT -p tcp -m state --state NEW --dport 443 -j ACCEPT
+# 特定の国からの接続のみを許可するポート番号をスペース区切りで指定する
+SERVICE_PORTS_RESTRICTED()
+for port in ${SERVICE_PORTS_RESTRICTED[@]}; do
+    iptables -A INPUT -p tcp --dport ${port} -j ACCEPT_COUNTRY_FILTER
+done
 
-# ---------------
- 
-# webmin用のポートを許可（日本からのみ）
-#iptables -A INPUT -p tcp -m state --state NEW --dport 10022 -j ACCEPT_JP_FILTER
-#iptables -A INPUT -p udp -m state --state NEW --dport 10022 -j ACCEPT_JP_FILTER
- 
-# 上記の条件に当てはまらない通信を記録して破棄
+# --------------------------------------------------------------------
+# これまでの条件に一切該当しない通信を記録して破棄
+# --------------------------------------------------------------------
 iptables -A INPUT -m limit --limit 1/s -j LOG --log-prefix "[IPTABLES DROP INPUT] : " --log-level=debug
 iptables -A INPUT -j DROP
 
 iptables -A FORWARD -m limit --limit 1/s -j LOG --log-prefix "[IPTABLES DROP FORWARD] : " --log-level=debug
 iptables -A FORWARD -j DROP
 
+# --------------------------------------------------------------------
 # 設定を保存してiptablesを起動
+# --------------------------------------------------------------------
 /etc/rc.d/init.d/iptables save
 /etc/rc.d/init.d/iptables start
 

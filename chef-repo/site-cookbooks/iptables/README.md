@@ -1,24 +1,38 @@
-iptables Cookbook
-=================
-TODO: Enter the cookbook description here.
+# iptables Cookbook
 
-e.g.
-This cookbook makes your favorite breakfast sandwich.
+1. iptable の設定を行うレシピ
+2. rsyslog によるログ取得
+3. ログローテーションの設定
 
-Requirements
-------------
-TODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.
+## iptables の設定内容
 
-e.g.
-#### packages
-- `toaster` - iptables needs toaster to brown your bagel.
+1. ポリシーの設定
+2. 不正アクセス対策
+	* IP Spoofing 対策
+	* Ping Attack + Ping Flood 対策
+	* Smurf 対策 + 不要ログの破棄
+	* SYN flood 対策（SYN cookies の有効化）
+	* Auth/IDENT 用のポート拒否
+	* 拒否 IP リストに記載された IP アドレスからの接続拒否
+	* ステートフル・パケットインスペクション対応
+3. 接続許可
+	* lo（ループバック） の許可
+	* SSH 接続（接続元国制限&ハッシュリミットなし）
+	* DNS（DDps:DNS Amp はログを取る）
+	* HTTP（80番ポート）
 
-Attributes
-----------
-TODO: List your cookbook attributes here.
 
-e.g.
+## Requirements
+
+* CentOS 6.5 or higher
+
+## Attributes
+
 #### iptables::default
+
+|Key|Type|Description|Default|
+|:---|:---|:---|:---|
+
 <table>
   <tr>
     <th>Key</th>
