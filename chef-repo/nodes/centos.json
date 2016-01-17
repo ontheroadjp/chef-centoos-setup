@@ -5,6 +5,11 @@
 		"document_root" : "/var/www/html",
 		"docroot_allow_override" : "All"
 	},
+    "tools" : {
+        "git" : true,
+        "vim" : true,
+        "vim-lua" : true
+    },
 	"run_list": [
 		"recipe[sakuravps_tuning]",
 		"recipe[users]",
