@@ -43,7 +43,7 @@ end
 # -----------------------------------------------
 
 # インストール済みの vim を削除
-package ['vim-minimal','vim-enhanced'] do
+package ['vim-enhanced'] do
     action :remove
     only_if {node['tools']['vim-lua']}
 end
