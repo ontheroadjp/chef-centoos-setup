@@ -26,12 +26,6 @@ end
 # vim(vim-enhanced) のインストール
 # -----------------------------------------------
 
-# インストール済みの vim を削除
-package 'vim-minimal' do
-    action :remove
-    only_if {node['tools']['vim']}
-end
-
 # インストール
 package 'vim-enhanced' do
     action :install

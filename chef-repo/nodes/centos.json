@@ -7,7 +7,7 @@
 	},
     "tools" : {
         "git" : true,
-        "vim" : true,
+        "vim" : false,
         "vim-lua" : true
     },
 	"run_list": [

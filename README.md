@@ -3,7 +3,7 @@
 CentOS6.x のサーバー環境を構築するための Chef レシピ集
 
 * 本番環境： さくらVPS CentOS6.7 64bit（標準OS）を想定
-* テスト環境： ローカルの Vagrant CentOS6.7 64bit
+* テスト環境： Vagrant CentOS6.7 64bit on MacOSX
 
 ## 適用されるレシピ
 
@@ -15,11 +15,12 @@ CentOS6.x のサーバー環境を構築するための Chef レシピ集
 |4|apache2|default|default|Apache 2.2.15 のインストール|
 |5|mysql56|default|default|Mysql 5.6.28 のインストール|
 |6|php56|default|default|PHP 5.6.17 のインストール|
-|7|tools|default|default|vim, git などのインストール|
+|7|tools|default|default|vim(+lua), git などのインストール|
 |8|ssh|default||sshd の設定（root 接続禁止など）
 |9|iptables|default|flush|iptables の設定|
+|10|webapp-dev-env|default|default|Nodejs, npm, bower, Gulp, Composer, SASS のインストール|
 
-（注意）テスト環境に ``SSH`` レシピ、または ``iptabbles`` レシピを適用すると SSH 接続ができなくなる
+（注意）テスト環境に ``SSH`` レシピ、または ``iptables`` レシピを適用すると SSH 接続ができなくなる
 
 * 空欄はレシピの適用なし
 * 本番環境の詳細は ``node/sakuraroot.json`` の ``run_list`` 参照
@@ -139,6 +140,30 @@ $ mysql --version
 
 # php のバージョン確認
 $ php -v
+
+# git のバージョン確認
+$ git --version
+
+# vim のバージョン確認
+$ vim --version | egrep 'IMproved|Huge|lua'
+
+# node のバージョン確認
+$ node -v
+
+# npm のバージョン確認
+$ npm -v
+
+# bower のバージョン確認
+$ bower -v
+
+# gulp のバージョン確認
+$ node -v
+
+# composer のバージョン確認
+$ node --version
+
+# sass のバージョン確認
+$ sass -v
 
 # iptables の設定内容確認
 $ sudo iptables -L
