@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-# Apache2
+# Apache2.2.15
 %w{httpd httpd-devel}.each do |pkg|
 	package pkg do
 		# action [:install, :upgrade]
@@ -18,8 +18,8 @@ end
 
 template "/etc/httpd/conf/httpd.conf" do
   source "httpd.conf.erb"
-  owner "root"
-  group "root"
+  owner "apache"
+  group "apache"
   mode 0644
 end
 
