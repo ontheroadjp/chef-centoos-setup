@@ -23,7 +23,7 @@ end
 #  mode 0644
 #end
 
-%w{php php-devel php-mbstring php-xml php-mcrypt php-gd php-pecl-xdebug php-opcache php-pecl-apcu php-fpm php-phpunit-PHPUnit php-mysqlnd}.each do |pkg|
+%w{php php-devel php-mbstring php-xml php-pdo php-mcrypt php-gd php-pecl-xdebug php-opcache php-pecl-apcu php-fpm php-phpunit-PHPUnit php-mysqlnd}.each do |pkg|
   package pkg do
     action [:install, :upgrade]
     # action :install
