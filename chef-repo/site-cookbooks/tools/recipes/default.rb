@@ -56,6 +56,7 @@ src_path = "#{Chef::Config[:file_cache_path]}"
 directory src_path do
     recursive true
     action :create
+    only_if {node['tools']['vim-lua']}
 end
 
 execute "source compile vim w/lua" do
