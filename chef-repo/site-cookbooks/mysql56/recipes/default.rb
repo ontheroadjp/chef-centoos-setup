@@ -22,11 +22,6 @@ end
 #	mode 0644
 #end
 
-service "mysqld" do
-  supports :status => true, :restart => true, :reload => true
-  action [ :enable, :start ]
-end
-
 ## phpMyAdmin
 #%w{phpMyAdmin}.each do |pkg|
 #  package pkg do
