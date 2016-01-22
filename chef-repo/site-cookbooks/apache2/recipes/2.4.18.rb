@@ -91,8 +91,8 @@ end
 
 # Change directory group and owner
 directory "/usr/local/apache2" do
-    group       apache
-    owner       apache
+    group       'apache'
+    owner       'apache'
     recursive   true   
     only_if { ::File.exists?("/usr/local/apache2")}
 end
