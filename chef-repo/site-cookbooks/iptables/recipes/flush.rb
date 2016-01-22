@@ -9,7 +9,7 @@
 
 # settings for iptables
 execute "ipconfig_rules_setting" do
-	command "iptables --flush"
+	command "iptables --flush && /etc/rc.d/init.d/iptables save"
 end
 
 
