@@ -80,7 +80,7 @@ execute "source compile Apache" do
         tar -xvzf httpd-2.4.18.tar.gz
         cd httpd-2.4.18
         ./configure \
-        --prefix=/usr/local
+        --prefix=/usr/local/apache2 \
         --with-apr=/opt/apr/apr-1.5.2 \
         --with-apr-util=/opt/apr/apr-util-1.5.4
         make
