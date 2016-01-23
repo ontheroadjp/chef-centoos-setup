@@ -8,7 +8,7 @@
 #
 
 # Install PHP modules
-%w{libxml2-devel libjpeg-devel libpng-devel}.each do |pkg|
+%w{libxml2-devel libjpeg-devel libpng-devel gettext gettext-devel}.each do |pkg|
 	yum_package pkg do
 		action [:install, :upgrade]
 		# action :install
@@ -36,7 +36,8 @@ execute "source compile PHP" do
         --with-png-dir=/usr/local \
         --with-jpeg-dir=/usr/local \
         --with-pdo-mysql \
-        --with-openssl
+        --with-openssl \
+        --with-gettext
         make
         make install
         EOH
