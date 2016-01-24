@@ -156,8 +156,8 @@ LoadModule rewrite_module modules/mod_rewrite.so
 # It is usually good practice to create a dedicated user and group for
 # running httpd, as with most system services.
 #
-User vagrant
-Group vagrant
+User apache
+Group apache
 
 </IfModule>
 
@@ -196,7 +196,8 @@ ServerName <%= node['httpd']['server_name'] %>
 # <Directory> blocks below.
 #
 <Directory />
-    AllowOverride none
+    #AllowOverride AuthConfig FileInfo Indexes Limit Options=All,MultiViews
+    AllowOverride All
     Require all denied
 </Directory>
 
@@ -212,10 +213,8 @@ ServerName <%= node['httpd']['server_name'] %>
 # documents. By default, all requests are taken from this directory, but
 # symbolic links and aliases may be used to point to other locations.
 #
-#DocumentRoot "/usr/local/apache2/htdocs"
-# <Directory "/usr/local/apache2/htdocs">
-DocumentRoot "<%= node['httpd']['document_root'] %>"
-<Directory "<%= node['httpd']['document_root'] %>">
+DocumentRoot "/usr/local/apache2/htdocs"
+ <Directory "/usr/local/apache2/htdocs">
     #
     # Possible values for the Options directive are "None", "All",
     # or any combination of:
@@ -235,8 +234,7 @@ DocumentRoot "<%= node['httpd']['document_root'] %>"
     # It can be "All", "None", or any combination of the keywords:
     #   AllowOverride FileInfo AuthConfig Limit
     #
-    AllowOverride None
-    AllowOverride <%= node['httpd']['document_allow_override'] %>
+    AllowOverride All
 
     #
     # Controls who can get stuff from this server.

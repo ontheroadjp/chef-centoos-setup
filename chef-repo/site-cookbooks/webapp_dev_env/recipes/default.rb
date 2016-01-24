@@ -7,6 +7,17 @@
 # All rights reserved - Do Not Redistribute
 #
 
+# Install ruby & rubygems
+yum_package ['ruby', 'rubygems'] do
+    action :install
+    not_if 'which gem'
+end
+
+execute 'update gem' do
+	command 'gem update --system'
+    only_if 'which gem'
+end
+
 # Install Node.js & npm
 yum_package ['nodejs', 'npm'] do
     action :install

@@ -291,8 +291,7 @@ UseCanonicalName Off
 # documents. By default, all requests are taken from this directory, but
 # symbolic links and aliases may be used to point to other locations.
 #
-#DocumentRoot "/var/www/html"
-DocumentRoot "<%= node['httpd']['document_root'] %>"
+DocumentRoot "/var/www/html"
 
 #
 # Each directory to which Apache has access can be configured with respect
@@ -304,7 +303,7 @@ DocumentRoot "<%= node['httpd']['document_root'] %>"
 #
 <Directory />
     Options FollowSymLinks
-    AllowOverride None
+    AllowOverride All
 </Directory>
 
 #
@@ -339,7 +338,7 @@ DocumentRoot "<%= node['httpd']['document_root'] %>"
 #   Options FileInfo AuthConfig Limit
 #
     #AllowOverride None
-    AllowOverride <%= node['httpd']['docroot_allow_override'] %>
+    AllowOverride All
 
 
 #
@@ -557,7 +556,7 @@ Alias /icons/ "/var/www/icons/"
 
 <Directory "/var/www/icons">
     Options Indexes MultiViews FollowSymLinks
-    AllowOverride None
+    AllowOverride All
     Order allow,deny
     Allow from all
 </Directory>
@@ -867,7 +866,7 @@ Alias /error/ "/var/www/error/"
 <IfModule mod_negotiation.c>
 <IfModule mod_include.c>
     <Directory "/var/www/error">
-        AllowOverride None
+        AllowOverride All
         Options IncludesNoExec
         AddOutputFilter Includes html
         AddHandler type-map var
