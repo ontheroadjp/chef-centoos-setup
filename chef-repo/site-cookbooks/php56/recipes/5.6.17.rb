@@ -15,6 +15,15 @@
 	end
 end
 
+# Install PHP modules
+%w{re2c openssl-devel}.each do |pkg|
+	yum_package pkg do
+        options "--enablerepo=rpmforge"
+		action [:install, :upgrade]
+		# action :install
+	end
+end
+
 # Install PHP Source code
 remote_file "/usr/local/src/php-5.6.17.tar.gz" do
     source 'http://jp2.php.net/get/php-5.6.17.tar.gz/from/this/mirror'
