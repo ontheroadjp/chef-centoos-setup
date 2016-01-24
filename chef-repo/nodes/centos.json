@@ -19,7 +19,8 @@
 		"recipe[mysql56]",
 		"recipe[php56::5.6.17]",
 		"recipe[iptables::flush]",
-        "recipe[webapp_dev_env]"
+        "recipe[webapp_dev_env]",
+        "recipe[service]"
 	],
 	"automatic": {
 		"ipaddress": "centos"
