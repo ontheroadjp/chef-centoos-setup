@@ -213,10 +213,8 @@ ServerName <%= node['httpd']['server_name'] %>
 # documents. By default, all requests are taken from this directory, but
 # symbolic links and aliases may be used to point to other locations.
 #
-#DocumentRoot "/usr/local/apache2/htdocs"
-# <Directory "/usr/local/apache2/htdocs">
-DocumentRoot "<%= node['httpd']['document_root'] %>"
-<Directory "<%= node['httpd']['document_root'] %>">
+DocumentRoot "/usr/local/apache2/htdocs"
+ <Directory "/usr/local/apache2/htdocs">
     #
     # Possible values for the Options directive are "None", "All",
     # or any combination of:

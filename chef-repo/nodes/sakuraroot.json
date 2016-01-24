@@ -2,8 +2,6 @@
 	"httpd" : {
 		"server_admin" : "root@localhost",
 		"server_name" : "www.example.com:80",
-		"document_root" : "/var/www/html",
-		"docroot_allow_override" : "All"
 	},
     "tools" : {
         "git" : true,

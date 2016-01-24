@@ -2,8 +2,6 @@
 	"httpd" : {
 		"server_admin" : "vagrant@localhost",
 		"server_name" : "www.vagrant.com:80",
-		"document_root" : "/var/www/html",
-		"docroot_allow_override" : "All"
 	},
     "tools" : {
         "git" : true,
