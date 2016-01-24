@@ -1,7 +1,7 @@
 {
 	"httpd" : {
 		"server_admin" : "vagrant@localhost",
-		"server_name" : "www.vagrant.com:80",
+		"server_name" : "www.vagrant.com:80"
 	},
     "tools" : {
         "git" : true,
