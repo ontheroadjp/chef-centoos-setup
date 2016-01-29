@@ -36,7 +36,7 @@ execute "source compile OpenSSL" do
         cd /usr/local/src
         tar -xvzf openssl-1.0.2f.tar.gz
         cd /usr/local/src/openssl-1.0.2f
-        ./configure --prefix=/usr/local/openssl shared zlib
+        ./configure --prefix=/usr/local shared
         make
         make install
         EOH
