@@ -6,4 +6,5 @@ backup.sh
 .vagrant
 .bashrc
 www
-html
+html/*
+!html/.gitkeep

@@ -17,13 +17,14 @@ Vagrant.configure(2) do |config|
 
   # config.vm.box = "nrel/CentOS-6.5-x86_64"
   config.vm.box = "nrel/CentOS-6.7-x86_64"
+  #config.vm.box_url = "https://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.7-x86_64-v20151108.box"
   # config.vm.box = "bento/centos-6.7"
   config.vm.hostname = "centos"
 
 	config.vm.network :forwarded_port, guest: 80, host: 8080
 	config.vm.network :forwarded_port, guest: 3306, host: 3306
 	config.vm.network :private_network, ip: "192.168.33.10"
-	config.vm.synced_folder "html", "/var/www/html/"
+	config.vm.synced_folder "html", "/usr/local/apache2/htdocs"
 
 #	config.omnibus.chef_version = :latest
 #	config.berkshelf.enabled = false

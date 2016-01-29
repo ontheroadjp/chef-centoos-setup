@@ -12,13 +12,14 @@ CentOS6.x のサーバー環境を構築するための Chef レシピ集
 |1|sakuravps_tunig|default|default|不要なデーモン、パッケージの削除|
 |2|users|default|default|Root 権限のある一般ユーザーの作成|
 |3|yum|default|default|各種レポジトリなどの追加|
-|4|apache2|default|default|Apache 2.2.15 のインストール|
+|4|apache2|2.4.18|2.4.18|Apache 2.2.15 のインストール|
 |5|mysql56|default|default|Mysql 5.6.28 のインストール|
-|6|php56|default|default|PHP 5.6.17 のインストール|
+|6|php56|5.6.17|5.6.17|PHP 5.6.17 のインストール|
 |7|tools|default|default|vim(+lua), git などのインストール|
-|8|ssh|default||sshd の設定（root 接続禁止など）
+|8|ssh|default||sshd の設定（root 接続禁止など）|
 |9|iptables|default|flush|iptables の設定|
 |10|webapp-dev-env|default|default|Nodejs, npm, bower, Gulp, Composer, SASS のインストール|
+|11|service|default|default|apache, mysql の再起動|
 
 （注意）テスト環境に ``SSH`` レシピ、または ``iptables`` レシピを適用すると SSH 接続ができなくなる
 
