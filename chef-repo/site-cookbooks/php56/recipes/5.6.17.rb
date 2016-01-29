@@ -86,6 +86,7 @@ execute "source compile PHP" do
         --enable-mbstring \
         --with-apxs2=/usr/local/apache2/bin/apxs \
         --with-openssl=/usr/local/openssl \
+        --with-mcrypt \
         --with-kerberos \
         --with-curl=/usr/local/lib \
         --with-curlwrappers \
