@@ -8,10 +8,11 @@
 #
 
 # Install PHP modules
-%w{libxml2-devel libjpeg-devel libpng-devel gettext-devel openssl-devel}.each do |pkg|
+%w{libmcrypt libmcrypt-devel libxml2-devel libjpeg-devel libpng-devel gettext-devel openssl-devel curl-devel}.each do |pkg|
 	yum_package pkg do
 		action [:install, :upgrade]
 		# action :install
+        options "--enablerepo=epel"
 	end
 end
 
@@ -22,6 +23,51 @@ end
 		action [:install, :upgrade]
 		# action :install
 	end
+end
+
+# Install OpenSSL Source code
+remote_file "/usr/local/src/openssl-1.0.2f.tar.gz" do
+    source 'https://www.openssl.org/source/openssl-1.0.2f.tar.gz'
+    action :create
+end
+
+execute "source compile OpenSSL" do
+    user "root"
+    command <<-EOH
+        cd /usr/local/src
+        tar -xvzf openssl-1.0.2f.tar.gz
+        cd /usr/local/src/openssl-1.0.2f
+        ./config --prefix=/usr/local/openssl shared zlib
+        make
+        make install
+        EOH
+    action :run
+    #only_if { ::File.exists?("/usr/local/src/php-5.6.17.tar.gz")}
+end
+
+# Install cURL Source code
+package "libssh2-devel" do
+	action [:install, :upgrade]
+	# action :install
+end
+
+remote_file "/usr/local/src/curl-7.47.0.tar.gz" do
+    source 'http://curl.haxx.se/download/curl-7.47.0.tar.gz'
+    action :create
+end
+
+execute "source compile cURL" do
+    user "root"
+    command <<-EOH
+        cd /usr/local/src
+        tar -xvzf curl-7.47.0.tar.gz
+        cd /usr/local/src/curl-7.47.0
+        ./configure --prefix=/usr/local --with-ssl=/usr/local/openssl --with-libssh2
+        make
+        make install
+        EOH
+    action :run
+    #only_if { ::File.exists?("/usr/local/src/php-5.6.17.tar.gz")}
 end
 
 # Install PHP Source code
@@ -39,13 +85,16 @@ execute "source compile PHP" do
         ./configure \
         --enable-mbstring \
         --with-apxs2=/usr/local/apache2/bin/apxs \
+        --with-openssl=/usr/local/openssl \
+        --with-kerberos \
+        --with-curl=/usr/local/lib \
+        --with-curlwrappers \
         --enable-zip \
         --enable-pdo \
         --with-gd \
         --with-png-dir=/usr/local \
         --with-jpeg-dir=/usr/local \
         --with-pdo-mysql \
-        --with-openssl \
         --with-gettext
         make
         make install
