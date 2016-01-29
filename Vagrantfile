@@ -17,6 +17,7 @@ Vagrant.configure(2) do |config|
 
   # config.vm.box = "nrel/CentOS-6.5-x86_64"
   config.vm.box = "nrel/CentOS-6.7-x86_64"
+  #config.vm.box_url = "https://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.7-x86_64-v20151108.box"
   # config.vm.box = "bento/centos-6.7"
   config.vm.hostname = "centos"
 
