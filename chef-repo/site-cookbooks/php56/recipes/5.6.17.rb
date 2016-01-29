@@ -8,10 +8,11 @@
 #
 
 # Install PHP modules
-%w{libxml2-devel libjpeg-devel libpng-devel gettext-devel openssl-devel}.each do |pkg|
+%w{libmcrypt libmcrypt-devel libxml2-devel libjpeg-devel libpng-devel gettext-devel openssl-devel curl-devel}.each do |pkg|
 	yum_package pkg do
 		action [:install, :upgrade]
 		# action :install
+        options "--enablerepo=epel"
 	end
 end
 
@@ -36,7 +37,7 @@ execute "source compile OpenSSL" do
         cd /usr/local/src
         tar -xvzf openssl-1.0.2f.tar.gz
         cd /usr/local/src/openssl-1.0.2f
-        ./configure --prefix=/usr/local shared
+        ./config --prefix=/usr/local/openssl shared zlib
         make
         make install
         EOH
@@ -45,7 +46,7 @@ execute "source compile OpenSSL" do
 end
 
 # Install cURL Source code
-package "libssl2-devel" do
+package "libssh2-devel" do
 	action [:install, :upgrade]
 	# action :install
 end
@@ -60,7 +61,7 @@ execute "source compile cURL" do
     command <<-EOH
         cd /usr/local/src
         tar -xvzf curl-7.47.0.tar.gz
-        cd /usr/local/src/curl-7.47.0.tar.gz
+        cd /usr/local/src/curl-7.47.0
         ./configure --prefix=/usr/local --with-ssl=/usr/local/openssl --with-libssh2
         make
         make install
