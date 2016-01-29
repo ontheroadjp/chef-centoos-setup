@@ -8,7 +8,7 @@
 #
 
 # Install PHP modules
-%w{libxml2-devel libjpeg-devel libpng-devel gettext gettext-devel}.each do |pkg|
+%w{libxml2-devel libjpeg-devel libpng-devel gettext gettext-devel openssl-devel}.each do |pkg|
 	yum_package pkg do
 		action [:install, :upgrade]
 		# action :install
