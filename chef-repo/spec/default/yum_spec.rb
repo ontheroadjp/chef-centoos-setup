@@ -3,7 +3,7 @@ require 'spec_helper'
 # install fastestmirror plugin
 # install yum-priorities plugin
 
-packages = ['yum-fastestmirror','yum-plugin-priorities']
+packages = ['yum-plugin-fastestmirror','yum-plugin-priorities']
 packages.each do | pkg |
     describe package("#{pkg}") do
         it { should be_installed }
