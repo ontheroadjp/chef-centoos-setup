@@ -5,6 +5,9 @@
 	},
     "tools" : {
         "git" : true,
+        "ctags" : true,
+        "gettext" : true,
+        "htop" : true,
         "vim" : false,
         "vim-lua" : true
     },
