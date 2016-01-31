@@ -8,7 +8,7 @@
 #
 
 # Install ruby & rubygems
-yum_package ['ruby', 'rubygems'] do
+yum_package ['ruby', 'rubygems', 'ruby-devel'] do
     action :install
     not_if 'which gem'
 end
