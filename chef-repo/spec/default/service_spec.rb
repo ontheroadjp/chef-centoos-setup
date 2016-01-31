@@ -2,7 +2,7 @@ require 'serverspec'
 
 # Start apache
 # Start MySQL
-services = ['httpd','mysql']
+services = ['httpd','mysqld']
 services.each do | service |
     describe service("#{service}") do
         it { should be_enabled }
