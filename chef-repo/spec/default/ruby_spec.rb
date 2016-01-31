@@ -8,21 +8,25 @@ packages.each do | pkg |
     end
 end
 
-
 # Create rbenv group
 describe group( 'rbenv' ) do
     it { should exist }
 end
 
 # Install rbenv
-dirs = ['/usr/local/rbenv','/usr/local/rbenv/shims','/usr/local/rbenv/versions','/usr/local/rbenv/plugins' ]
+describe file('/usr/local/rbenv/.git') do
+    it { should be_directory }
+    it { should be_owned_by 'root' }
+    it { should be_grouped_into 'rbenv' }
+    it { should be_mode 755 }
+end
+dirs = ['/usr/local/rbenv/shims','/usr/local/rbenv/versions','/usr/local/rbenv/plugins']
 dirs.each do | dir |
     describe file("#{dir}") do
         it { should be_directory }
+        it { should be_owned_by 'root' }
         it { should be_grouped_into 'rbenv' }
-        it { should be_readable.by('group') }
-        it { should be_writable.by('group') }
-        it { should be_executable.by('group') }
+        it { should be_mode 755 }
     end
 end
 
