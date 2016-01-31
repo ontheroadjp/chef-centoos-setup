@@ -53,6 +53,7 @@ end
 # Install SASS
 gem_package 'sass' do
     action :install
+    not_if 'sass'
 end
 
 
