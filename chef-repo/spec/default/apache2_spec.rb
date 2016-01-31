@@ -52,8 +52,11 @@ end
 
 # Replace httpd.conf
 describe file('/usr/local/apache2/conf/httpd.conf') do
+    it { should be_file }
     it { should contain 'DocumentRoot "/usr/local/apache2/htdocs"' }
     it { should contain '<Directory "/usr/local/apache2/htdocs">' }
+    it { should be_owned_by 'apache' }
+    it { should be_grouped_into 'apache' }
     it { should be_mode '644' }
 end
 
