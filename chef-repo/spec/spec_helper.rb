@@ -1,6 +1,10 @@
 require 'serverspec'
 require 'net/ssh'
 require 'tempfile'
+require 'json'
+
+#set_property JSON.parse(File.read("../nodes/#{c.host}.json"))
+set_property JSON.parse(File.read("nodes/centos.json"))
 
 set :backend, :ssh
 
