@@ -70,16 +70,13 @@ end
 # Install Ruby
 describe command("source /etc/profile.d/rbenv.sh; rbenv versions | grep 2.3.0" ) do
     let(:disable_sudo) { true }
-    its(:stdout) { should match(/#{Regexp.escape(ruby_version)}/) }
+    its(:stdout) { should match(/#{Regexp.escape('2.3.0')}/) }
 end
 
 # Use ruby installed
-describe command("source /etc/profile.d/rbenv.sh; rbenv global | grep 2.3.0" ) do
+describe command("source /etc/profile.d/rbenv.sh; rbenv global" ) do
     let(:disable_sudo) { true }
     it { should return_stdout('2.3.0') }
 end
-
-
-
 
 
