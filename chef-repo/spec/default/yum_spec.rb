@@ -10,6 +10,14 @@ packages.each do | pkg |
     end
 end
 
+describe file('/etc/yum/pluginconf.d/fastestmirror.conf') do
+    it { should be_file }
+    it { should be_owned_by 'root' }
+    it { should be_grouped_into 'root' }
+    it { should be_mode '644' }
+    it { should contain 'include_only=.jp' }
+end
+    
 # settings for the official repository
 describe file('/etc/yum.repos.d/CentOS-Base.repo') do
     it { should be_file }
