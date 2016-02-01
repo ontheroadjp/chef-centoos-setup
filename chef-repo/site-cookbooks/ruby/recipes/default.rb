@@ -17,7 +17,7 @@ end
 
 # Create rbenv group
 group 'rbenv' do
-    action :modify
+    action :create
 end
 
 # Install rbenv
@@ -28,15 +28,23 @@ git 'install ruby' do
     group 'rbenv'
     action :sync
 end
-dirs = [ '/usr/local/rbenv','/usr/local/rbenv/shims','/usr/local/rbenv/versions','/usr/local/rbenv/plugins' ]
+dirs = ['/usr/local/rbenv/shims','/usr/local/rbenv/versions','/usr/local/rbenv/plugins' ]
 dirs.each do | dir |
     directory dir do
         group "rbenv"
         mode 0755
-        recursive true
         action :create
     end
 end
+#dirs = [ '/usr/local/rbenv','/usr/local/rbenv/shims','/usr/local/rbenv/versions','/usr/local/rbenv/plugins' ]
+#dirs.each do | dir |
+#    directory dir do
+#        group "rbenv"
+#        mode 0755
+#        recursive true
+#        action :create
+#    end
+#end
 
 # Install ruby-build
 git 'install ruby-build' do
@@ -98,3 +106,13 @@ execute 'Install ruby' do
     action :run
 end
 
+dirs = ['/usr/local/rbenv']
+dirs.each do | dir |
+    directory dir do
+        owner 'root'
+        group 'rbenv'
+        mode 0755
+        recursive true
+        action :create
+    end
+end
