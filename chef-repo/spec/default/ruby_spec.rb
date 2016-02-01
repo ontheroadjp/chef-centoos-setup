@@ -18,7 +18,7 @@ describe file('/usr/local/rbenv/.git') do
     it { should be_directory }
     it { should be_owned_by 'root' }
     it { should be_grouped_into 'rbenv' }
-    it { should be_mode 2755 }
+    it { should be_mode 755 }
 end
 dirs = ['/usr/local/rbenv/shims','/usr/local/rbenv/versions','/usr/local/rbenv/plugins']
 dirs.each do | dir |
@@ -35,7 +35,7 @@ describe file('/usr/local/rbenv/plugins/ruby-build/.git') do
     it { should be_directory }
     it { should be_owned_by 'root' }
     it { should be_grouped_into 'rbenv' }
-    it { should be_mode 2755 }
+    it { should be_mode 755 }
 end
 
 # Install rbenv-default-gems
@@ -43,7 +43,7 @@ describe file('/usr/local/rbenv/plugins/rbenv-default-gems/.git') do
     it { should be_directory }
     it { should be_owned_by 'root' }
     it { should be_grouped_into 'rbenv' }
-    it { should be_mode 2755 }
+    it { should be_mode 755 }
     #it { should be_readable.by('group') }
     #it { should be_writable.by('group') }
     #it { should be_executable.by('group') }
