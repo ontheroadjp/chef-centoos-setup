@@ -17,55 +17,62 @@ end
 
 # Create rbenv group
 group 'rbenv' do
-    append true
     action :modify
 end
 
 # Install rbenv
 git 'install ruby' do
-    repository 'git://github.com/sstephenson/rbenv.git /usr/local/rbenv'
+    repository 'git://github.com/sstephenson/rbenv.git'
     reference 'master'
+    destination '/usr/local/rbenv'
+    group 'rbenv'
     action :sync
 end
-
 dirs = [ '/usr/local/rbenv','/usr/local/rbenv/shims','/usr/local/rbenv/versions','/usr/local/rbenv/plugins' ]
 dirs.each do | dir |
     directory dir do
-        group 'rbenv'
-        mode '755'
+        group "rbenv"
+        mode 0755
+        recursive true
         action :create
     end
 end
 
 # Install ruby-build
 git 'install ruby-build' do
-    repository 'git://github.com/sstephenson/ruby-build.git /usr/local/rbenv/plugins/ruby-build'
+    repository 'git://github.com/sstephenson/ruby-build.git'
     reference 'master'
+    destination '/usr/local/rbenv/plugins/ruby-build'
+    group 'rbenv'
     action :sync
 end
-directory '/usr/local/rbenv/plugins/ruby-build' do
-    owner 'root'
-    group 'rbenv'
-    mode '755'
-    action :create
-end
+#directory '/usr/local/rbenv/plugins/ruby-build' do
+#    owner 'root'
+#    group 'rbenv'
+#    mode 0755
+#    recursive true
+#    action :create
+#end
 
 # Install rbenv-default-gems
 git 'install ruby-default-gems' do
-    repository 'git://github.com/sstephenson/rbenv-default-gems.git /usr/local/rbenv/plugins/rbenv-default-gems'
+    repository 'git://github.com/sstephenson/rbenv-default-gems.git'
     reference 'master'
+    destination '/usr/local/rbenv/plugins/rbenv-default-gems'
+    group 'rbenv'
     action :sync
 end
-directory '/usr/local/rbenv/plugins/rbenv-default-gems' do
-    owner 'root'
-    group 'rbenv'
-    mode '755'
-    action :create
-end
+#directory '/usr/local/rbenv/plugins/rbenv-default-gems' do
+#    owner 'root'
+#    group 'rbenv'
+#    mode 0755
+#    recursive true
+#    action :create
+#end
 
 # Set Environment variables
 template '/etc/profile.d/rbenv.sh' do
-    sourc 'default/rbenv.sh.erb'
+    source 'default/rbenv.sh.erb'
     owner 'root'
     group 'root'
     mode 0644
@@ -73,7 +80,7 @@ end
 
 # Set default-gems
 template '/usr/local/rbenv/default-gems' do
-    sourc 'default/default-gems'
+    source 'default/default-gems.erb'
     owner 'root'
     group 'root'
     mode 0644
