@@ -51,10 +51,16 @@ execute 'install_composer' do
 end
 
 # Install SASS
-gem_package 'sass' do
-    action :install
-    not_if 'sass'
+#gem_package 'sass' do
+#    user 'root'
+#    action :install
+#    not_if 'sass'
+#end
+execute 'install_sass' do
+	command 'gem install sass'
+    not_if 'which sass'
 end
+
 
 
 
