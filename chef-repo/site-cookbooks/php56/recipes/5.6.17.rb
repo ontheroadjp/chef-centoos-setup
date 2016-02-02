@@ -10,7 +10,8 @@
 include_recipe "build_tools"
 
 # Install PHP modules
-%w{libmcrypt libmcrypt-devel libxml2-devel libjpeg-devel libpng-devel gettext-devel zlib-devel openssl-devel curl-devel}.each do |pkg|
+#%w{libmcrypt libmcrypt-devel libxml2-devel libjpeg-devel libpng-devel gettext-devel zlib-devel openssl-devel curl-devel}.each do |pkg|
+%w{libxml2-devel libjpeg-devel libpng-devel gettext-devel curl-devel}.each do |pkg|
 	yum_package pkg do
 		action [:install, :upgrade]
         options "--enablerepo=epel"
