@@ -36,7 +36,7 @@ remote_file "/usr/local/src/php-5.6.17.tar.gz" do
     not_if { ::File.exists?("/usr/local/src/php-5.6.17.tar.gz")}
     action :create
 end
-execute "Un tarball" do
+execute "PHP - Untarball" do
     cwd "/usr/local/src"
     user "root"
     command "tar -xvzf php-5.6.17.tar.gz"
@@ -44,7 +44,7 @@ execute "Un tarball" do
     only_if { ::File.exists?("/usr/local/src/php-5.6.17.tar.gz")}
     not_if { ::File.exists?("/usr/local/src/php-5.6.17")}
 end
-execute "PHP ./configure" do
+execute "PHP - Build.." do
     cwd "/usr/local/src/php-5.6.17"
     user "root"
     environment(

@@ -20,7 +20,7 @@ remote_file "/usr/local/src/curl-7.47.0.tar.gz" do
     not_if { ::File.exists?("/usr/local/src/curl-7.47.0.tar.gz")}
     action :create
 end
-execute "Un tarball" do
+execute "cURL - Untarball" do
     cwd "/usr/local/src"
     user "root"
     command "tar -xvzf curl-7.47.0.tar.gz"
@@ -28,7 +28,7 @@ execute "Un tarball" do
     only_if { ::File.exists?("/usr/local/src/curl-7.47.0.tar.gz")}
     not_if { ::File.exists?("/usr/local/src/curl-7.47.0")}
 end
-execute "cURL ./configure" do
+execute "cURL - Build.." do
     cwd "/usr/local/src/curl-7.47.0"
     user "root"
     environment(

@@ -25,7 +25,7 @@ remote_file "/usr/local/src/openssl-1.0.2f.tar.gz" do
     not_if { ::File.exists?("/usr/local/src/openssl-1.0.2f.tar.gz")}
     action :create
 end
-execute "Un tarball" do
+execute "OpenSSL - Untarball" do
     cwd "/usr/local/src"
     user "root"
     command "tar -xvzf openssl-1.0.2f.tar.gz"
@@ -33,7 +33,7 @@ execute "Un tarball" do
     only_if { ::File.exists?("/usr/local/src/openssl-1.0.2f.tar.gz")}
     not_if { ::File.exists?("/usr/local/src/openssl-1.0.2f")}
 end
-execute "OpenSSL installing..." do
+execute "OpenSSL - Build.." do
     cwd "/usr/local/src/openssl-1.0.2f"
     user "root"
     environment(
