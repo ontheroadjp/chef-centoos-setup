@@ -28,13 +28,11 @@ Vagrant.configure(2) do |config|
     
     # for VirtualBox
     config.vm.provider "virtualbox" do |vb|
-        #vb.cpus = cpus / 2
-        #vb.memory = 1024
         #vb.customize ["modifyvm", :id, "--cpus", cups]
         vb.customize ["modifyvm", :id, "--cpus", 2]
-        vb.customize ["modifyvm", :id, "--memory", "8192"]
-        vb.customize ["modifyvm", :id, "--natdnsproxy1", "off"]
-        vb.customize ["modifyvm", :id, "--natdnshostresolver1", "off"]
+        vb.customize ["modifyvm", :id, "--memory", "4096"]
+        vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+        vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
     end
 
     # for VMware Fusion
