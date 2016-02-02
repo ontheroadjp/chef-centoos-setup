@@ -7,11 +7,12 @@
 # All rights reserved - Do Not Redistribute
 #
 
+include_recipe "build_tools"
+
 # Install PHP modules
-%w{libmcrypt libmcrypt-devel libxml2-devel libjpeg-devel libpng-devel gettext-devel openssl-devel curl-devel}.each do |pkg|
+%w{libmcrypt libmcrypt-devel libxml2-devel libjpeg-devel libpng-devel gettext-devel zlib-devel openssl-devel curl-devel}.each do |pkg|
 	yum_package pkg do
 		action [:install, :upgrade]
-		# action :install
         options "--enablerepo=epel"
 	end
 end
@@ -25,63 +26,82 @@ end
 	end
 end
 
-# Install OpenSSL Source code
-remote_file "/usr/local/src/openssl-1.0.2f.tar.gz" do
-    source 'https://www.openssl.org/source/openssl-1.0.2f.tar.gz'
-    action :create
-end
-
-execute "source compile OpenSSL" do
-    user "root"
-    command <<-EOH
-        cd /usr/local/src
-        tar -xvzf openssl-1.0.2f.tar.gz
-        cd /usr/local/src/openssl-1.0.2f
-        ./config --prefix=/usr/local/openssl shared zlib
-        make
-        make install
-        EOH
-    action :run
-    #only_if { ::File.exists?("/usr/local/src/php-5.6.17.tar.gz")}
-end
-
+# -------------------------------------
 # Install cURL Source code
+# -------------------------------------
 package "libssh2-devel" do
 	action [:install, :upgrade]
-	# action :install
 end
-
 remote_file "/usr/local/src/curl-7.47.0.tar.gz" do
     source 'http://curl.haxx.se/download/curl-7.47.0.tar.gz'
+    not_if { ::File.exists?("/usr/local/src/curl-7.47.0.tar.gz")}
     action :create
 end
-
-execute "source compile cURL" do
+execute "Un tarball" do
+    cwd "/usr/local/src"
     user "root"
-    command <<-EOH
-        cd /usr/local/src
-        tar -xvzf curl-7.47.0.tar.gz
-        cd /usr/local/src/curl-7.47.0
-        ./configure --prefix=/usr/local --with-ssl=/usr/local/openssl --with-libssh2
-        make
-        make install
-        EOH
+    command "tar -xvzf curl-7.47.0.tar.gz"
     action :run
-    #only_if { ::File.exists?("/usr/local/src/php-5.6.17.tar.gz")}
+    only_if { ::File.exists?("/usr/local/src/curl-7.47.0.tar.gz")}
+    not_if { ::File.exists?("/usr/local/src/curl-7.47.0")}
+end
+execute "cURL ./configure" do
+    cwd "/usr/local/src/curl-7.47.0"
+    user "root"
+    environment(
+        "USE_CCACHE" => "1",
+        "CCACHE_DIR" => "/root/.ccache",
+        "CC" => "ccache gcc",
+        "CXX" => "ccache g++"
+    )
+    command "./configure --prefix=/usr/local --with-ssl=/usr/local/openssl --with-libssh2"
+    action :run
+end
+execute "cURL make" do
+    cwd "/usr/local/src/curl-7.47.0"
+    user "root"
+    environment(
+        "USE_CCACHE" => "1",
+        "CCACHE_DIR" => "/root/.ccache",
+        "CC" => "ccache gcc",
+        "CXX" => "ccache g++"
+    )
+    command "make -j 4"
+    action :run
+end
+execute "cURL make install" do
+    cwd "/usr/local/src/curl-7.47.0"
+    user "root"
+    command "make -j 4 install"
+    action :run
 end
 
+# -------------------------------------
 # Install PHP Source code
+# -------------------------------------
 remote_file "/usr/local/src/php-5.6.17.tar.gz" do
     source 'http://jp2.php.net/get/php-5.6.17.tar.gz/from/this/mirror'
+    not_if { ::File.exists?("/usr/local/src/php-5.6.17.tar.gz")}
     action :create
 end
-
-execute "source compile PHP" do
+execute "Un tarball" do
+    cwd "/usr/local/src"
     user "root"
+    command "tar -xvzf php-5.6.17.tar.gz"
+    action :run
+    only_if { ::File.exists?("/usr/local/src/php-5.6.17.tar.gz")}
+    not_if { ::File.exists?("/usr/local/src/php-5.6.17")}
+end
+execute "PHP ./configure" do
+    cwd "/usr/local/src/php-5.6.17"
+    user "root"
+    environment(
+        "USE_CCACHE" => "1",
+        "CCACHE_DIR" => "/root/.ccache",
+        "CC" => "ccache gcc",
+        "CXX" => "ccache g++"
+    )
     command <<-EOH
-        cd /usr/local/src
-        tar -xvzf php-5.6.17.tar.gz
-        cd /usr/local/src/php-5.6.17
         ./configure \
         --enable-mbstring \
         --with-apxs2=/usr/local/apache2/bin/apxs \
@@ -97,11 +117,26 @@ execute "source compile PHP" do
         --with-jpeg-dir=/usr/local \
         --with-pdo-mysql \
         --with-gettext
-        make
-        make install
         EOH
     action :run
-    only_if { ::File.exists?("/usr/local/src/php-5.6.17.tar.gz")}
+end
+execute "PHP make" do
+    cwd "/usr/local/src/php-5.6.17"
+    user "root"
+    environment(
+        "USE_CCACHE" => "1",
+        "CCACHE_DIR" => "/root/.ccache",
+        "CC" => "ccache gcc",
+        "CXX" => "ccache g++"
+    )
+    command "make -j 4"
+    action :run
+end
+execute "PHP make install" do
+    cwd "/usr/local/src/php-5.6.17"
+    user "root"
+    command "make -j 4 install"
+    action :run
 end
 
 
