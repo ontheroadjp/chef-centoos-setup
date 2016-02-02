@@ -33,7 +33,7 @@ execute "Un tarball" do
     only_if { ::File.exists?("/usr/local/src/openssl-1.0.2f.tar.gz")}
     not_if { ::File.exists?("/usr/local/src/openssl-1.0.2f")}
 end
-execute "OpenSSL ./config" do
+execute "OpenSSL installing..." do
     cwd "/usr/local/src/openssl-1.0.2f"
     user "root"
     environment(
@@ -42,7 +42,11 @@ execute "OpenSSL ./config" do
         "CC" => "ccache gcc",
         "CXX" => "ccache g++"
     )
-    command "./config --prefix=/usr/local/openssl shared zlib"
+    command <<-EOH
+        ./config --prefix=/usr/local/openssl shared zlib
+        make -j 4
+        make -j 4 install
+        EOH
     action :run
 end
 #execute "OpenSSL make clean" do
@@ -51,24 +55,24 @@ end
 #    command "make clean"
 #    action :run
 #end
-execute "OpenSSL make" do
-    cwd "/usr/local/src/openssl-1.0.2f"
-    user "root"
-    environment(
-        "USE_CCACHE" => "1",
-        "CCACHE_DIR" => "/root/.ccache",
-        "CC" => "ccache gcc",
-        "CXX" => "ccache g++"
-    )
-    command "make -j 4"
-    action :run
-end
-execute "OpenSSL make install" do
-    cwd "/usr/local/src/openssl-1.0.2f"
-    user "root"
-    command "make install"
-    action :run
-end
+#execute "OpenSSL make" do
+#    cwd "/usr/local/src/openssl-1.0.2f"
+#    user "root"
+#    environment(
+#        "USE_CCACHE" => "1",
+#        "CCACHE_DIR" => "/root/.ccache",
+#        "CC" => "ccache gcc",
+#        "CXX" => "ccache g++"
+#    )
+#    command "make -j 4"
+#    action :run
+#end
+#execute "OpenSSL make install" do
+#    cwd "/usr/local/src/openssl-1.0.2f"
+#    user "root"
+#    command "make install"
+#    action :run
+#end
 
 # -------------------------------------
 # Set Shared library path
@@ -79,6 +83,9 @@ template "/etc/ld.so.conf.d/openssl.conf" do
     group 'root'
     mode 0644
 end
-
-
+execute "Update ldconfig" do
+    user "root"
+    command "ldconfig"
+    action :run
+end
 
