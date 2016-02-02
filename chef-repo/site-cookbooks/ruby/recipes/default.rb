@@ -7,8 +7,10 @@
 # All rights reserved - Do Not Redistribute
 #
 
+include_recipe "openssl"
+
 #package install needed
-packages = [ 'git','openssl-devel','readline-devel','zlib-devel','libcurl-devel' ]
+packages = [ 'readline-devel']
 packages.each do | pkg |
     package pkg do
         action [:install, :upgrade]
