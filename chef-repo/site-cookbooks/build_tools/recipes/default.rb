@@ -10,13 +10,13 @@
 include_recipe "yum"
 
 # Install Build tools
-packages = ['wget','tar','make','pcre','pcre-devel']
+packages = ['wget','tar','gcc','make','pcre','pcre-devel']
 packages.each do | pkg |
     package pkg do
         action [:install, :upgrade]
     end
 end
-packages = ['ccache']
+packages = ['gcc-c++','ccache']
 packages.each do | pkg |
     package pkg do
         action [:install, :upgrade]
@@ -31,12 +31,4 @@ directory('/root/.ccache') do
     mode 0755
     action :create
 end
-
-
-#%w{wget tar gcc gcc-c++ make pcre pcre-devel}.each do |pkg|
-#	package pkg do
-#		action [:install, :upgrade]
-#		# action :install
-#	end
-#end
 
