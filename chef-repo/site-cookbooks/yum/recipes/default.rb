@@ -19,6 +19,13 @@ end
   end
 end
 
+template "/etc/yum/pluginconf.d/fastestmirror.conf" do
+    source "fastestmirror.conf.erb"
+    owner "root"
+    group "root"
+    mode 0644
+end
+
 # settings for the official repository
 template "/etc/yum.repos.d/CentOS-Base.repo" do
   source "CentOS-Base.repo.erb"
