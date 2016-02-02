@@ -8,6 +8,7 @@
 #
 
 include_recipe "build_tools"
+include_recipe "openssl"
 
 # Install PHP modules
 #%w{libmcrypt libmcrypt-devel libxml2-devel libjpeg-devel libpng-devel gettext-devel zlib-devel openssl-devel curl-devel}.each do |pkg|
@@ -19,7 +20,7 @@ include_recipe "build_tools"
 end
 
 # Install PHP modules
-%w{re2c openssl-devel}.each do |pkg|
+%w{re2c}.each do |pkg|
 	yum_package pkg do
         options "--enablerepo=rpmforge"
 		action [:install, :upgrade]
@@ -106,39 +107,41 @@ execute "PHP ./configure" do
         ./configure \
         --enable-mbstring \
         --with-apxs2=/usr/local/apache2/bin/apxs \
+        --with-png-dir=/usr/local \
+        --with-jpeg-dir=/usr/local \
+        --enable-zip \
         --with-openssl=/usr/local/openssl \
-        --with-mcrypt \
         --with-kerberos \
         --with-curl=/usr/local/lib \
         --with-curlwrappers \
-        --enable-zip \
         --enable-pdo \
-        --with-gd \
-        --with-png-dir=/usr/local \
-        --with-jpeg-dir=/usr/local \
         --with-pdo-mysql \
+        --with-gd \
+        --with-mcrypt \
         --with-gettext
+        make -j 4
+        make -j 4 install
         EOH
     action :run
 end
-execute "PHP make" do
-    cwd "/usr/local/src/php-5.6.17"
-    user "root"
-    environment(
-        "USE_CCACHE" => "1",
-        "CCACHE_DIR" => "/root/.ccache",
-        "CC" => "ccache gcc",
-        "CXX" => "ccache g++"
-    )
-    command "make -j 4"
-    action :run
-end
-execute "PHP make install" do
-    cwd "/usr/local/src/php-5.6.17"
-    user "root"
-    command "make -j 4 install"
-    action :run
-end
+#execute "PHP make" do
+#    cwd "/usr/local/src/php-5.6.17"
+#    user "root"
+#    environment(
+#        "USE_CCACHE" => "1",
+#        "CCACHE_DIR" => "/root/.ccache",
+#        "CC" => "ccache gcc",
+#        "CXX" => "ccache g++"
+#    )
+#    command "make -j 4"
+#    action :run
+#end
+#execute "PHP make install" do
+#    cwd "/usr/local/src/php-5.6.17"
+#    user "root"
+#    command "make -j 4 install"
+#    action :run
+#end
 
 
 ## Place php.ini( for Development )
