@@ -6,89 +6,177 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+
+include_recipe "build_tools"
+
 user "apache" do
     shell    '/bin/false'
     system  true
     action  :create
 end
-
 group "apache" do
     append true
     members 'apache'
     action :modify
 end
 
-
-# Install Build tools
-%w{gcc make pcre pcre-devel wget}.each do |pkg|
-	package pkg do
-		action [:install, :upgrade]
-		# action :install
-	end
-end
-
+# -------------------------------------
 # Install ARP(Apache Portable Runtime): http://apr.apache.org/download.cgi
+# -------------------------------------
 remote_file "/usr/local/src/apr-1.5.2.tar.gz" do
     source 'http://ftp.yz.yamagata-u.ac.jp/pub/network/apache//apr/apr-1.5.2.tar.gz'
     action :create
+    not_if { ::File.exists?("/usr/local/src/apr-1.5.2.tar.gz")}
 end
-
-execute "source compile apr" do
+execute "APR - Untarball" do
+    cwd "/usr/local/src"
     user "root"
-    command <<-EOH
-        cd /usr/local/src
-        tar -xvzf apr-1.5.2.tar.gz
-        cd /usr/local/src/apr-1.5.2
-        ./configure --prefix=/opt/apr/apr-1.5.2
-        make
-        make install
-        EOH
+    command "tar -xvzf apr-1.5.2.tar.gz"
     action :run
     only_if { ::File.exists?("/usr/local/src/apr-1.5.2.tar.gz")}
+    not_if { ::File.exists?("/usr/local/src/apr-1.5.2")}
 end
+execute "APR - Build.." do
+    cwd "/usr/local/src/apr-1.5.2"
+    user "root"
+    environment(
+        "USE_CCACHE" => "1",
+        "CCACHE_DIR" => "/root/.ccache",
+        "CC" => "ccache gcc",
+        "CXX" => "ccache g++"
 
+    )
+    command <<-EOH
+        ./configure --prefix=/opt/apr/apr-1.5.2
+        make -j 4
+        make -j 4 install
+        EOH
+    action :run
+end
+#execute "APR make" do
+#    cwd "/usr/local/src/apr-1.5.2"
+#    user "root"
+#    environment(
+#        "USE_CCACHE" => "1",
+#        "CCACHE_DIR" => "/root/.ccache",
+#        "CC" => "ccache gcc",
+#        "CXX" => "ccache g++"
+#    )
+#    command "make -j 4"
+#    action :run
+#end
+#execute "APR make install" do
+#    cwd "/usr/local/src/apr-1.5.2"
+#    user "root"
+#    command "make -j 4 install"
+#    action :run
+#end
+
+
+# -------------------------------------
 # Install ARP-util: http://apr.apache.org/download.cgi
+# -------------------------------------
 remote_file "/usr/local/src/apr-util-1.5.4.tar.gz" do
     source 'http://ftp.yz.yamagata-u.ac.jp/pub/network/apache//apr/apr-util-1.5.4.tar.gz'
     action :create
+    not_if { ::File.exists?("/usr/local/src/apr-util-1.5.4.tar.gz")}
 end
-
-execute "source compile apr-util" do
+execute "APR-util - Untarball" do
+    cwd "/usr/local/src"
     user "root"
-    command <<-EOH
-        cd /usr/local/src
-        tar -xvzf apr-util-1.5.4.tar.gz
-        cd /usr/local/src/apr-util-1.5.4
-        ./configure --prefix=/opt/apr/apr-util-1.5.4 --with-apr=/opt/apr/apr-1.5.2
-        make
-        make install
-        EOH
+    command "tar -xvzf apr-util-1.5.4.tar.gz"
     action :run
     only_if { ::File.exists?("/usr/local/src/apr-util-1.5.4.tar.gz")}
+    not_if { ::File.exists?("/usr/local/src/apr-util-1.5.4")}
 end
+execute "APR-util - Build.." do
+    cwd "/usr/local/src/apr-util-1.5.4"
+    user "root"
+    environment(
+        "USE_CCACHE" => "1",
+        "CCACHE_DIR" => "/root/.ccache",
+        "CC" => "ccache gcc",
+        "CXX" => "ccache g++"
+    )
+    command <<-EOH
+        ./configure --prefix=/opt/apr/apr-util-1.5.4 --with-apr=/opt/apr/apr-1.5.2
+        make -j 4
+        make -j 4 install
+        EOH
+    action :run
+end
+#execute "APR-util make" do
+#    cwd "/usr/local/src/apr-util-1.5.4"
+#    user "root"
+#    environment(
+#        "USE_CCACHE" => "1",
+#        "CCACHE_DIR" => "/root/.ccache",
+#        "CC" => "ccache gcc",
+#        "CXX" => "ccache g++"
+#    )
+#    command "make -j 4"
+#    action :run
+#end
+#execute "APR-util make install" do
+#    cwd "/usr/local/src/apr-util-1.5.4"
+#    user "root"
+#    command "make -j 4 install"
+#    action :run
+#end
 
+# -------------------------------------
 # Install Apache: http://apr.apache.org/download.cgi
+# -------------------------------------
 remote_file "/usr/local/src/httpd-2.4.18.tar.gz" do
     source 'http://ftp.jaist.ac.jp/pub/apache//httpd/httpd-2.4.18.tar.gz'
     action :create
+    not_if { ::File.exists?("/usr/local/src/httpd-2.4.18.tar.gz")}
 end
-
-execute "source compile Apache" do
+execute "httpd(Apache2) - Untarball" do
+    cwd "/usr/local/src"
     user "root"
+    command "tar -xvzf httpd-2.4.18.tar.gz"
+    action :run
+    only_if { ::File.exists?("/usr/local/src/httpd-2.4.18.tar.gz")}
+    not_if { ::File.exists?("/usr/local/src/httpd-2.4.18")}
+end
+execute "httpd(apache2) - Build.." do
+    cwd "/usr/local/src/httpd-2.4.18"
+    user "root"
+    environment(
+        "USE_CCACHE" => "1",
+        "CCACHE_DIR" => "/root/.ccache",
+        "CC" => "ccache gcc",
+        "CXX" => "ccache g++"
+    )
     command <<-EOH
-        cd /usr/local/src
-        tar -xvzf httpd-2.4.18.tar.gz
-        cd httpd-2.4.18
         ./configure \
         --prefix=/usr/local/apache2 \
         --with-apr=/opt/apr/apr-1.5.2 \
         --with-apr-util=/opt/apr/apr-util-1.5.4
-        make
-        make install
+        make -j 4
+        make -j 4 install
         EOH
     action :run
-    only_if { ::File.exists?("/usr/local/src/httpd-2.4.18.tar.gz")}
 end
+#execute "httpd(apache2) make" do
+#    cwd "/usr/local/src/httpd-2.4.18"
+#    user "root"
+#    environment(
+#        "USE_CCACHE" => "1",
+#        "CCACHE_DIR" => "/root/.ccache",
+#        "CC" => "ccache gcc",
+#        "CXX" => "ccache g++"
+#    )
+#    command "make -j 4"
+#    action :run
+#end
+#execute "httpd(apache2) make install" do
+#    cwd "/usr/local/src/httpd-2.4.18"
+#    user "root"
+#    command "make -j 4 install"
+#    action :run
+#end
 
 # Change directory group and owner
 directory "/usr/local/apache2" do
@@ -97,7 +185,6 @@ directory "/usr/local/apache2" do
     recursive   true   
     only_if { ::File.exists?("/usr/local/apache2")}
 end
-
 
 # Replace httpd.conf
 template "/usr/local/apache2/conf/httpd.conf" do
@@ -118,9 +205,7 @@ end
 # Regist service
 execute "regist service" do
     user "root"
-    command <<-EOH
-    chkconfig --add httpd
-    EOH
+    command "chkconfig --add httpd"
     action :run
 end
 

@@ -7,22 +7,29 @@
 # All rights reserved - Do Not Redistribute
 #
 
-# Install ruby & rubygems
-yum_package ['ruby', 'rubygems'] do
-    action :install
-    not_if 'which gem'
-end
+## Install ruby & rubygems
+#yum_package ['ruby', 'rubygems'] do
+#    action :install
+#    not_if 'which gem'
+#end
+#
+#execute 'update gem' do
+#	command 'gem update --system'
+#    only_if 'which gem'
+#end
 
-execute 'update gem' do
-	command 'gem update --system'
-    only_if 'which gem'
-end
-
-# Install Node.js & npm
-yum_package ['nodejs', 'npm'] do
+# Install Node.js
+package ['nodejs'] do
     action :install
     options "--enablerepo=epel"
     not_if 'which node'
+end
+
+# Install npm
+package ['npm'] do
+    action :install
+    options "--enablerepo=epel"
+    not_if 'which npm'
 end
 
 # Install Bower
@@ -44,8 +51,17 @@ execute 'install_composer' do
 end
 
 # Install SASS
+#gem_package 'sass' do
+#    user 'root'
+#    action :install
+#    not_if 'sass'
+#end
 execute 'install_sass' do
 	command 'gem install sass'
     not_if 'which sass'
 end
+
+
+
+
 

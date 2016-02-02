@@ -1,5 +1,7 @@
 chef-repo/data_bags/users/
 chef-repo/.chef/data_bag_key
+chef-repo/vendor/*
+
 backup.sh
 .DS_STORE
 *.box
@@ -8,3 +10,5 @@ backup.sh
 www
 html/*
 !html/.gitkeep
+
+
