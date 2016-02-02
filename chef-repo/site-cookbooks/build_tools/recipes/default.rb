@@ -7,6 +7,8 @@
 # All rights reserved - Do Not Redistribute
 #
 
+include_recipe "yum"
+
 # Install Build tools
 packages = ['wget','tar','make','pcre','pcre-devel']
 packages.each do | pkg |
