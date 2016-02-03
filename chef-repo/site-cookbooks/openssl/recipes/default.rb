@@ -10,7 +10,7 @@
 include_recipe "build_tools"
 
 # Install PHP modules
-%w{libmcrypt libmcrypt-devel zlib-devel openssl-devel}.each do |pkg|
+%w{zlib-devel openssl-devel}.each do |pkg|
 	package pkg do
 		action [:install, :upgrade]
         options "--enablerepo=epel"
