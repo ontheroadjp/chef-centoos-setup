@@ -20,10 +20,10 @@
 		"recipe[apache2::2.4.18]",
 		"recipe[mysql56]",
 		"recipe[php56::5.6.17]",
-		"recipe[iptables::flush]",
         "recipe[service]",
         "recipe[ruby]",
-        "recipe[webapp_dev_env]"
+        "recipe[webapp_dev_env]",
+		"recipe[iptables::flush]"
 	],
 	"automatic": {
 		"ipaddress": "centos"
