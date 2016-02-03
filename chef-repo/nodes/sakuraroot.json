@@ -24,7 +24,6 @@
         "recipe[ruby]",
         "recipe[webapp_dev_env]",
 
-		"recipe[ssh]",
 		"recipe[iptables]"
 	],
 	"automatic": {
