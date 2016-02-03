@@ -127,6 +127,13 @@ end
 # -------------------------------------
 # Install Apache: http://apr.apache.org/download.cgi
 # -------------------------------------
+packages = ['pcre','pcre-devel']
+packages.each do | pkg |
+    package pkg do
+        action [:install, :upgrade]
+    end
+end
+
 remote_file "/usr/local/src/httpd-2.4.18.tar.gz" do
     source 'http://ftp.jaist.ac.jp/pub/apache//httpd/httpd-2.4.18.tar.gz'
     action :create
@@ -153,7 +160,8 @@ execute "httpd(apache2) - Build.." do
         ./configure \
         --prefix=/usr/local/apache2 \
         --with-apr=/opt/apr/apr-1.5.2 \
-        --with-apr-util=/opt/apr/apr-util-1.5.4
+        --with-apr-util=/opt/apr/apr-util-1.5.4 \
+        --with-ssl=/usr/local/openssl
         make -j 4
         make -j 4 install
         EOH
