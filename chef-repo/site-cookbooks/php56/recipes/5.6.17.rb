@@ -12,21 +12,22 @@ include_recipe "openssl"
 
 # Install PHP modules
 #%w{libmcrypt libmcrypt-devel libxml2-devel libjpeg-devel libpng-devel gettext-devel zlib-devel openssl-devel curl-devel}.each do |pkg|
-%w{libxml2-devel libjpeg-devel libpng-devel gettext-devel curl-devel}.each do |pkg|
+#%w{libxml2-devel libjpeg-devel libpng-devel libmcrypt-devel gettext-devel curl-devel}.each do |pkg|
+%w{libxml2-devel libjpeg-devel libpng-devel libmcrypt-devel gettext-devel}.each do |pkg|
 	yum_package pkg do
 		action [:install, :upgrade]
         options "--enablerepo=epel"
 	end
 end
 
-# Install PHP modules
-%w{re2c}.each do |pkg|
-	yum_package pkg do
-        options "--enablerepo=rpmforge"
-		action [:install, :upgrade]
-		# action :install
-	end
-end
+# for APC and something like this
+#%w{re2c}.each do |pkg|
+#	yum_package pkg do
+#        options "--enablerepo=rpmforge"
+#		action [:install, :upgrade]
+#		# action :install
+#	end
+#end
 
 # -------------------------------------
 # Install PHP Source code
@@ -55,8 +56,10 @@ execute "PHP - Build.." do
     )
     command <<-EOH
         ./configure \
-        --enable-mbstring \
         --with-apxs2=/usr/local/apache2/bin/apxs \
+        #--enable-fpm \
+
+        --enable-mbstring \
         --with-png-dir=/usr/local \
         --with-jpeg-dir=/usr/local \
         --enable-zip \
