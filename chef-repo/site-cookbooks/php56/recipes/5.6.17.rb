@@ -8,12 +8,12 @@
 #
 
 include_recipe "build_tools"
-include_recipe "openssl"
+#include_recipe "openssl"
 
 # Install PHP modules
-#%w{libmcrypt libmcrypt-devel libxml2-devel libjpeg-devel libpng-devel gettext-devel zlib-devel openssl-devel curl-devel}.each do |pkg|
+%w{libmcrypt libmcrypt-devel libxml2-devel libjpeg-devel libpng-devel gettext-devel zlib-devel openssl-devel curl-devel}.each do |pkg|
 #%w{libxml2-devel libjpeg-devel libpng-devel libmcrypt-devel gettext-devel curl-devel}.each do |pkg|
-%w{libxml2-devel libjpeg-devel libpng-devel libmcrypt-devel gettext-devel}.each do |pkg|
+#%w{libxml2-devel libjpeg-devel libpng-devel libmcrypt-devel gettext-devel}.each do |pkg|
 	yum_package pkg do
 		action [:install, :upgrade]
         options "--enablerepo=epel"
@@ -21,13 +21,13 @@ include_recipe "openssl"
 end
 
 # for APC and something like this
-#%w{re2c}.each do |pkg|
-#	yum_package pkg do
-#        options "--enablerepo=rpmforge"
-#		action [:install, :upgrade]
-#		# action :install
-#	end
-#end
+%w{re2c}.each do |pkg|
+	yum_package pkg do
+        options "--enablerepo=rpmforge"
+		action [:install, :upgrade]
+		# action :install
+	end
+end
 
 # -------------------------------------
 # Install PHP Source code
@@ -48,32 +48,34 @@ end
 execute "PHP - Build.." do
     cwd "/usr/local/src/php-5.6.17"
     user "root"
-    environment(
-        "USE_CCACHE" => "1",
-        "CCACHE_DIR" => "/root/.ccache",
-        "CC" => "ccache gcc",
-        "CXX" => "ccache g++"
-    )
+    #environment(
+    #    "USE_CCACHE" => "1",
+    #    "CCACHE_DIR" => "/root/.ccache",
+    #    "CC" => "ccache gcc",
+    #    "CXX" => "ccache g++"
+    #)
     command <<-EOH
+        make clean
+        ./buildconf --force
         ./configure \
         --with-apxs2=/usr/local/apache2/bin/apxs \
-        #--enable-fpm \
-
+        --enable-opcache \
         --enable-mbstring \
         --with-png-dir=/usr/local \
         --with-jpeg-dir=/usr/local \
-        --enable-zip \
-        --with-openssl=/usr/local/openssl \
+        --enable-zip=shared \
+        --enable-ssl \
+        --with-openssl \
         --with-kerberos \
-        --with-curl=/usr/local/lib \
+        --with-curl \
         --with-curlwrappers \
         --enable-pdo \
         --with-pdo-mysql \
         --with-gd \
         --with-mcrypt \
         --with-gettext
-        make -j 4
-        make -j 4 install
+        make -j8
+        make install
         EOH
     action :run
 end
@@ -97,14 +99,14 @@ end
 #end
 
 
-## Place php.ini( for Development )
-#template "/usr/local/lib/php.ini" do
-#  source "5.6.17/php.ini-development.erb"
-#  owner "root"
-#  group "root"
-#  mode 0644
-#  only_if node['php']['development']
-#end
+# Place php.ini( for Development )
+template "/usr/local/lib/php.ini" do
+  source "5.6.17/php.ini-development.erb"
+  owner "root"
+  group "root"
+  mode 0644
+  #only_if node['php']['development']
+end
 
 ## Place php.ini( for Production )
 #template "/usr/local/lib/php.ini" do

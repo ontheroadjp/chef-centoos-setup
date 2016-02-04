@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 # Install PHP modules
-packages = ['libxml2-devel','libjpeg-turbo-devel','libpng-devel','gettext-devel']
+packages = ['libmcrypt','libmcrypt-devel','libxml2-devel','libjpeg-turbo-devel','libpng-devel','gettext-devel','zlib-devel','openssl-devel']
 packages.each do | pkg |
     describe package("#{pkg}") do
         it { should be_installed }
@@ -30,5 +30,7 @@ describe 'Installing PHP' do
         it { should be_mode 755 }
     end
 end
+
+# モジュールのテスト
 
 
