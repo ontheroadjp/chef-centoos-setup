@@ -47,9 +47,10 @@ execute "APR - Build.." do
 
     )
     command <<-EOH
+        make clean
         ./configure --prefix=/opt/apr/apr-1.5.2
-        make -j 4
-        make -j 4 install
+        make -j8
+        make install
         EOH
     action :run
 end
@@ -62,13 +63,13 @@ end
 #        "CC" => "ccache gcc",
 #        "CXX" => "ccache g++"
 #    )
-#    command "make -j 4"
+#    command "make -j4"
 #    action :run
 #end
 #execute "APR make install" do
 #    cwd "/usr/local/src/apr-1.5.2"
 #    user "root"
-#    command "make -j 4 install"
+#    command "make install"
 #    action :run
 #end
 
@@ -99,9 +100,10 @@ execute "APR-util - Build.." do
         "CXX" => "ccache g++"
     )
     command <<-EOH
+        make clean
         ./configure --prefix=/opt/apr/apr-util-1.5.4 --with-apr=/opt/apr/apr-1.5.2
-        make -j 4
-        make -j 4 install
+        make -j8
+        make install
         EOH
     action :run
 end
@@ -114,23 +116,24 @@ end
 #        "CC" => "ccache gcc",
 #        "CXX" => "ccache g++"
 #    )
-#    command "make -j 4"
+#    command "make -j4"
 #    action :run
 #end
 #execute "APR-util make install" do
 #    cwd "/usr/local/src/apr-util-1.5.4"
 #    user "root"
-#    command "make -j 4 install"
+#    command "make -j4 install"
 #    action :run
 #end
 
 # -------------------------------------
 # Install Apache: http://apr.apache.org/download.cgi
 # -------------------------------------
-packages = ['pcre','pcre-devel']
+packages = ['httpd-devel','pcre','pcre-devel','libmcrypt','libmcrypt-devel','gettext','gettext-devel']
 packages.each do | pkg |
     package pkg do
         action [:install, :upgrade]
+        options "--enablerepo=epel"
     end
 end
 
@@ -150,20 +153,27 @@ end
 execute "httpd(apache2) - Build.." do
     cwd "/usr/local/src/httpd-2.4.18"
     user "root"
-    environment(
-        "USE_CCACHE" => "1",
-        "CCACHE_DIR" => "/root/.ccache",
-        "CC" => "ccache gcc",
-        "CXX" => "ccache g++"
-    )
+    #environment(
+    #    "USE_CCACHE" => "1",
+    #    "CCACHE_DIR" => "/root/.ccache",
+    #    "CC" => "ccache gcc",
+    #    "CXX" => "ccache g++"
+    #)
     command <<-EOH
+        make clean
         ./configure \
         --prefix=/usr/local/apache2 \
+        --with-mpm=worker \
         --with-apr=/opt/apr/apr-1.5.2 \
         --with-apr-util=/opt/apr/apr-util-1.5.4 \
-        --with-ssl=/usr/local/openssl
-        make -j 4
-        make -j 4 install
+        --enable-ssl \
+        --with-ssl \
+        --with-pcre \
+        --with-mcrypt \
+        --with-gettext \
+        2>&1 | tee log_configure.txt
+        make -j8 2>&1 | tee log_make.txt
+        make install 2>&1 | tee log_make_install.txt
         EOH
     action :run
 end
@@ -176,22 +186,22 @@ end
 #        "CC" => "ccache gcc",
 #        "CXX" => "ccache g++"
 #    )
-#    command "make -j 4"
+#    command "make -j4"
 #    action :run
 #end
 #execute "httpd(apache2) make install" do
 #    cwd "/usr/local/src/httpd-2.4.18"
 #    user "root"
-#    command "make -j 4 install"
+#    command "make install"
 #    action :run
 #end
 
 # Change directory group and owner
 directory "/usr/local/apache2" do
-    group       'apache'
     owner       'apache'
+    group       'apache'
     recursive   true   
-    only_if { ::File.exists?("/usr/local/apache2")}
+    only_if { ::File.exists?("/usr/local/apache2/bin/httpd")}
 end
 
 # Replace httpd.conf
