@@ -48,6 +48,7 @@ describe file("/usr/local/apache2/bin/httpd") do
     it { should be_owned_by 'apache'}
     it { should be_grouped_into 'apache'}
 end  
+# モジュールのテスト
 describe command('ldd /usr/local/apache2/modules/mod_ssl.so | grep libssl.so') do
     its(:stdout) { should match /libssl\.so\.10 => \/usr\/lib64\/libssl\.so\.10/ }
 end
@@ -60,8 +61,6 @@ end
 describe command('ldd /usr/local/apache2/bin/httpd | grep crypt') do
     its(:stdout) { should match /libcrypt\.so\.1 => \/lib64\/libcrypt\.so\.1/ }
 end
-
-
 
 #Replace httpd.conf
 describe file('/usr/local/apache2/conf/httpd.conf') do
