@@ -123,23 +123,25 @@ end
 #end
 
 execute "source compile vim w/lua" do
-        user "root"
-        command <<-EOH
-            make clean
-            hg clone https://vim.googlecode.com/hg/ src_path
-            cd src_path
-            ./configure \
-                --with-features=huge \
-                --enable-multibyte \
-                --enable-luainterp=dynamic \
-                --enable-gpm \
-                --enable-cscope \
-                --enable-fontset
-            make -j8
-            make install
-            EOH
-        action :run
-        only_if {node['tools']['vim-lua']}
+   user "root"
+   command <<-EOH
+       ./buildconf --force
+       make clean
+       hg clone https://vim.googlecode.com/hg/ src_path
+       cd src_path
+       ./configure \
+           --with-features=huge \
+           --enable-multibyte \
+           --enable-luainterp=dynamic \
+           --enable-gpm \
+           --enable-cscope \
+           --enable-fontset
+           2>&1 | tee log_configure.txt
+           make -j8 2>&1 | tee log_make.txt
+           make install 2>&1 | tee log_make_install.txt
+       EOH
+   action :run
+   only_if {node['tools']['vim-lua']}
 end
 
 

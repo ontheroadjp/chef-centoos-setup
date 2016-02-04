@@ -11,9 +11,17 @@ include_recipe "build_tools"
 #include_recipe "openssl"
 
 # Install PHP modules
-%w{libmcrypt libmcrypt-devel libxml2-devel libjpeg-devel libpng-devel gettext-devel zlib-devel openssl-devel curl-devel}.each do |pkg|
-#%w{libxml2-devel libjpeg-devel libpng-devel libmcrypt-devel gettext-devel curl-devel}.each do |pkg|
-#%w{libxml2-devel libjpeg-devel libpng-devel libmcrypt-devel gettext-devel}.each do |pkg|
+%w{
+    libmcrypt 
+    libmcrypt-devel 
+    libxml2-devel 
+    libjpeg-devel 
+    libpng-devel 
+    gettext-devel 
+    zlib-devel 
+    openssl-devel 
+    curl-devel
+}.each do |pkg|
 	yum_package pkg do
 		action [:install, :upgrade]
         options "--enablerepo=epel"
@@ -73,9 +81,10 @@ execute "PHP - Build.." do
         --with-pdo-mysql \
         --with-gd \
         --with-mcrypt \
-        --with-gettext
-        make -j8
-        make install
+        --with-gettext \
+        2>&1 | tee log_configure.txt
+        make -j8 2>&1 | tee log_make.txt
+        make install 2>&1 | tee log_make_install.txt
         EOH
     action :run
 end
