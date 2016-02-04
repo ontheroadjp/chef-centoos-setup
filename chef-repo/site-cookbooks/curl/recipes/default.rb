@@ -12,7 +12,7 @@ include_recipe "build_tools"
 # -------------------------------------
 # Install cURL Source code
 # -------------------------------------
-package ["libssh2-devel","libcurl-devel"] do
+package ["libssh2-devel","libcurl-devel","openssl-devel"] do
 	action [:install, :upgrade]
 end
 remote_file "/usr/local/src/curl-7.47.0.tar.gz" do
@@ -39,8 +39,8 @@ execute "cURL - Build.." do
     )
     command <<-EOH
         ./configure --prefix=/usr/local --with-ssl=/usr/local/openssl --with-libssh2
-        make -j 4
-        make -j 4 install
+        make -j5
+        make install
         EOH
     action :run
 end

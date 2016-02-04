@@ -15,7 +15,6 @@
 		"recipe[users]",
 		"recipe[yum]",
 		"recipe[tools]",
-		"recipe[openssl]",
 		"recipe[curl]",
 		"recipe[apache2::2.4.18]",
 		"recipe[mysql56]",
@@ -24,7 +23,6 @@
         "recipe[ruby]",
         "recipe[webapp_dev_env]",
 
-		"recipe[ssh]",
 		"recipe[iptables]"
 	],
 	"automatic": {

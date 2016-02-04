@@ -10,7 +10,7 @@
 include_recipe "yum"
 
 # Install Build tools
-packages = ['wget','tar','gcc','make','pcre','pcre-devel']
+packages = ['wget','tar','gcc','make']
 packages.each do | pkg |
     package pkg do
         action [:install, :upgrade]

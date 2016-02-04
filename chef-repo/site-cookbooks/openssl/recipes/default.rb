@@ -10,7 +10,7 @@
 include_recipe "build_tools"
 
 # Install PHP modules
-%w{libmcrypt libmcrypt-devel zlib-devel openssl-devel}.each do |pkg|
+%w{zlib-devel openssl-devel}.each do |pkg|
 	package pkg do
 		action [:install, :upgrade]
         options "--enablerepo=epel"
@@ -43,12 +43,27 @@ execute "OpenSSL - Build.." do
         "CXX" => "ccache g++"
     )
     command <<-EOH
-        ./config --prefix=/usr/local/openssl shared zlib
-        make -j 4
-        make -j 4 install
+        make clean
+        ./config \
+        --prefix=/usr/local/openssl \
+        --openssldir=/usr/local/openssl \
+        -fPIC \
+        zlib \ 
+        shared
+        make -j8
+        make install
         EOH
     action :run
 end
+
+file '/usr/bin/openssl.bk' do
+    content IO.read('/usr/bin/openssl')
+    action :create
+end
+link '/usr/bin/openssl' do
+    to '/usr/local/openssl/bin/openssl'
+end
+
 #execute "OpenSSL make clean" do
 #    cwd "/usr/local/src/openssl-1.0.2f"
 #    user "root"
