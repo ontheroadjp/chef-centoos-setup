@@ -125,6 +125,7 @@ end
 execute "source compile vim w/lua" do
         user "root"
         command <<-EOH
+            make clean
             hg clone https://vim.googlecode.com/hg/ src_path
             cd src_path
             ./configure \
@@ -134,8 +135,8 @@ execute "source compile vim w/lua" do
                 --enable-gpm \
                 --enable-cscope \
                 --enable-fontset
-            make -j 4
-            make -j 4 install
+            make -j8
+            make install
             EOH
         action :run
         only_if {node['tools']['vim-lua']}
