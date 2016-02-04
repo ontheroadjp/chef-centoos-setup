@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe "openssl"
+#include_recipe "openssl"
 
 #package install needed
 packages = [ 'readline-devel']
