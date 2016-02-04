@@ -80,6 +80,16 @@ describe file('/etc/rc.d/init.d/httpd') do
     it { should be_mode '755' }
 end
 
+describe command('chkconfig --list httpd') do
+    its(:stdout) { should match /0:off/ }
+    its(:stdout) { should match /1:off/ }
+    its(:stdout) { should match /2:on/ }
+    its(:stdout) { should match /3:on/ }
+    its(:stdout) { should match /4:on/ }
+    its(:stdout) { should match /5:on/ }
+    its(:stdout) { should match /6:off/ }
+end
+
 # Regist service
 describe service('httpd'), :if => os[:family] == 'redhat' do
   it { should be_enabled }
