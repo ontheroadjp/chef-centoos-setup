@@ -47,10 +47,13 @@ execute "APR - Build.." do
 
     )
     command <<-EOH
+        ./buildconf --force
         make clean
-        ./configure --prefix=/opt/apr/apr-1.5.2
-        make -j8
-        make install
+        ./configure \
+        --prefix=/opt/apr/apr-1.5.2 \
+        2>&1 | tee log_configure.txt
+        make -j8 2>&1 | tee log_make.txt
+        make install 2>&1 | tee log_make_install.txt
         EOH
     action :run
 end
@@ -100,10 +103,14 @@ execute "APR-util - Build.." do
         "CXX" => "ccache g++"
     )
     command <<-EOH
+        ./buildconf --force
         make clean
-        ./configure --prefix=/opt/apr/apr-util-1.5.4 --with-apr=/opt/apr/apr-1.5.2
-        make -j8
-        make install
+        ./configure \
+        --prefix=/opt/apr/apr-util-1.5.4 \
+        --with-apr=/opt/apr/apr-1.5.2 \
+        2>&1 | tee log_configure.txt
+        make -j8 2>&1 | tee log_make.txt
+        make install 2>&1 | tee log_make_install.txt
         EOH
     action :run
 end
@@ -160,6 +167,7 @@ execute "httpd(apache2) - Build.." do
     #    "CXX" => "ccache g++"
     #)
     command <<-EOH
+        ./buildconf --force
         make clean
         ./configure \
         --prefix=/usr/local/apache2 \
