@@ -39,18 +39,22 @@ remote_file "#{Chef::Config[:file_cache_path]}/mysql-community-release-el6-5.noa
 	source 'http://repo.mysql.com/mysql-community-release-el6-5.noarch.rpm'
 	action :create
 end
-
 rpm_package "mysql-community-release" do
 	source "#{Chef::Config[:file_cache_path]}/mysql-community-release-el6-5.noarch.rpm"
 	action :install
 end
-
 template "/etc/yum.repos.d/mysql-community.repo" do
   source "mysql-community.repo.erb"
   owner "root"
   group "root"
   mode 0644
 end
+#template "/etc/pki/rpm-gpg/RPM-GPG-KEY-mysql" do
+#	source "RPM-GPG-KEY-mysql.erb"
+#	owner "root"
+#	group "root"
+#	mode 0644
+#end
 
 # add epel repository and settings
 remote_file "#{Chef::Config[:file_cache_path]}/epel-release-6-8.noarch.rpm" do
