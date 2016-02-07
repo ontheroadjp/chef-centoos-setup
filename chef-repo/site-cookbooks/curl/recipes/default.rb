@@ -28,38 +28,43 @@ execute "cURL - Untarball" do
     only_if { ::File.exists?("/usr/local/src/curl-7.47.0.tar.gz")}
     not_if { ::File.exists?("/usr/local/src/curl-7.47.0")}
 end
-execute "cURL - Build.." do
+execute "cURL - ./configure" do
     cwd "/usr/local/src/curl-7.47.0"
     user "root"
-    environment(
-        "USE_CCACHE" => "1",
-        "CCACHE_DIR" => "/root/.ccache",
-        "CC" => "ccache gcc",
-        "CXX" => "ccache g++"
-    )
+    #environment(
+    #    "USE_CCACHE" => "1",
+    #    "CCACHE_DIR" => "/root/.ccache",
+    #    "CC" => "ccache gcc",
+    #    "CXX" => "ccache g++"
+    #)
     command <<-EOH
-        ./configure --prefix=/usr/local --with-ssl=/usr/local/openssl --with-libssh2
-        make -j5
-        make install
+        #./configure --prefix=/usr/local --with-ssl=/usr/local/openssl --with-libssh2
+        ./configure --prefix=/usr/local --with-ssl --with-libssh2
         EOH
     action :run
 end
-#execute "cURL make" do
-#    cwd "/usr/local/src/curl-7.47.0"
-#    user "root"
-#    environment(
-#        "USE_CCACHE" => "1",
-#        "CCACHE_DIR" => "/root/.ccache",
-#        "CC" => "ccache gcc",
-#        "CXX" => "ccache g++"
-#    )
-#    command "make -j 4"
-#    action :run
-#end
-#execute "cURL make install" do
-#    cwd "/usr/local/src/curl-7.47.0"
-#    user "root"
-#    command "make -j 4 install"
+execute "cURL make" do
+    cwd "/usr/local/src/curl-7.47.0"
+    user "root"
+    #environment(
+    #    "USE_CCACHE" => "1",
+    #    "CCACHE_DIR" => "/root/.ccache",
+    #    "CC" => "ccache gcc",
+    #    "CXX" => "ccache g++"
+    #)
+    command "make -j8"
+    action :run
+end
+execute "cURL make install" do
+    cwd "/usr/local/src/curl-7.47.0"
+    user "root"
+    command "make install"
+    action :run
+end
+#execute 'cURL set sim links' do
+#    cwd "/usr/local/bin"
+#    user 'root'
+#    command "ln -fs /usr/local/cURL/bin/* ./"
 #    action :run
 #end
 
