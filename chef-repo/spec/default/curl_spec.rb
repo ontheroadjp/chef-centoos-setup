@@ -9,10 +9,13 @@ describe 'Installing cURL' do
             it { should be_installed }
         end
     end
-
     describe file('/usr/local/src/curl-7.47.0.tar.gz') do
       it { should be_file }
         its(:md5sum) { should eq '5109d1232d208dfd712c0272b8360393' }
+    end
+    describe command('php -i | grep "SSL Version"') do
+        let(:sudo_options) { '-u vagrant -i'}
+        its(:stdout) { should match /SSL Version => OpenSSL\/1\.0\.1e/ }
     end
     describe file('/usr/local/bin/curl') do
         it { should be_file }
