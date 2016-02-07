@@ -18,33 +18,27 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             cpus = 2
     end
     
-
     provision_script = <<-EOH
         yum install -y git
     EOH
 
+    config.vm.provider "virtualbox" do |vb|
+        #vb.customize ["modifyvm", :id, "--cpus", cups]
+        vb.customize ["modifyvm", :id, "--cpus", 3]
+        vb.customize ["modifyvm", :id, "--memory", "4096"]
+        vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+        vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+        #vb.gui = true
+    end
+
     # VMs
     config.vm.define :original do | original |
-        config.vm.provider "virtualbox" do |vb|
-            #vb.customize ["modifyvm", :id, "--cpus", cups]
-            original.customize ["modifyvm", :id, "--cpus", 3]
-            original.customize ["modifyvm", :id, "--memory", "4096"]
-            original.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
-            original.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-        end
         original.vm.hostname = "centos"
         original.vm.network :forwarded_port, guest: 80, host: 8080
     	original.vm.network :private_network, ip: "192.168.33.10"
         original.vm.provision :shell, :inline => provision_script
     end
     config.vm.define :chef do | chef |
-        config.vm.provider "virtualbox" do |vb|
-            #chef.customize ["modifyvm", :id, "--cpus", cups]
-            chef.customize ["modifyvm", :id, "--cpus", 3]
-            chef.customize ["modifyvm", :id, "--memory", "4096"]
-            chef.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
-            chef.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-        end
         chef.vm.hostname = "chef"
         chef.vm.network :forwarded_port, guest: 80, host: 8081
     	chef.vm.network :forwarded_port, guest: 3306, host: 3306
