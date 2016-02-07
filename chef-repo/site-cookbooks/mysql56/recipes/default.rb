@@ -8,9 +8,12 @@
 #
 
 # install mysql community server
-yum_package "mysql-community-server" do
+package "mysql-community-server" do
+  action :remove
+end
+package "mysql-community-server" do
   action :install
-  version "5.6.28-2.el6"
+  version "5.6.29-2.el6"
   flush_cache [:before]
   options "--enablerepo=mysql56-community"
 end
