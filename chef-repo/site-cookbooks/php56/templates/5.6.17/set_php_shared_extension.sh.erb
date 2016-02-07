@@ -1,0 +1,50 @@
+
+#cat > "/usr/local/php-5.6.17/etc/php.d/apcu.ini" <<EOF
+#    extension=apcu.so
+#    apc.enabled=1
+#    apc.shm_size=128M
+#    apc.enable_cli=1
+#    apc.write_lock=1
+#    apc.slam_defense=0
+#    apc.gc_ttl=3600
+#    apc.ttl=7200
+#    apc.entries_hint=4096
+#    apc.slam_defense=1
+#    apc.mmap_file_mask=/tmp/apc.XXXXXX
+#    apc.serializer=igbinary
+#EOF
+
+echo -e extension=bcmath.so >/usr/local/php-5.6.17/etc/php.d/bcmath.ini
+echo -e extension=bz2.so >/usr/local/php-5.6.17/etc/php.d/bz2.ini
+echo -e extension=calendar.so >/usr/local/php-5.6.17/etc/php.d/calendar.ini]
+#echo -e extension=ctype.so >/usr/local/php-5.6.17/etc/php.d/ctype.ini
+echo -e extension=curl.so >/usr/local/php-5.6.17/etc/php.d/curl.ini
+echo -e extension=dba.so >/usr/local/php-5.6.17/etc/php.d/dba.ini
+#echo -e extension=dom.so >/usr/local/php-5.6.17/etc/php.d/dom.ini
+#echo -e extension=enchant.so >/usr/local/php-5.6.17/etc/php.d/enchant.ini
+echo -e extension=exif.so >/usr/local/php-5.6.17/etc/php.d/exif.ini
+#echo -e extension=fileinfo.so >/usr/local/php-5.6.17/etc/php.d/fileinfo.ini
+echo -e extension=ftp.so >/usr/local/php-5.6.17/etc/php.d/ftp.ini
+echo -e extension=gd.so >/usr/local/php-5.6.17/etc/php.d/gd.ini
+echo -e extension=gettext.so >/usr/local/php-5.6.17/etc/php.d/gettext.ini
+#echo -e extension=gmp.so >/usr/local/php-5.6.17/etc/php.d/gmp.ini
+#echo -e extension=iconv.so >/usr/local/php-5.6.17/etc/php.d/iconv.ini
+#echo -e extension=igbinary.so >/usr/local/php-5.6.17/etc/php.d/igbinary.ini
+#echo -e extension=imap.so >/usr/local/php-5.6.17/etc/php.d/imap.ini
+#echo -e extension=intl.so >/usr/local/php-5.6.17/etc/php.d/intl.ini
+#echo -e extension=json.so >/usr/local/php-5.6.17/etc/php.d/json.ini
+#echo -e extension=ldap.so >/usr/local/php-5.6.17/etc/php.d/ldap.ini
+
+cat > "/usr/local/php-5.6.17/etc/php.d/mbstring.ini" <<EOF
+    extension=mbstring.so
+    mbstring.language = Japanese
+    mbstring.internal_encoding = UTF-8
+    mbstring.http_input = UTF-8
+    mbstring.http_output = pass
+    mbstring.detect_order = UTF-8,SJIS,EUC-JP,JIS,ASCII
+EOF
+
+echo -e extension=mcrypt.so >/usr/local/php-5.6.17/etc/php.d/mcrypt.ini
+#echo -e extension=mysql.so >/usr/local/php-5.6.17/etc/php.d/mysql.ini
+echo -e extension=mysqli.so >/usr/local/php-5.6.17/etc/php.d/mysqli.ini
+#echo -e extension=odbc.so >/usr/local/php-5.6.17/etc/php.d/odbc.ini

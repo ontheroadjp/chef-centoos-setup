@@ -1,0 +1,50 @@
+
+cat > "/usr/local/php-5.6.17/etc/php.d/opcache.ini" <<EOF
+zend_extension=opcache.so
+    
+[opcache]
+opcache.enable=1
+opcache.enable_cli=1
+opcache.memory_consumption=128
+opcache.interned_strings_buffer=8
+opcache.max_accelerated_files=4000
+opcache.max_file_size=5M
+opcache.blacklist_filename=/var/lib/php/opcache*.blacklist
+opcache.revalidate_freq=0
+opcache.revalidate_path=0
+opcache.save_comments=0
+opcache.load_comments=0
+opcache.consistency_checks=1
+opcache.fast_shutdown=1
+EOF
+
+echo -e extension=openssl.so >/usr/local/php-5.6.17/etc/php.d/openssl.ini
+#echo -e extension=pcntl.so >/usr/local/php-5.6.17/etc/php.d/pcntl.ini
+#echo -e extension=pdo.so >/usr/local/php-5.6.17/etc/php.d/pdo.ini
+echo -e extension=pdo_mysql.so >/usr/local/php-5.6.17/etc/php.d/pdo_mysql.ini
+#echo -e extension=pdo_odbc.so >/usr/local/php-5.6.17/etc/php.d/pdo_odbc.ini
+#echo -e extension=pdo_pgsql.so >/usr/local/php-5.6.17/etc/php.d/pdo_pgsql.ini
+#echo -e extension=pdo_sqlite.so >/usr/local/php-5.6.17/etc/php.d/pdo_sqlite.ini
+#echo -e extension=pgsql.so >/usr/local/php-5.6.17/etc/php.d/pgsql.ini
+#echo -e extension=phar.so >/usr/local/php-5.6.17/etc/php.d/phar.ini
+#echo -e extension=posix.so >/usr/local/php-5.6.17/etc/php.d/posix.ini
+#echo -e extension=pspell.so >/usr/local/php-5.6.17/etc/php.d/pspell.ini
+#echo -e extension=readline.so >/usr/local/php-5.6.17/etc/php.d/readline.ini
+#echo -e "extension=redis.so\nredis.serializer=igbinary" >/usr/local/php-5.6.17/etc/php.d/redis.ini
+echo -e extension=shmop.so >/usr/local/php-5.6.17/etc/php.d/shmop.ini
+#echo -e extension=simplexml.so >/usr/local/php-5.6.17/etc/php.d/simplexml.ini
+#echo -e extension=snmp.so >/usr/local/php-5.6.17/etc/php.d/snmp.ini
+echo -e extension=soap.so >/usr/local/php-5.6.17/etc/php.d/soap.ini
+echo -e extension=sockets.so >/usr/local/php-5.6.17/etc/php.d/sockets.ini
+echo -e extension=sysvmsg.so >/usr/local/php-5.6.17/etc/php.d/sysvmsg.ini
+#echo -e extension=sysvshm.so >/usr/local/php-5.6.17/etc/php.d/sysvshm.ini
+#echo -e extension=tidy.so >/usr/local/php-5.6.17/etc/php.d/tidy.ini
+#echo -e extension=tokenizer.so >/usr/local/php-5.6.17/etc/php.d/tokenizer.ini
+echo -e extension=wddx.so >/usr/local/php-5.6.17/etc/php.d/wddx.ini
+#echo -e extension=xml.so >/usr/local/php-5.6.17/etc/php.d/xml.ini
+#echo -e extension=xmlreader.so >/usr/local/php-5.6.17/etc/php.d/xmlreader.ini
+echo -e extension=xmlrpc.so >/usr/local/php-5.6.17/etc/php.d/xmlrpc.ini
+#echo -e extension=xmlwriter.so >/usr/local/php-5.6.17/etc/php.d/xmlwriter.ini
+#echo -e extension=xsl.so >/usr/local/php-5.6.17/etc/php.d/xsl.ini
+echo -e extension=zip.so >/usr/local/php-5.6.17/etc/php.d/zip.ini
+echo -e extension=zlib.so >/usr/local/php-5.6.17/etc/php.d/zlib.ini
