@@ -25,7 +25,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.provider "virtualbox" do |vb|
         #vb.customize ["modifyvm", :id, "--cpus", cups]
         vb.customize ["modifyvm", :id, "--cpus", 3]
-        vb.customize ["modifyvm", :id, "--memory", "4096"]
+        vb.customize ["modifyvm", :id, "--memory", "2048"]
         vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
         vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
         #vb.gui = true
@@ -33,7 +33,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # VMs
     config.vm.define :original do | original |
-        original.vm.hostname = "centos"
+        original.vm.hostname = "original"
         original.vm.network :forwarded_port, guest: 80, host: 8080
     	original.vm.network :private_network, ip: "192.168.33.10"
         original.vm.provision :shell, :inline => provision_script
@@ -42,6 +42,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         chef.vm.hostname = "chef"
         chef.vm.network :forwarded_port, guest: 80, host: 8081
     	chef.vm.network :forwarded_port, guest: 3306, host: 3306
+    	chef.vm.network :forwarded_port, guest: 8001, host: 8001
     	chef.vm.network :private_network, ip: "192.168.33.11"
     	chef.vm.synced_folder "html", "/usr/local/apache2/htdocs"
         chef.vm.provision :shell, :inline => provision_script
