@@ -1,0 +1,1 @@
+../default/mysql56_spec.rb

@@ -1,6 +1,5 @@
 require 'serverspec'
 require 'net/ssh'
-require 'tempfile'
 require 'json'
 
 set :backend, :ssh
@@ -19,13 +18,7 @@ end
 host = ENV['TARGET_HOST']
 set_property JSON.parse(File.read("nodes/#{host}.json"))
 
-`vagrant up #{host}`
-
-config = Tempfile.new('', Dir.tmpdir)
-config.write(`vagrant ssh-config #{host}`)
-config.close
-
-options = Net::SSH::Config.for(host, [config.path])
+options = Net::SSH::Config.for(host)
 
 options[:user] ||= Etc.getlogin
 

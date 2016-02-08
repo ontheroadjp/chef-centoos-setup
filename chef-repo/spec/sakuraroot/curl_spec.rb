@@ -1,0 +1,1 @@
+../default/curl_spec.rb
