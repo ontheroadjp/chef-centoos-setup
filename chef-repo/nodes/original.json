@@ -12,19 +12,8 @@
         "vim-lua" : true
     },
 	"run_list": [
-		"recipe[users]",
-		"recipe[yum]",
-		"recipe[tools]",
-		"recipe[curl]",
-		"recipe[apache2::2.4.18]",
-		"recipe[mysql56]",
-		"recipe[php56::5.6.17]",
-        "recipe[service]",
-        "recipe[ruby]",
-        "recipe[webapp_dev_env]",
-		"recipe[iptables::flush]"
 	],
 	"automatic": {
-		"ipaddress": "centos"
+		"ipaddress": "original"
 	}
 }
