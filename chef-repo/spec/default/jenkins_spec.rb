@@ -20,14 +20,19 @@ end
 describe package('jenkins') do
     it { should be_installed }
 end
+describe user('jenkins') do
+    it { should exist }
+    it { should have_login_shell '/bin/false' }
+    it { should belong_to_group 'wheel' }
+end
 describe file('/etc/sysconfig/jenkins') do
     it { should be_file }
     it { should be_owned_by 'root' }
     it { should be_grouped_into 'root' }
     it { should be_mode '600' }
     its(:contain) { "JENKINS_JAVA_OPTIONS=\"-Djava.awt.headless=true -Dhudson.util.ProcessTree.disable =true -Dorg.apache.commons.jelly.tags.fmt.timeZone=Asia/Tokyo" }
-    its(:contain) { "JENKINS_PORT=\"8001\"" }
-    its(:contain) { "JENKINS_ARGS=\"--prefix=/jenkins\"" }
+    its(:contain) { "JENKINS_PORT=property['jenkins']['port']" }
+    its(:contain) { "JENKINS_ARGS=\"--prefix=property['jenkins']['prefix']" }
 end
 
 # Start Jenkins
