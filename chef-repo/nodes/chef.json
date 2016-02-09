@@ -21,6 +21,8 @@
 	"service" : {
 		"httpd" : true,
 		"mysqld" : true,
+		"webmin" : true,
+		"usermin" : true,
 		"jenkins" : true
 	},
 	"run_list": [
@@ -35,6 +37,8 @@
         "recipe[service]",
         "recipe[ruby]",
         "recipe[webapp_dev_env]",
+        "recipe[webmin]",
+        "recipe[usermin]",
         "recipe[jenkins]"
 	],
 	"automatic": {
