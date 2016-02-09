@@ -40,9 +40,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
     config.vm.define :chef do | chef |
         chef.vm.hostname = "chef"
-        chef.vm.network :forwarded_port, guest: 80, host: 8081
-    	chef.vm.network :forwarded_port, guest: 3306, host: 3306
-    	chef.vm.network :forwarded_port, guest: 8001, host: 8001
+        chef.vm.network :forwarded_port, guest: 80, host: 8081      # httpd
+    	chef.vm.network :forwarded_port, guest: 3306, host: 3306    # mysqld
+    	chef.vm.network :forwarded_port, guest: 8001, host: 8001    # jenkins
+    	chef.vm.network :forwarded_port, guest: 10000, host: 10000  # webmin
+    	chef.vm.network :forwarded_port, guest: 20000, host: 20000  # usermin
     	chef.vm.network :private_network, ip: "192.168.33.11"
     	chef.vm.synced_folder "html", "/usr/local/apache2/htdocs"
         chef.vm.provision :shell, :inline => provision_script
