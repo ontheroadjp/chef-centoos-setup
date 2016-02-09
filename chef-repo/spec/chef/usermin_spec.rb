@@ -1,0 +1,1 @@
+../default/usermin_spec.rb
