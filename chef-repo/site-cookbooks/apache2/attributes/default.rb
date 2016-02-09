@@ -1,3 +1,4 @@
-default['httpd']['server_admin']    = 'root@localhost'
-default['httpd']['server_name']     = 'www.example.com:80'
+default['httpd']['server_admin'] = 'root@localhost'
+default['httpd']['server_name'] = 'www.example.com:80'
+default['httpd']['ssl'] = true
 
