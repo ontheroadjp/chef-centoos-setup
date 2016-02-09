@@ -3,6 +3,9 @@
 		"server_admin" : "vagrant@localhost",
 		"server_name" : "www.vagrant.com:80"
 	},
+	"mysql" : {
+		"root_password" : "root"
+	},
 	"jenkins" : {
 		"prefix" : "/",
 		"port" : 8001
