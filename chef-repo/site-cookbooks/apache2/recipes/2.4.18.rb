@@ -52,29 +52,27 @@ execute "APR - Build.." do
         ./configure \
         --prefix=/opt/apr/apr-1.5.2 \
         2>&1 | tee log_configure.txt
-        make -j8 2>&1 | tee log_make.txt
-        make install 2>&1 | tee log_make_install.txt
         EOH
     action :run
 end
-#execute "APR make" do
-#    cwd "/usr/local/src/apr-1.5.2"
-#    user "root"
-#    environment(
-#        "USE_CCACHE" => "1",
-#        "CCACHE_DIR" => "/root/.ccache",
-#        "CC" => "ccache gcc",
-#        "CXX" => "ccache g++"
-#    )
-#    command "make -j4"
-#    action :run
-#end
-#execute "APR make install" do
-#    cwd "/usr/local/src/apr-1.5.2"
-#    user "root"
-#    command "make install"
-#    action :run
-#end
+execute "APR make" do
+    cwd "/usr/local/src/apr-1.5.2"
+    user "root"
+    environment(
+        "USE_CCACHE" => "1",
+        "CCACHE_DIR" => "/root/.ccache",
+        "CC" => "ccache gcc",
+        "CXX" => "ccache g++"
+    )
+    command "make -j8 2>&1 | tee log_make.txt"
+    action :run
+end
+execute "APR make install" do
+    cwd "/usr/local/src/apr-1.5.2"
+    user "root"
+    command "make install 2>&1 | tee log_make_install.txt"
+    action :run
+end
 
 
 # -------------------------------------
@@ -109,29 +107,27 @@ execute "APR-util - Build.." do
         --prefix=/opt/apr/apr-util-1.5.4 \
         --with-apr=/opt/apr/apr-1.5.2 \
         2>&1 | tee log_configure.txt
-        make -j8 2>&1 | tee log_make.txt
-        make install 2>&1 | tee log_make_install.txt
         EOH
     action :run
 end
-#execute "APR-util make" do
-#    cwd "/usr/local/src/apr-util-1.5.4"
-#    user "root"
-#    environment(
-#        "USE_CCACHE" => "1",
-#        "CCACHE_DIR" => "/root/.ccache",
-#        "CC" => "ccache gcc",
-#        "CXX" => "ccache g++"
-#    )
-#    command "make -j4"
-#    action :run
-#end
-#execute "APR-util make install" do
-#    cwd "/usr/local/src/apr-util-1.5.4"
-#    user "root"
-#    command "make -j4 install"
-#    action :run
-#end
+execute "APR-util make" do
+    cwd "/usr/local/src/apr-util-1.5.4"
+    user "root"
+    environment(
+        "USE_CCACHE" => "1",
+        "CCACHE_DIR" => "/root/.ccache",
+        "CC" => "ccache gcc",
+        "CXX" => "ccache g++"
+    )
+    command "make -j8 2>&1 | tee log_make.txt"
+    action :run
+end
+execute "APR-util make install" do
+    cwd "/usr/local/src/apr-util-1.5.4"
+    user "root"
+    command "make install 2>&1 | tee log_make_install.txt"
+    action :run
+end
 
 # -------------------------------------
 # Install Apache: http://apr.apache.org/download.cgi
@@ -157,7 +153,7 @@ execute "httpd(Apache2) - Untarball" do
     only_if { ::File.exists?("/usr/local/src/httpd-2.4.18.tar.gz")}
     not_if { ::File.exists?("/usr/local/src/httpd-2.4.18")}
 end
-execute "httpd(apache2) - Build.." do
+execute "httpd(apache2) - ./configure" do
     cwd "/usr/local/src/httpd-2.4.18"
     user "root"
     #environment(
@@ -180,29 +176,27 @@ execute "httpd(apache2) - Build.." do
         --with-mcrypt \
         --with-gettext \
         2>&1 | tee log_configure.txt
-        make -j8 2>&1 | tee log_make.txt
-        make install 2>&1 | tee log_make_install.txt
         EOH
     action :run
 end
-#execute "httpd(apache2) make" do
-#    cwd "/usr/local/src/httpd-2.4.18"
-#    user "root"
-#    environment(
-#        "USE_CCACHE" => "1",
-#        "CCACHE_DIR" => "/root/.ccache",
-#        "CC" => "ccache gcc",
-#        "CXX" => "ccache g++"
-#    )
-#    command "make -j4"
-#    action :run
-#end
-#execute "httpd(apache2) make install" do
-#    cwd "/usr/local/src/httpd-2.4.18"
-#    user "root"
-#    command "make install"
-#    action :run
-#end
+execute "httpd(apache2) make" do
+    cwd "/usr/local/src/httpd-2.4.18"
+    user "root"
+    environment(
+        "USE_CCACHE" => "1",
+        "CCACHE_DIR" => "/root/.ccache",
+        "CC" => "ccache gcc",
+        "CXX" => "ccache g++"
+    )
+    command "make -j8 2>&1 | tee log_make.txt"
+    action :run
+end
+execute "httpd(apache2) make install" do
+    cwd "/usr/local/src/httpd-2.4.18"
+    user "root"
+    command "make install 2>&1 | tee log_make_install.txt"
+    action :run
+end
 
 # Change directory group and owner
 directory "/usr/local/apache2" do
