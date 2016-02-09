@@ -31,6 +31,14 @@ service "webmin" do
     only_if {node['service']['webmin']}
 end
 
+# Start usermin
+service "usermin" do
+    action [:start, :enable]
+    supports :status => true, :restart => true, :reload => true
+    only_if { ::File.exists?("/etc/rc.d/init.d/usermin")}
+    only_if {node['service']['usermin']}
+end
+
 # Start Jenkins
 service "jenkins" do
     action [:start, :enable]
