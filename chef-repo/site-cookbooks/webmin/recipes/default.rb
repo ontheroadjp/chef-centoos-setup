@@ -28,12 +28,12 @@ rpm_package "webmin-1.780-1.noarch" do
 	source "#{Chef::Config[:file_cache_path]}/webmin-1.780-1.noarch.rpm"
 	action :install
 end
-#template "/etc/webmin/miniserv.conf" do
-#  source "miniserv.conf.erb"
-#  owner "root"
-#  group "root"
-#  mode 0600
-#end
+template "/etc/webmin/config" do
+  source "config.erb"
+  owner "root"
+  group "root"
+  mode 0644
+end
 
 # Regist service
 execute "regist service" do
