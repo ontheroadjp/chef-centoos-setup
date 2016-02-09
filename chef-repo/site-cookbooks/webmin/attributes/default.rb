@@ -1,0 +1,1 @@
+default['service']['webmin'] = true

@@ -21,6 +21,7 @@
 	"service" : {
 		"httpd" : true,
 		"mysqld" : true,
+		"webmin" : true,
 		"jenkins" : true
 	},
 	"run_list": [
