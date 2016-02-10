@@ -1,7 +1,14 @@
 {
 	"httpd" : {
-		"server_admin" : "root@localhost",
-		"server_name" : "www.example.com:80"
+		"server_admin" : "vagrant@localhost",
+		"server_name" : "www.vagrant.com:80"
+	},
+	"mysql" : {
+		"root_password" : "root"
+	},
+	"jenkins" : {
+		"prefix" : "/",
+		"port" : 8001
 	},
     "tools" : {
         "git" : true,
@@ -11,6 +18,13 @@
         "vim" : false,
         "vim-lua" : true
     },
+	"service" : {
+		"httpd" : true,
+		"mysqld" : true,
+		"webmin" : true,
+		"usermin" : true,
+		"jenkins" : true
+	},
 	"run_list": [
 		"recipe[users]",
 		"recipe[yum]",
@@ -19,13 +33,16 @@
 		"recipe[apache2::2.4.18]",
 		"recipe[mysql56]",
 		"recipe[php56::5.6.17]",
+        "recipe[webmin]",
+        "recipe[usermin]",
+		"recipe[iptables::flush]",
         "recipe[service]",
         "recipe[ruby]",
         "recipe[webapp_dev_env]",
-
-		"recipe[iptables]"
+        "recipe[jenkins]"
 	],
 	"automatic": {
 		"ipaddress": "sakuraroot"
 	}
 }
+
