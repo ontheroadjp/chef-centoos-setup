@@ -18,10 +18,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             cpus = 2
     end
     
-    provision_script = <<-EOH
-        yum install -y git
-    EOH
-
     config.vm.provider "virtualbox" do |vb|
         #vb.customize ["modifyvm", :id, "--cpus", cups]
         vb.customize ["modifyvm", :id, "--cpus", 3]
@@ -30,6 +26,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
         #vb.gui = true
     end
+
+    # Provision
+    provision_script = <<-EOH
+        yum install -y git
+    EOH
 
     # VMs
     config.vm.define :original do | original |
