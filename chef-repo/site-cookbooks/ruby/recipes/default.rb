@@ -10,7 +10,7 @@
 #include_recipe "openssl"
 
 #package install needed
-packages = [ 'readline-devel']
+packages = [ 'bzip2','readline-devel']
 packages.each do | pkg |
     package pkg do
         action [:install, :upgrade]
