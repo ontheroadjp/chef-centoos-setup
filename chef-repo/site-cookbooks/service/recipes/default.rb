@@ -47,5 +47,13 @@ service "jenkins" do
     only_if {node['service']['jenkins']}
 end
 
+# Start docker
+service "docker" do
+    action [:start, :enable]
+    supports :status => true, :restart => true, :reload => true
+    only_if { ::File.exists?("/etc/rc.d/init.d/docker")}
+    only_if {node['service']['docker']}
+end
+
 
 
