@@ -34,13 +34,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # VMs
     config.vm.define :original do | original |
-        original.vm.hostname = "original"
+        original.vm.hostname = "vagrant-original"
         original.vm.network :forwarded_port, guest: 80, host: 8080
     	original.vm.network :private_network, ip: "192.168.33.10"
         original.vm.provision :shell, :inline => provision_script
     end
     config.vm.define :chef do | chef |
-        chef.vm.hostname = "chef"
+        chef.vm.hostname = "vagrang-chef"
         chef.vm.network :forwarded_port, guest: 80, host: 8081      # httpd
     	chef.vm.network :forwarded_port, guest: 3306, host: 3306    # mysqld
     	chef.vm.network :forwarded_port, guest: 8001, host: 8001    # jenkins
