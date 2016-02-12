@@ -67,27 +67,3 @@ template "/etc/pam.d/su" do
   mode 0644
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
