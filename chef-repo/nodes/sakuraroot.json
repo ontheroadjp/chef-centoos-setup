@@ -23,7 +23,8 @@
 		"mysqld" : true,
 		"webmin" : true,
 		"usermin" : true,
-		"jenkins" : true
+		"jenkins" : true,
+		"docker" : true
 	},
 	"run_list": [
 		"recipe[users]",
