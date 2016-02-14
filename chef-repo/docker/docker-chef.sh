@@ -1,4 +1,12 @@
-#!/bin/sh
+#!/bin/sh -xe
+
+# RSA キーペアの生成
+#file=$HOME/.ssh/id_rsa.pub
+#if [ ! -f $file ]; then
+#    ssh-keygen -t rsa -P "" << EOF
+#    EOF
+#fi
+#cp $file ./
 
 # Docker イメージの作成
 docker build -t nuts/sshd .
@@ -15,12 +23,10 @@ echo 'IPAddress: '${ipaddress}
 echo '-----------------------------'
 
 # Chef の nodes/xxx.json を作成
-#rm ../nodes/172.17.0.*.json
-#cp ./template.json ../nodes/${ipaddress}.json
-rm ./nodes/172.17.0.*.json
-cp ./docker/template.json ./nodes/${ipaddress}.json
+cp ./docker/templates/jenkins.json ./nodes/${ipaddress}.json
 
 # Chef の実行
+#knife solo bootstrap root@${ipaddress} --defaults -i /var/lib/jenkins/.ssh/id_rsa
 knife solo bootstrap root@${ipaddress} --defaults 
 
 # コンテナの停止
