@@ -23,7 +23,7 @@ echo 'IPAddress: '${ipaddress}
 echo '-----------------------------'
 
 # Chef の nodes/xxx.json を作成
-cp ./docker/templates/jenkins.json ./nodes/${ipaddress}.json
+cp ./docker/jenkins.json ./nodes/${ipaddress}.json
 
 # Chef の実行
 #knife solo bootstrap root@${ipaddress} --defaults -i /var/lib/jenkins/.ssh/id_rsa
