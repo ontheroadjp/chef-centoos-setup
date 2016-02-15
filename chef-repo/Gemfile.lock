@@ -39,6 +39,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  rspec-its
   serverspec
 
 BUNDLED WITH
