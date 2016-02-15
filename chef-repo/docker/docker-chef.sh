@@ -21,8 +21,18 @@ cp ./docker/node.json ./nodes/${ipaddress}.json
 
 # Chef の実行
 #knife solo bootstrap root@${ipaddress} --defaults -i /var/lib/jenkins/.ssh/id_rsa
-#knife solo bootstrap root@${ipaddress} --defaults 
-knife solo bootstrap $(whoami)@${ipaddress} --defaults 
+knife solo bootstrap root@${ipaddress} --defaults || RET=$?
+
+
+export LANG=ja_JP.UTF-8
+cp -r spec/chef ./spec/${ipaddress}
+chown jenkins:jenkins ./spec/${ipaddress}
+#echo 'Host '${ipaddress} >> $HOME/.ssh/config
+#echo 'HostName '${ipaddress} >> $HOME/.ssh/config
+#echo 'Port 22' >> $HOME/.ssh/config
+#echo 'User root' >> $HOME/.ssh/config
+#rake spec:${ipaddress} USER=root KEY=./docker/id_rsa_root.pub TARGET_HOST=${ipaddress}
+rake spec:${ipaddress} USER=root KEY=./docker/id_rsa_root.pub TARGET_HOST=${ipaddress} LOGIN_PASSWARD=root rake spec
 
 # コンテナの停止
 echo 'stop container: '${container_id}
@@ -37,4 +47,5 @@ echo 'remove ./nodes/'${ipaddress}'.json'
 rm ./nodes/${ipaddress}.json
 
 echo 'complete!'
+exit $RET
 
