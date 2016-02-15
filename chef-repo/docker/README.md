@@ -1,25 +1,20 @@
-# Jenkins-Chef-CentOS-Setup
+# Docker-Chef
 
-## Files
+## 概要
 
-|ファイル/ディレクトリ|説明|備考|
-|:---|:---|:--|
-|.chef|||
-|Dockerfile|||
-|docker-chef.sh|||
-|sshd_config|/etc/ssh/sshd_config|
-|sudoers|/etc/pam.d/su||
-|template.json|||
+* Docker コンテナを用いた Chef レシピのテスト実行スクリプト
+* 以下を自動実行する
 
+	1. Docker コンテナの起動
+	2. Docker コンテナに対して Chef レシピの適用
+	3. Docker コンテナの停止
+	4. Docker コンテナの破棄
 
-```
-.
-├── Dockerfile				# Docker イメージ構築用
-├── README.md				# readme
-├── docker-chef.sh		# メインスクリプト
-├── sshd_config			# Docker に配置されるテンプレート
-├── sudoers
-└── template.json
+## 使い方
+
+* chef-repo ディレクトリで以下のコマンド実行する
+
+```bash
+$ sh docker/docker-chef.sh
 ```
 
-0 directories, 8 files
