@@ -1,13 +1,13 @@
 require 'serverspec'
 require 'net/ssh'
+require 'tempfile'
 require 'json'
-require 'highline/import'
 
 set :backend, :ssh
 
 if ENV['ASK_SUDO_PASSWORD']
   begin
-#    require 'highline/import'
+    require 'highline/import'
   rescue LoadError
     fail "highline is not available. Try installing it."
   end
@@ -19,11 +19,15 @@ end
 host = ENV['TARGET_HOST']
 set_property JSON.parse(File.read("nodes/#{host}.json"))
 
-options = Net::SSH::Config.for(host)
-options[:user] = ENV['USER'] || Erc.getlogin
-options[:keys] = ENV['KEY']
-#options[:passphrase] = ENV['PASSPHRASE'];
-options[:password] = 'root' || ENV['LOGIN_PASSWORD']
+`vagrant up #{host}`
+
+config = Tempfile.new('', Dir.tmpdir)
+config.write(`vagrant ssh-config #{host}`)
+config.close
+
+options = Net::SSH::Config.for(host, [config.path])
+
+options[:user] ||= Etc.getlogin
 
 set :host,        options[:host_name] || host
 set :ssh_options, options
