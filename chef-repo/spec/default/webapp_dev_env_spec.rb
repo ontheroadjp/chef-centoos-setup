@@ -1,5 +1,12 @@
 require 'serverspec'
 
+packages = ['which']
+packages.each do | pkg |
+    describe package("#{pkg}") do
+        it { should be_installed }
+    end
+end
+
 # Install Node.js
 # Install npm
 packages = ['nodejs','npm']
