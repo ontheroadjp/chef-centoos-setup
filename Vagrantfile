@@ -2,11 +2,12 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-    config.vm.box = "nrel/CentOS-6.7-x86_64"
-    config.vm.box_url = "https://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.7-x86_64-v20151108.box"
+    #config.vm.box = "nrel/CentOS-6.7-x86_64"
+    #config.vm.box_url = "https://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.7-x86_64-v20151108.box"
   
-    # config.vm.box = "bento/centos-6.7"
-
+    config.vm.box = "CentOS7.1"
+    config.vm.box_url = "vagrant box add CentOS7 https://github.com/holms/vagrant-centos7-box/releases/download/7.1.1503.001/CentOS-7.1.1503-x86_64-netboot.box"
+  
     host = RbConfig::CONFIG['host_os']
     
     case host
@@ -30,6 +31,22 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Provision
     provision_script = <<-EOH
         yum install -y git
+        yum install -y vim-enhanced
+
+        # Docker
+        yum install -y docker-io
+        groupadd docker
+        gpasswd -a vagrant docker
+
+        # Chef Development Kit & knife-solo
+        wget https://opscode-omnibus-packages.s3.amazonaws.com/el/6/x86_64/chefdk-0.10.0-1.el6.x86_64.rpm
+        rpm -ivh chefdk-0.10.0-1.el6.x86_64.rpm
+        chef gem install knife-solo
+
+        # bundller
+        yum install -y ruby-devel
+        gem install bundler
+        export PATH=/home/vagrant/bin:$PATH
     EOH
 
     # VMs

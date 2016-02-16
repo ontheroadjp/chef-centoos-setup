@@ -36,8 +36,16 @@ template "/etc/webmin/config" do
 end
 
 # Regist service
-execute "regist service" do
-    user "root"
-    command "chkconfig --add webmin"
-    action :run
+if platform_family?('rhel') && node['platform_version'].to_i == 6 then
+    execute "regist service" do
+        user "root"
+        command "chkconfig --add webmin"
+        action :run
+    end
+elsif platform_family?('rhel') && node['platform_version'].to_i == 7 then
+    execute "regist service" do
+        user "root"
+        command "systemctl enable webmin"
+        action :run
+    end
 end

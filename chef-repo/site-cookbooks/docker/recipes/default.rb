@@ -22,15 +22,22 @@ group "docker" do
 end
 
 # install docker
-package "docker-io" do
-    options "--enablerepo=epel"
-	action [:install, :upgrade]
+if platform_family?('rhel') && node['platform_version'].to_i == 6 then
+    package "docker-io" do
+        options "--enablerepo=epel"
+    	action [:install, :upgrade]
+    end
+elsif platform_family?('rhel') && node['platform_version'].to_i == 7 then
+    package "docker-io" do
+    	action [:install, :upgrade]
+    end
 end
 
-# regist docker
-execute "regist docker" do
-    user "root"
-    command "chkconfig --add docker"
-    action :run
+# Start docker
+service "docker" do
+    action [:start, :enable]
+    supports :status => true, :restart => true, :reload => true
+    only_if {node['service']['docker']}
 end
+
 

@@ -132,14 +132,14 @@ end
 # -------------------------------------
 # Install Apache: http://apr.apache.org/download.cgi
 # -------------------------------------
-packages = ['httpd-devel','pcre','pcre-devel','libmcrypt','libmcrypt-devel','gettext','gettext-devel']
+#packages = ['httpd-devel','pcre','pcre-devel','libmcrypt','libmcrypt-devel','gettext','gettext-devel']
+packages = ['pcre','pcre-devel','libmcrypt','libmcrypt-devel','gettext','gettext-devel']
 packages.each do | pkg |
     package pkg do
         action [:install, :upgrade]
         options "--enablerepo=epel"
     end
 end
-
 remote_file "/usr/local/src/httpd-2.4.18.tar.gz" do
     source 'http://ftp.jaist.ac.jp/pub/apache//httpd/httpd-2.4.18.tar.gz'
     action :create
@@ -214,18 +214,31 @@ template "/usr/local/apache2/conf/httpd.conf" do
   mode 0644
 end
 
-# Add service script
-template "/etc/rc.d/init.d/httpd" do
-  source "2.4.18/httpd.init.erb"
-  owner "root"
-  group "root"
-  mode 0755
+# Start apache
+service "httpd" do
+    action [:start, :enable]
+    supports :status => true, :restart => true, :reload => true
+    #only_if { ::File.exists?("/etc/rc.d/init.d/httpd")}
+    only_if {node['service']['httpd']}
 end
-
 # Regist service
-execute "regist service" do
-    user "root"
-    command "chkconfig --add httpd"
-    action :run
-end
+#template "/etc/rc.d/init.d/httpd" do
+#  source "2.4.18/httpd.init.erb"
+#  owner "root"
+#  group "root"
+#  mode 0755
+#end
+#if platform_family?('rhel') && node['platform_version'].to_i == 6 then
+#    execute "regist service" do
+#        user "root"
+#        command "chkconfig --add httpd"
+#        action :run
+#    end
+#elsif platform_family?('rhel') && node['platform_version'].to_i == 7 then
+#    execute "regist service" do
+#        user "root"
+#        command "systemctl enable httpd.service"
+#        action :run
+#    end
+#end
 
