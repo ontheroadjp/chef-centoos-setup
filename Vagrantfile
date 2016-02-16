@@ -42,6 +42,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         wget https://opscode-omnibus-packages.s3.amazonaws.com/el/6/x86_64/chefdk-0.10.0-1.el6.x86_64.rpm
         rpm -ivh chefdk-0.10.0-1.el6.x86_64.rpm
         chef gem install knife-solo
+
+        # bundller
+        yum install -y ruby-devel
+        gem install bundler
+        export PATH=/home/vagrant/bin:$PATH
     EOH
 
     # VMs
