@@ -1,7 +1,14 @@
 require 'serverspec'
 require 'net/ssh'
 require 'json'
-require 'highline/import'
+require 'ohai'
+
+ohai = Ohai::System.new
+ohai.all_plugins
+
+puts '----------------------------------'
+puts 'Hello! ' + ohai[:platform]
+puts '----------------------------------'
 
 set :backend, :ssh
 

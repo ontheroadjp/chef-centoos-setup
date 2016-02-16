@@ -166,7 +166,7 @@ end
 service "mysqld" do
     action [:start, :enable]
     supports :status => true, :restart => true, :reload => true
-    only_if { ::File.exists?("/etc/rc.d/init.d/mysqld")}
+    #only_if { ::File.exists?("/etc/rc.d/init.d/mysqld")}
     only_if {node['service']['mysqld']}
 end
 
@@ -201,11 +201,3 @@ end
 #    mode 0644
 #end
 
-## phpMyAdmin
-#%w{phpMyAdmin}.each do |pkg|
-#  package pkg do
-#    # action [:install, :upgrade]
-#    action :install
-#    options "--enablerepo=remi --enablerepo=remi-php55"
-#  end
-#end

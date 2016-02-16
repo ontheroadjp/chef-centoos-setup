@@ -11,7 +11,7 @@
 service "httpd" do
     action [:start, :enable]
     supports :status => true, :restart => true, :reload => true
-    only_if { ::File.exists?("/etc/rc.d/init.d/httpd")}
+    #only_if { ::File.exists?("/etc/rc.d/init.d/httpd")}
     only_if {node['service']['httpd']}
 end
 
@@ -19,7 +19,7 @@ end
 service "mysqld" do
     action [:start, :enable]
     supports :status => true, :restart => true, :reload => true
-    only_if { ::File.exists?("/etc/rc.d/init.d/mysqld")}
+    #only_if { ::File.exists?("/etc/rc.d/init.d/mysqld")}
     only_if {node['service']['mysqld']}
 end
 
@@ -27,7 +27,7 @@ end
 service "webmin" do
     action [:start, :enable]
     supports :status => true, :restart => true, :reload => true
-    only_if { ::File.exists?("/etc/rc.d/init.d/webmin")}
+    #only_if { ::File.exists?("/etc/rc.d/init.d/webmin")}
     only_if {node['service']['webmin']}
 end
 
@@ -35,7 +35,7 @@ end
 service "usermin" do
     action [:start, :enable]
     supports :status => true, :restart => true, :reload => true
-    only_if { ::File.exists?("/etc/rc.d/init.d/usermin")}
+    #only_if { ::File.exists?("/etc/rc.d/init.d/usermin")}
     only_if {node['service']['usermin']}
 end
 
@@ -43,7 +43,7 @@ end
 service "jenkins" do
     action [:start, :enable]
     supports :status => true, :restart => true, :reload => true
-    only_if { ::File.exists?("/etc/rc.d/init.d/jenkins")}
+    #only_if { ::File.exists?("/etc/rc.d/init.d/jenkins")}
     only_if {node['service']['jenkins']}
 end
 
@@ -51,9 +51,8 @@ end
 service "docker" do
     action [:start, :enable]
     supports :status => true, :restart => true, :reload => true
-    only_if { ::File.exists?("/etc/rc.d/init.d/docker")}
+    #only_if { ::File.exists?("/etc/rc.d/init.d/docker")}
     only_if {node['service']['docker']}
 end
-
 
 

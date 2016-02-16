@@ -1,4 +1,8 @@
 require 'spec_helper'
+require 'ohai'
+
+ohai = Ohai::System.new
+ohai.all_plugins
 
 # Create user:apache
 describe user('apache') do
@@ -73,21 +77,22 @@ describe file('/usr/local/apache2/conf/httpd.conf') do
 end
 
 # Add service script
-describe file('/etc/rc.d/init.d/httpd') do
-    it { should be_file }
-    it { should be_owned_by 'root' }
-    it { should be_grouped_into 'root' }
-    it { should be_mode '755' }
-end
-
-describe command('chkconfig --list httpd') do
-    its(:stdout) { should match /0:off/ }
-    its(:stdout) { should match /1:off/ }
-    its(:stdout) { should match /2:on/ }
-    its(:stdout) { should match /3:on/ }
-    its(:stdout) { should match /4:on/ }
-    its(:stdout) { should match /5:on/ }
-    its(:stdout) { should match /6:off/ }
+if ohai[:platform_family] == 'rhel' && ohai[:platform_version].to_i == 6 then
+    describe file('/etc/rc.d/init.d/httpd') do
+        it { should be_file }
+        it { should be_owned_by 'root' }
+        it { should be_grouped_into 'root' }
+        it { should be_mode '755' }
+    end
+    describe command('chkconfig --list httpd') do
+        its(:stdout) { should match /0:off/ }
+        its(:stdout) { should match /1:off/ }
+        its(:stdout) { should match /2:on/ }
+        its(:stdout) { should match /3:on/ }
+        its(:stdout) { should match /4:on/ }
+        its(:stdout) { should match /5:on/ }
+        its(:stdout) { should match /6:off/ }
+    end
 end
 
 # Regist service
