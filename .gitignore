@@ -1,6 +1,9 @@
-chef-repo/data_bags/users/
+chef-repo/data_bags/
 chef-repo/.chef/data_bag_key
 chef-repo/vendor/*
+chef-repo/docker/Dockerfile
+chef-repo/docker/id_rsa*
+
 
 backup.sh
 .DS_STORE
@@ -10,5 +13,4 @@ backup.sh
 www
 html/*
 !html/.gitkeep
-
 
