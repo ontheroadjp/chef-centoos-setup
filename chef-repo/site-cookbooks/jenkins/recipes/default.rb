@@ -49,6 +49,14 @@ group "wheel" do
     action :modify
 end
 
+# set sudoers
+template "/etc/sudoers.d/jenkins" do
+  source "jenkins_sudoers.erb"
+  owner "root"
+  group "root"
+  mode 0440
+end
+
 # Start Jenkins
 service "jenkins" do
   action [:start, :enable]

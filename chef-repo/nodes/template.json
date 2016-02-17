@@ -1,7 +1,7 @@
 {
 	"httpd" : {
-		"server_admin" : "vagrant@localhost",
-		"server_name" : "www.vagrant.com:80"
+		"server_admin" : "docker@localhost",
+		"server_name" : "www.docker.com:80"
 	},
 	"mysql" : {
 		"root_password" : "root"
@@ -36,15 +36,13 @@
 		"recipe[php56::5.6.17]",
         "recipe[webmin]",
         "recipe[usermin]",
-        "recipe[ruby]",
-        "recipe[webapp_dev_env]",
         "recipe[jenkins]",
-        "recipe[docker]",
-        "recipe[chef]",
-        "recipe[service]"
+		"recipe[iptables::flush]",
+        "recipe[service]",
+        "recipe[ruby]",
+        "recipe[webapp_dev_env]"
 	],
 	"automatic": {
-		"ipaddress": "sakuraroot"
+		"ipaddress": "chef"
 	}
 }
-

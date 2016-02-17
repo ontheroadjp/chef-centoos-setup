@@ -18,6 +18,13 @@
 #    only_if 'which gem'
 #end
 
+packages = ['which']
+packages.each do | pkg |
+    package pkg do
+        action [:install, :upgrade]
+    end
+end
+
 # Install Node.js
 package ['nodejs'] do
     action :install

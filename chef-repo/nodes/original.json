@@ -1,15 +1,13 @@
 {
 	"httpd" : {
-		"server_admin" : "vagrant@localhost",
-		"server_name" : "www.vagrant.com:80"
+	},
+	"mysql" : {
+	},
+	"jenkins" : {
 	},
     "tools" : {
-        "git" : true,
-        "ctags" : true,
-        "gettext" : true,
-        "htop" : true,
-        "vim" : false,
-        "vim-lua" : true
+    },
+    "service" : {
     },
 	"run_list": [
 	],

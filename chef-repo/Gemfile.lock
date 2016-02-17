@@ -1,12 +1,38 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    chef-config (12.7.2)
+      mixlib-config (~> 2.0)
+      mixlib-shellout (~> 2.0)
     diff-lcs (1.2.5)
+    ffi (1.9.10)
+    ffi-yajl (2.2.3)
+      libyajl2 (~> 1.2)
+    highline (1.7.8)
+    ipaddress (0.8.2)
+    libyajl2 (1.2.0)
+    mixlib-cli (1.5.0)
+    mixlib-config (2.2.1)
+    mixlib-log (1.6.0)
+    mixlib-shellout (2.2.6)
     multi_json (1.11.2)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (3.0.2)
     net-telnet (0.1.1)
+    ohai (8.10.0)
+      chef-config (>= 12.5.0.alpha.1, < 13)
+      ffi (~> 1.9)
+      ffi-yajl (~> 2.2)
+      ipaddress
+      mixlib-cli
+      mixlib-config (~> 2.0)
+      mixlib-log
+      mixlib-shellout (~> 2.0)
+      rake (~> 10.1)
+      systemu (~> 2.6.4)
+      wmi-lite (~> 1.0)
+    rake (10.5.0)
     rspec (3.4.0)
       rspec-core (~> 3.4.0)
       rspec-expectations (~> 3.4.0)
@@ -34,12 +60,17 @@ GEM
       net-ssh (>= 2.7, < 3.1)
       net-telnet
       sfl
+    systemu (2.6.5)
+    wmi-lite (1.0.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  highline
+  ohai
   serverspec
+  specinfra
 
 BUNDLED WITH
    1.11.2

@@ -10,7 +10,7 @@
 include_recipe "yum"
 
 # Install Build tools
-packages = ['autoconf','automake','libtool','flex','bison','gcc','make','kernel-headers','kernel-devel']
+packages = ['autoconf','automake','libtool','flex','bison','gcc','make','kernel-headers','kernel-devel','tar']
 packages.each do | pkg |
     package pkg do
         action [:install, :upgrade]

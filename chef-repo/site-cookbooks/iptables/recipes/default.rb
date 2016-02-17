@@ -16,6 +16,7 @@ template "/root/iptables_rules_setting.sh" do
 end
 
 execute "ipconfig_rules_setting" do
+    user "root"
 	command "sh /root/iptables_rules_setting.sh"
 end
 

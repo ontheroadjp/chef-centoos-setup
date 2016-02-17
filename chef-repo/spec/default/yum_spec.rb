@@ -1,4 +1,8 @@
 require 'spec_helper'
+require 'ohai'
+
+ohai = Ohai::System.new
+ohai.all_plugins
 
 # install fastestmirror plugin
 # install yum-priorities plugin
@@ -25,8 +29,24 @@ describe file('/etc/yum.repos.d/CentOS-Base.repo') do
 end
 
 # add epel repository and settings
-describe command('rpm -qa epel-release') do
-    its(:stdout) { should match /^epel-release-6-8.noarch$/ }
+if ohai[:platform_family] == 'rhel' && ohai[:platform_version].to_i == 6 then
+    describe command('rpm -qa epel-release') do
+        its(:stdout) { should match /^epel-release-6-8.noarch$/ }
+    end
+    describe file('/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6') do
+        it { should be_file }
+        it { should be_owned_by 'root' }
+        it { should be_mode '644' }
+    end
+elsif ohai[:platform_family] == 'rhel' && ohai[:platform_version].to_i == 7 then
+    describe command('rpm -qa epel-release') do
+        its(:stdout) { should match /^epel-release-7-5.noarch$/ }
+    end
+    describe file('/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7.1') do
+        it { should be_file }
+        it { should be_owned_by 'root' }
+        it { should be_mode '644' }
+    end
 end
 describe file('/etc/yum.repos.d/epel.repo') do
     it { should be_file }
@@ -35,11 +55,6 @@ describe file('/etc/yum.repos.d/epel.repo') do
     it { should contain 'enabled=0' }
     it { should be_owned_by 'root' }
     it { should be_grouped_into 'root' }
-    it { should be_mode '644' }
-end
-describe file('/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6') do
-    it { should be_file }
-    it { should be_owned_by 'root' }
     it { should be_mode '644' }
 end
 

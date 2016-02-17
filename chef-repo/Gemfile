@@ -1,3 +1,6 @@
 source 'https://rubygems.org'
 
 gem 'serverspec'
+gem 'specinfra'
+gem 'highline'
+gem 'ohai'

@@ -10,7 +10,7 @@
 #include_recipe "openssl"
 
 #package install needed
-packages = [ 'readline-devel']
+packages = [ 'bzip2','readline-devel']
 packages.each do | pkg |
     package pkg do
         action [:install, :upgrade]
@@ -102,6 +102,8 @@ execute 'Install ruby' do
     user 'root'
     command <<-EOH
         source /etc/profile.d/rbenv.sh
+        #rbenv install 1.9.3-p551
+        #rbenv global 1.9.3-p551
         rbenv install 2.3.0
         rbenv global 2.3.0
         EOH
