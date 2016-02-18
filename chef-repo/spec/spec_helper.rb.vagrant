@@ -8,7 +8,7 @@ ohai = Ohai::System.new
 ohai.all_plugins
 
 puts '--------------------------------------'
-puts 'Hello! ' + ohai[:platform] to vagrant
+puts 'Hello! ' + ohai[:platform] + 'to vagrant'
 puts '--------------------------------------'
 
 set :backend, :ssh

@@ -7,7 +7,7 @@ ohai = Ohai::System.new
 ohai.all_plugins
 
 puts '-------------------------------------'
-puts 'Hello! ' + ohai[:platform] to Docker
+puts 'Hello! ' + ohai[:platform] + 'to Docker'
 puts '-------------------------------------'
 
 set :backend, :ssh
