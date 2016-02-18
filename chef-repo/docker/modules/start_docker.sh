@@ -1,6 +1,6 @@
 #!/bin/sh -xe
 
-./docker/create_Dockerfile.sh
+./docker/modules/create_Dockerfile.sh
 
 # Docker イメージの作成
 docker build -t nuts/sshd ./docker
