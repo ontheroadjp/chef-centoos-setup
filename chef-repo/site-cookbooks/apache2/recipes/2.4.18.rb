@@ -214,6 +214,16 @@ template "/usr/local/apache2/conf/httpd.conf" do
   mode 0644
 end
 
+# Regist service
+if platform_family?('rhel') && node['platform_version'].to_i == 6 then
+    template "/etc/rc.d/init.d/httpd" do
+      source "2.4.18/httpd.init.erb"
+      owner "root"
+      group "root"
+      mode 0755
+    end
+end
+
 # Start apache
 service "httpd" do
     action [:start, :enable]
@@ -221,13 +231,7 @@ service "httpd" do
     #only_if { ::File.exists?("/etc/rc.d/init.d/httpd")}
     only_if {node['service']['httpd']}
 end
-# Regist service
-#template "/etc/rc.d/init.d/httpd" do
-#  source "2.4.18/httpd.init.erb"
-#  owner "root"
-#  group "root"
-#  mode 0755
-#end
+
 #if platform_family?('rhel') && node['platform_version'].to_i == 6 then
 #    execute "regist service" do
 #        user "root"
