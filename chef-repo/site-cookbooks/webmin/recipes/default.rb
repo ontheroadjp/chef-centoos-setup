@@ -35,17 +35,24 @@ template "/etc/webmin/config" do
   mode 0644
 end
 
-# Regist service
-if platform_family?('rhel') && node['platform_version'].to_i == 6 then
-    execute "regist service" do
-        user "root"
-        command "chkconfig --add webmin"
-        action :run
-    end
-elsif platform_family?('rhel') && node['platform_version'].to_i == 7 then
-    execute "regist service" do
-        user "root"
-        command "systemctl enable webmin"
-        action :run
-    end
+# Start webmin
+service "webmin" do
+    action [:start, :enable]
+    supports :status => true, :restart => true, :reload => true
+    #only_if { ::File.exists?("/etc/rc.d/init.d/httpd")}
+    only_if {node['service']['webmin']}
 end
+
+#if platform_family?('rhel') && node['platform_version'].to_i == 6 then
+#    execute "regist service" do
+#        user "root"
+#        command "chkconfig --add webmin"
+#        action :run
+#    end
+#elsif platform_family?('rhel') && node['platform_version'].to_i == 7 then
+#    execute "regist service" do
+#        user "root"
+#        command "systemctl enable webmin"
+#        action :run
+#    end
+#end

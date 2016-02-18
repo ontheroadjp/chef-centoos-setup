@@ -35,10 +35,24 @@ template "/etc/usermin/config" do
   mode 0755
 end
 
-# Regist service
-execute "regist service" do
-    user "root"
-    command "chkconfig --add usermin"
-    action :run
+# Start usermin
+service "usermin" do
+    action [:start, :enable]
+    supports :status => true, :restart => true, :reload => true
+    #only_if { ::File.exists?("/etc/rc.d/init.d/httpd")}
+    only_if {node['service']['usermin']}
 end
 
+#if platform_family?('rhel') && node['platform_version'].to_i == 6 then
+#    execute "regist service" do
+#        user "root"
+#        command "chkconfig --add usermin"
+#        action :run
+#    end
+#elsif platform_family?('rhel') && node['platform_version'].to_i == 7 then
+#    execute "regist service" do
+#        user "root"
+#        command "systemctl enable usermin"
+#        action :run
+#    end
+#end
