@@ -24,7 +24,8 @@
 		"webmin" : true,
 		"usermin" : true,
 		"jenkins" : true,
-		"docker" : true
+		"docker" : true,
+		"ntp" : true
 	},
 	"run_list": [
 		"recipe[users]",
