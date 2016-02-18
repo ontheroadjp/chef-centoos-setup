@@ -34,7 +34,7 @@ end
 
 # Install Jenkins
 package 'jenkins' do
-    action :install
+    action [:install, :upgrade]
     options '--enablerepo=jenkins'
 end
 template "/etc/sysconfig/jenkins" do
