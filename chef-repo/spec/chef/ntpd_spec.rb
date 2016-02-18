@@ -1,0 +1,1 @@
+../default/ntpd_spec.rb

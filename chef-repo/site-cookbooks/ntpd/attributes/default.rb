@@ -1,0 +1,2 @@
+default['service']['ntp'] = true
+
