@@ -1,9 +1,5 @@
 require 'spec_helper'
 
-# git のインストール
-# ctags のインストール
-# gettext のインストール
-# htop のインストール
 #packages = [ 'git','ctags','gettext','htop' ]
 #packages.each do | pkg |
 #    describe package("#{pkg}") do
@@ -11,7 +7,7 @@ require 'spec_helper'
 #    end
 #end
 
-# vim(vim-enhanced) のインストール
+# Install vim(vim-enhanced)
 packages = [ 'git','ctags','gettext','htop','vim' ]
 packages.each do | pkg |
     if property['tools']["#{pkg}"]
@@ -21,7 +17,7 @@ packages.each do | pkg |
     end
 end
 
-# vim-lua のインストール
+# Install vim-lua
 if property['tools']['vim-lua']
     packages = [ 'mercurial','ncurses-devel','lua','lua-devel' ]
     packages.each do | pkg |

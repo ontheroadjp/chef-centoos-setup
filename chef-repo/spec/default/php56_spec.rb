@@ -38,7 +38,7 @@ describe 'Installing PHP' do
     end
 end
 
-# モジュールのテスト
+# modules test
 extensions = ['curl','gd','gettext','json','libxml','mcrypt','mysqlnd','pcre','sqlite3']
 extensions.each do | ext |
     describe command('php -m | grep ' + ext) do
