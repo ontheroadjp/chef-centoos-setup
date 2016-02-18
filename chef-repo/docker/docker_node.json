@@ -26,7 +26,6 @@
         "recipe[chef]",
         "recipe[jenkins]",
         "recipe[webapp_dev_env]",
-		"recipe[iptables::flush]",
         "recipe[service]"
 	]
 }
