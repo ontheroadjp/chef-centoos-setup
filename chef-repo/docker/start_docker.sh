@@ -1,14 +1,14 @@
 #!/bin/sh -xe
 
-./docker/modules/create_Dockerfile.sh
+./docker/init.sh
 
-# Docker イメージの作成
-docker build -t nuts/sshd ./docker
+## build docker image
+#docker build -t nuts/sshd ./docker
 
-# Docker コンテナの生成
-container_id=`docker run -d nuts/sshd`
+# run container
+container_id=`docker run -d nuts/chef`
 
-# 生成したコンテナの IP アドレス取得
+# get IP address
 ipaddress=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' $(docker ps -q | awk 'NR==1')`
 
 echo '-----------------------------'
@@ -18,5 +18,5 @@ echo '-----------------------------'
 
 echo 'container_id='${container_id} >> ./docker/conf.txt
 echo 'ipaddress='${ipaddress} >> ./docker/conf.txt
-chown jenkins ./docker/conf.txt
+chown $(whoami) ./docker/conf.txt
 

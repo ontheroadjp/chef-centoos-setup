@@ -2,7 +2,7 @@
 
 . docker/conf.txt
 
-# Chef の nodes/xxxx.json の破棄
+# delete 'nodes/xxxx.json'
 echo 'remove ./nodes/'${ipaddress}'.json'
 rm ./nodes/${ipaddress}.json
 
