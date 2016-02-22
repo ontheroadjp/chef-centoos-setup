@@ -16,14 +16,6 @@ describe group('apache') do
     it { should exist }
 end
 
-# Install Build tools
-packages = ['wget','tar','gcc','gcc-c++','make','pcre','pcre-devel']
-packages.each do |pkg|
-    describe package("#{pkg}") do
-        it { should be_installed }
-    end
-end
-
 # Install ARP(Apache Portable Runtime): http://apr.apache.org/download.cgi
 # Install ARP-util: http://apr.apache.org/download.cgi
 describe file('/usr/local/src/apr-1.5.2.tar.gz') do
@@ -44,6 +36,13 @@ end
 
 # Install Apache: http://apr.apache.org/download.cgi
 # Change directory group and owner
+packages = ['pcre','pcre-devel','libmcrypt','libmcrypt-devel','gettext','gettext-deve']
+packages.each do |pkg|
+    describe package("#{pkg}") do
+        it { should be_installed }
+    end
+end
+
 describe file('/usr/local/src/httpd-2.4.18.tar.gz') do
     its(:md5sum) { should eq '2f90ce3426541817e0dfd01cae086b60' }
 end
@@ -52,7 +51,8 @@ describe file("/usr/local/apache2/bin/httpd") do
     it { should be_owned_by 'apache'}
     it { should be_grouped_into 'apache'}
 end  
-# モジュールのテスト
+
+# module tests
 describe command('ldd /usr/local/apache2/modules/mod_ssl.so | grep libssl.so') do
     its(:stdout) { should match /libssl\.so\.10 => \/usr\/lib64\/libssl\.so\.10/ }
 end
@@ -66,7 +66,7 @@ describe command('ldd /usr/local/apache2/bin/httpd | grep crypt') do
     its(:stdout) { should match /libcrypt\.so\.1 => \/lib64\/libcrypt\.so\.1/ }
 end
 
-#Replace httpd.conf
+# Replace httpd.conf
 describe file('/usr/local/apache2/conf/httpd.conf') do
     it { should be_file }
     it { should contain 'DocumentRoot "/usr/local/apache2/htdocs"' }
