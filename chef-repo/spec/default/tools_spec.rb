@@ -8,7 +8,7 @@ require 'spec_helper'
 #end
 
 # Install vim(vim-enhanced)
-packages = [ 'git','ctags','gettext','htop','vim' ]
+packages = [ 'git','ctags','gettext','htop','vim-enhanced' ]
 packages.each do | pkg |
     if property['tools']["#{pkg}"]
         describe package("#{pkg}") do

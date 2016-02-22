@@ -82,46 +82,6 @@ directory src_path do
     only_if {node['tools']['vim-lua']}
 end
 
-#remote_file "/usr/local/src/apr-1.5.2.tar.gz" do
-#    source 'http://ftp.yz.yamagata-u.ac.jp/pub/network/apache//apr/apr-1.5.2.tar.gz'
-#    action :create
-#    not_if { ::File.exists?("/usr/local/src/apr-1.5.2.tar.gz")}
-#end
-#execute "Un tarball" do
-#    cwd "/usr/local/src"
-#    user "root"
-#    command "tar -xvzf apr-1.5.2.tar.gz"
-#    action :run
-#    only_if { ::File.exists?("/usr/local/src/apr-1.5.2.tar.gz")}
-#    not_if { ::File.exists?("/usr/local/src/apr-1.5.2")}
-#end
-#execute "APR ./configure" do
-#    cwd "/usr/local/src/apr-1.5.2"
-#    user "root"
-#    environment(
-#        "USE_CCACHE" => "1",
-#        "CCACHE_DIR" => "/root/.ccache"
-#    )
-#    command "./configure --prefix=/opt/apr/apr-1.5.2"
-#    action :run
-#end
-#execute "APR make" do
-#    cwd "/usr/local/src/apr-1.5.2"
-#    user "root"
-#    environment(
-#        "USE_CCACHE" => "1",
-#        "CCACHE_DIR" => "/root/.ccache"
-#    )
-#    command "make -j 4"
-#    action :run
-#end
-#execute "APR make install" do
-#    cwd "/usr/local/src/apr-1.5.2"
-#    user "root"
-#    command "make -j 4 install"
-#    action :run
-#end
-
 execute "source compile vim w/lua" do
    user "root"
    command <<-EOH
