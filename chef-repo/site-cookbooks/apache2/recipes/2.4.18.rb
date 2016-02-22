@@ -40,7 +40,7 @@ execute "APR - Build.." do
     cwd "/usr/local/src/apr-1.5.2"
     user "root"
     environment(
-        "USE_CCACHE" => "1",
+,       "USE_CCACHE" => "1",
         "CCACHE_DIR" => "/root/.ccache",
         "CC" => "ccache gcc",
         "CXX" => "ccache g++"
@@ -182,12 +182,12 @@ end
 execute "httpd(apache2) make" do
     cwd "/usr/local/src/httpd-2.4.18"
     user "root"
-    environment(
-        "USE_CCACHE" => "1",
-        "CCACHE_DIR" => "/root/.ccache",
-        "CC" => "ccache gcc",
-        "CXX" => "ccache g++"
-    )
+    #environment(
+    #    "USE_CCACHE" => "1",
+    #    "CCACHE_DIR" => "/root/.ccache",
+    #    "CC" => "ccache gcc",
+    #    "CXX" => "ccache g++"
+    #)
     command "make -j8 2>&1 | tee log_make.txt"
     action :run
 end
