@@ -1,0 +1,18 @@
+{
+	"httpd" : {
+		"server_admin" : "vagrant@localhost",
+		"server_name" : "www.vagrant.com:80"
+	},
+    "tools" : {
+        "git" : true,
+        "ctags" : true,
+        "gettext" : true,
+        "htop" : true,
+        "vim" : false,
+        "vim-lua" : true
+    },
+	"run_list": [
+		"recipe[yum]",
+		"recipe[apache2::2.4.18]"
+	]
+}

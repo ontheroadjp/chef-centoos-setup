@@ -1,0 +1,7 @@
+README.md
+.chef
+modules/
+docker_node.json
+docker-chef.sh
+id_rsa*
+conf.txt

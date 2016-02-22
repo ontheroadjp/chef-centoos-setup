@@ -2,11 +2,11 @@
 
 . docker/conf.txt
 
-# コンテナの停止
+# stop container
 echo 'stop container: '${container_id}
 docker stop ${container_id}
 
-# コンテナの破棄
+# remove container
 echo 'remove container: '${container_id}
 docker rm ${container_id}
 

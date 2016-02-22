@@ -1,7 +1,7 @@
 #!/bin/sh -xe
 
 # ------------------------------------
-# 既存 Dockerfile の削除
+# delete exist Dockerfile
 # ------------------------------------
 dockerfile='./docker/Dockerfile'
 if [ -f $dockerfile ]; then
@@ -9,7 +9,7 @@ if [ -f $dockerfile ]; then
 fi
 
 # ------------------------------------
-# RSA キーペアの生成
+# create RSA key-pair
 # ------------------------------------
 file=$HOME/.ssh/id_rsa
 if [ ! -f $file ]; then
@@ -18,7 +18,7 @@ fi
 cp -f ${file}.pub ./docker/id_rsa_$(whoami).pub
 
 # ------------------------------------
-# Dockerfile の生成
+# create Dockerfile
 # ------------------------------------
 echo '# docker build -t nuts/sshd .' >> $dockerfile
 echo '# docker run -d nuts/sshd' >> $dockerfile
@@ -34,7 +34,6 @@ echo 'RUN yum install -y openssh-server' >> $dockerfile
 echo 'RUN yum install -y openssh-clients' >> $dockerfile
 echo 'RUN yum install -y sudo' >> $dockerfile
 echo '' >> $dockerfile
-
 
 if [ "$(whoami)" != "root" ]; then
     echo '# create user' >> $dockerfile
@@ -72,4 +71,9 @@ echo '# EXPOSE 49222:22' >> $dockerfile
 echo '' >> $dockerfile
 
 echo 'CMD ["/usr/sbin/sshd", "-D"]' >> $dockerfile
+
+# -----------------------------------
+# create Docker image
+# -----------------------------------
+docker build -t nuts/chef ./docker
 
