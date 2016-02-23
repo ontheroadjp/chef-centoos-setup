@@ -40,7 +40,7 @@ execute "APR - Build.." do
     cwd "/usr/local/src/apr-1.5.2"
     user "root"
     environment(
-,       "USE_CCACHE" => "1",
+        "USE_CCACHE" => "1",
         "CCACHE_DIR" => "/root/.ccache",
         "CC" => "ccache gcc",
         "CXX" => "ccache g++"
