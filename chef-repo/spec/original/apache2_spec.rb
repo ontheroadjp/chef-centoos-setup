@@ -1,1 +1,0 @@
-../default/apache2_spec.rb

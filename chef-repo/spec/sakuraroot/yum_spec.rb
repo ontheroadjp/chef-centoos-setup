@@ -1,1 +1,0 @@
-../default/yum_spec.rb

@@ -1,6 +1,16 @@
 require 'serverspec'
 require 'net/ssh'
 require 'json'
+require 'tempfile'
+require 'ohai'
+require 'json'
+
+ohai = Ohai::System.new
+ohai.all_plugins
+
+puts '--------------------------------------'
+puts 'Hello! ' + ohai[:platform] + ' & test to ' + ENV['TARGET_HOST']
+puts '--------------------------------------'
 
 set :backend, :ssh
 

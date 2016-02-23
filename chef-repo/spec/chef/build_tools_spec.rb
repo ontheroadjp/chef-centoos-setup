@@ -1,1 +1,0 @@
-../default/build_tools_spec.rb

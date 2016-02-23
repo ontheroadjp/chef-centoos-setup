@@ -31,6 +31,10 @@ namespace :spec do
                 JSON.load(io)
             end
             recipes = Chef::RunList.new(*json['run_list']).expand("_default", "disk").recipes
+            puts '--------------------------------------------'
+            puts 'Apply Serverspec to ' + original_target
+            puts recipes
+            puts '--------------------------------------------'
             t.pattern = ['spec/default/{' + recipes.join('_spec.rb,') + '}']
         end
     end

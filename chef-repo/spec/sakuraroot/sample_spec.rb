@@ -1,1 +1,0 @@
-../default/sample_spec.rb

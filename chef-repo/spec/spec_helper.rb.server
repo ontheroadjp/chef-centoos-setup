@@ -1,5 +1,6 @@
 require 'serverspec'
 require 'net/ssh'
+require 'json'
 require 'tempfile'
 require 'ohai'
 require 'json'
@@ -8,7 +9,7 @@ ohai = Ohai::System.new
 ohai.all_plugins
 
 puts '--------------------------------------'
-puts 'Hello! ' + ohai[:platform] + 'to vagrant'
+puts 'Hello! ' + ohai[:platform] + ' & test to ' + ENV['TARGET_HOST']
 puts '--------------------------------------'
 
 set :backend, :ssh
@@ -27,13 +28,7 @@ end
 host = ENV['TARGET_HOST']
 set_property JSON.parse(File.read("nodes/#{host}.json"))
 
-`vagrant up #{host}`
-
-config = Tempfile.new('', Dir.tmpdir)
-config.write(`vagrant ssh-config #{host}`)
-config.close
-
-options = Net::SSH::Config.for(host, [config.path])
+options = Net::SSH::Config.for(host)
 
 options[:user] ||= Etc.getlogin
 

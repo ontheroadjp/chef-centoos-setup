@@ -1,1 +1,0 @@
-../default/php56_spec.rb

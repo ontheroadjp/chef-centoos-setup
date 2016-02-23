@@ -1,1 +1,0 @@
-../default/webmin_spec.rb

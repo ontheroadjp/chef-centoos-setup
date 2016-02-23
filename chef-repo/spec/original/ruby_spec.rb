@@ -1,1 +1,0 @@
-../default/ruby_spec.rb
