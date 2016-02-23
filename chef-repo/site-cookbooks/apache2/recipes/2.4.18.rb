@@ -8,6 +8,7 @@
 #
 
 include_recipe "build_tools"
+include_recipe "openssl"
 
 user "apache" do
     shell    '/bin/false'
@@ -228,8 +229,6 @@ end
 service "httpd" do
     action [:start, :enable]
     supports :status => true, :restart => true, :reload => true
-    #only_if { ::File.exists?("/etc/rc.d/init.d/httpd")}
-    only_if {node['service']['httpd']}
 end
 
 #if platform_family?('rhel') && node['platform_version'].to_i == 6 then
