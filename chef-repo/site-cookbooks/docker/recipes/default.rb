@@ -7,19 +7,11 @@
 # All rights reserved - Do Not Redistribute
 #
 
-# create docker user
-user "docker" do
-    shell    '/bin/bash'
-    system  true
-    action  :create
-end
-
 # create docker group
 group "docker" do
-    append true
-    members 'docker'
     action :modify
 end
+
 
 # install docker
 if platform_family?('rhel') && node['platform_version'].to_i == 6 then
