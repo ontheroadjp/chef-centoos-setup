@@ -23,29 +23,25 @@ knife solo bootstrap root@${ipaddress} --defaults || RET=$?
 #lc_all=$(echo $LC_ALL)
 #export LANG=ja_JP.UTF-8
 #export LC_ALL=ja_JP.UTF-8
-#cp -r spec/docker ./spec/${ipaddress}
-mkdir ./spec/${ipaddress}
-#chown $(whoami) ./spec/${ipaddress}
 #rake spec:${ipaddress} USER=root KEY=./docker/id_rsa_root.pub TARGET_HOST=${ipaddress}
 #rake spec:${ipaddress} USER=root KEY=./docker/id_rsa_root.pub TARGET_HOST=${ipaddress} LOGIN_PASSWARD=root rake spec
 #rake spec:${ipaddress} --task
 rake spec:${ipaddress}
 #export LANG=${lang}
 #export LC_ALL=${lc_all}
-rm -rf ./spec/${ipaddress}
 
 # Chef の nodes/xxxx.json の破棄
-echo 'remove ./nodes/'${ipaddress}'.json'
+echo -e "\033[1;33mremove ./nodes/${ipaddress}.json\033[0m"
 rm ./nodes/${ipaddress}.json
 
 # コンテナの停止
-echo 'stop container: '${container_id}
+echo -e "\033[1;33mstop container: ${container_id}\033[0m"
 docker stop ${container_id}
 
 # コンテナの破棄
-echo 'remove container: '${container_id}
+echo -e "\033[1;33mremove container: ${container_id}[0m"
 docker rm ${container_id}
 
-echo 'complete!'
+echo -e "\033[1;33mcomplete![0m"
 exit $RET
 
