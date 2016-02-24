@@ -1,7 +1,7 @@
 require 'serverspec'
 require 'net/ssh'
 require 'json'
-require 'tempfile'
+#require 'tempfile'
 require 'ohai'
 require 'json'
 
@@ -30,7 +30,11 @@ set_property JSON.parse(File.read("nodes/#{host}.json"))
 
 options = Net::SSH::Config.for(host)
 
-options[:user] ||= Etc.getlogin
+#options[:user] ||= Etc.getlogin
+
+options[:user] ||= Etc.getlogin || ENV['USER']
+options[:password] ||= 'vagrant' || ENV['LOGIN_PASSWORD']
+#options[:keys] = ENV['KEY']
 
 set :host,        options[:host_name] || host
 set :ssh_options, options
