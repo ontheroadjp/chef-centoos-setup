@@ -12,7 +12,6 @@ group "docker" do
     action :modify
 end
 
-
 # install docker
 if platform_family?('rhel') && node['platform_version'].to_i == 6 then
     package "docker-io" do
