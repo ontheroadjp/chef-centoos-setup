@@ -9,7 +9,7 @@
 
 # create docker group
 group "docker" do
-    action :modify
+    action :create
 end
 
 # install docker
