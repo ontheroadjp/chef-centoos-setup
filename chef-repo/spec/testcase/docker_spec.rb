@@ -12,7 +12,7 @@ describe group('docker') do
 end
 
 # Install Build tools
-packages = ['docker-io']
+packages = ['docker']
 packages.each do |pkg|
     describe package("#{pkg}") do
         it { should be_installed }
