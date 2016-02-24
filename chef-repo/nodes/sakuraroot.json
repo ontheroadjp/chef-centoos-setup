@@ -38,7 +38,6 @@
         "recipe[webmin]",
         "recipe[usermin]",
         "recipe[ruby]",
-        "recipe[webapp_dev_env]",
         "recipe[jenkins]",
         "recipe[docker]",
         "recipe[chef]",
