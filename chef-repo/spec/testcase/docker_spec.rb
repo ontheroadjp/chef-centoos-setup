@@ -19,4 +19,16 @@ packages.each do |pkg|
     end
 end
 
+# Install Docker Compose
+describe file('/usr/local/bin/docker-compose') do
+    it { should be_file }
+end
+describe command('docker-compose version') do
+    its(:stdout) { should match /docker-compose version 1\.5\.2, build 7240ff3/ }
+end
+
+# Install Docker Compose
+describe file('/etc/bash_completion.d/docker-compose') do
+    it { should be_file }
+end
 

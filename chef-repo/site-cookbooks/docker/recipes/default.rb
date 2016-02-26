@@ -31,4 +31,23 @@ service "docker" do
     only_if {node['service']['docker']}
 end
 
+# Install Docker Compose 1.5.2
+execute "Install Docker Compose" do
+    user "root"
+    command <<-EOH
+        curl -L https://github.com/docker/compose/releases/download/1.5.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+        chmod +x /usr/local/bin/docker-compose
+        EOH
+    action :run
+end
+
+# Install Docker Completion
+execute "Install Docker Completion" do
+    user "root"
+    command <<-EOH
+        curl -L https://raw.githubusercontent.com/docker/compose/$(docker-compose version --short)/contrib/completion/bash/docker-compose > /etc/bash_completion.d/docker-compose
+        EOH
+    action :run
+end
+
 
