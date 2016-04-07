@@ -181,6 +181,45 @@ $ knife data bag create --secret-file .chef/data_bag_key --local users nobita
 # wheel グループに所属させると、sudo（パスワードなし）と su の実行権限が付与される
 ```
 
+## Serverspec の実行
+
+Serverspec は ``chef-repo/`` 直下で実行すること。
+
+Serverspec は ``chef-repo/nodes/`` フォルダから ``*.json`` の ``run_list`` を読み込んで実行するテストケースを決定するので、``*.json`` を明示的に指定する。
+
+例えば、Chef で ``chef-repo/nodes/dockerhkost.json`` の構築を行った場合は、
+
+```bash
+$ cd chef-repo/
+$ rake spec:dockerhost
+```
+
+とすることによって、chef で適用された ``run_list`` のレシピに対応するテストケースが実行される。
+
+### run_list とテストケースの対応
+
+``run_list`` が
+
+```json
+"run_list": [
+	"recipe[users]",
+	"recipe[yum]",
+	"recipe[tools]",
+	"recipe[docker]",
+	"recipe[service]"
+],
+```
+
+の場合、
+
+* chef-repo/spec/testcase/users_spec.rb
+* chef-repo/spec/testcase/yum_spec.rb
+* chef-repo/spec/testcase/tools_spec.rb
+* chef-repo/spec/testcase/docker_spec.rb
+* chef-repo/spec/testcase/service_spec.rb
+
+が実行される。
+
 ## 参考
 
 ### Vagrant による仮想環境の設定内容
