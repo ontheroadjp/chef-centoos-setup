@@ -31,12 +31,13 @@ service "docker" do
     only_if {node['service']['docker']}
 end
 
-# Install Docker Compose 1.5.2
+# Install Docker Compose 1.6.2
 execute "Install Docker Compose" do
     user "root"
     command <<-EOH
-        curl -L https://github.com/docker/compose/releases/download/1.5.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-        chmod +x /usr/local/bin/docker-compose
+        curl -L https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+        #chmod +x /usr/local/bin/docker-compose
+        chmod 0755 /usr/local/bin/docker-compose
         EOH
     action :run
 end
