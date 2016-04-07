@@ -2,11 +2,11 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-    config.vm.box = "nrel/CentOS-6.7-x86_64"
-    config.vm.box_url = "https://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.7-x86_64-v20151108.box"
+    #config.vm.box = "nrel/CentOS-6.7-x86_64"
+    #config.vm.box_url = "https://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.7-x86_64-v20151108.box"
   
-    #config.vm.box = "CentOS-7.1-x86_64"
-    #config.vm.box_url = "https://github.com/holms/vagrant-centos7-box/releases/download/7.1.1503.001/CentOS-7.1.1503-x86_64-netboot.box"
+    config.vm.box = "CentOS-7.1-x86_64"
+    config.vm.box_url = "https://github.com/holms/vagrant-centos7-box/releases/download/7.1.1503.001/CentOS-7.1.1503-x86_64-netboot.box"
   
     host = RbConfig::CONFIG['host_os']
     
