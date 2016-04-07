@@ -38,7 +38,7 @@ namespace :spec do
             #t.pattern = ['spec/testcase/{' + recipes.join('_spec.rb,') + '}']
             #recipes = recipes.join('_spec.rb,') + '_spec.rb'
             puts '--------------------------------------------'
-            puts 'Apply Serverspec to ' + original_target
+            puts 'Apply Serverspec to ' + original_target + '.json'
             puts recipes
             puts '--------------------------------------------'
             t.pattern = ['spec/testcase/{' + recipes.join('_spec.rb,') + '_spec.rb}']
