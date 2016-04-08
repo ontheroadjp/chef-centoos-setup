@@ -58,7 +58,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     #end
     config.vm.define :chef do | chef |
         chef.vm.hostname = "vagrang-chef"
-        chef.vm.network :forwarded_port, guest: 80, host: 10080      # httpd
+        chef.vm.network :forwarded_port, guest: 80, host: 80      # httpd
         chef.vm.network :forwarded_port, guest: 8080, host: 8080      # httpd
     	chef.vm.network :forwarded_port, guest: 3306, host: 3306    # mysqld
     	chef.vm.network :forwarded_port, guest: 8001, host: 8001    # jenkins
