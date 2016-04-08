@@ -5,22 +5,22 @@ ohai = Ohai::System.new
 ohai.all_plugins
 
 
-# Install ntpd
-packages = ['ntp']
-packages.each do |pkg|
-    describe package("#{pkg}") do
-        it { should be_installed }
-    end
-end
-describe file('/etc/ntp.conf') do
-    it { should be_file }
-    it { should be_owned_by 'root'}
-    it { should be_owned_by 'root'}
-    it { should be_mode '644'}
-end
-
-# service script
 if ohai[:platform_family] == 'rhel' && ohai[:platform_version].to_i == 6 then
+    # Install ntpd
+    packages = ['ntp']
+    packages.each do |pkg|
+        describe package("#{pkg}") do
+            it { should be_installed }
+        end
+    end
+    describe file('/etc/ntp.conf') do
+        it { should be_file }
+        it { should be_owned_by 'root'}
+        it { should be_owned_by 'root'}
+        it { should be_mode '644'}
+    end
+    
+    # service script
     describe file('/etc/rc.d/init.d/ntpd') do
         it { should be_file }
         it { should be_owned_by 'root' }
@@ -36,10 +36,9 @@ if ohai[:platform_family] == 'rhel' && ohai[:platform_version].to_i == 6 then
         its(:stdout) { should match /5:on/ }
         its(:stdout) { should match /6:off/ }
     end
-end
-
-# service script
-describe service('ntpd'), :if => os[:family] == 'redhat' do
-  it { should be_enabled }
-end
-
+    
+    # service script
+    describe service('ntpd'), :if => os[:family] == 'redhat' do
+      it { should be_enabled }
+    end
+en
