@@ -7,6 +7,20 @@
 # All rights reserved - Do Not Redistribute
 #
 
+## create docker user
+#user "docker" do
+#    shell    '/bin/false'
+#    system  true
+#    action  :create
+#end
+#
+## create docker group
+#group "docker" do
+#    append true
+#    members 'docker'
+#    action :modify
+#end
+
 # create docker group
 group "docker" do
     action :create
@@ -35,6 +49,7 @@ end
 execute "Install Docker Compose" do
     user "root"
     command <<-EOH
+        #curl -L https://github.com/docker/compose/releases/download/1.5.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
         curl -L https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
         #chmod +x /usr/local/bin/docker-compose
         chmod 0755 /usr/local/bin/docker-compose
