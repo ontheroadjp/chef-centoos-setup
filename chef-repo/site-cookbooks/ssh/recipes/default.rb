@@ -15,7 +15,7 @@ template "/etc/ssh/sshd_config" do
 end
 
 if platform_family?('rhel') && node['platform_version'].to_i == 7 then
-    template "/etc/firewalld/service/ssh.xml" do
+    template "/etc/firewalld/services/ssh.xml" do
         source "ssh.erb"
         owner "root"
         group "root"
