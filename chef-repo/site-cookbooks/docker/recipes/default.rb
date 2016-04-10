@@ -33,8 +33,49 @@ if platform_family?('rhel') && node['platform_version'].to_i == 6 then
     	action [:install, :upgrade]
     end
 elsif platform_family?('rhel') && node['platform_version'].to_i == 7 then
-    package "docker-io" do
-    	action [:install, :upgrade]
+
+    # Add yum repository
+    execute "Install Docker Engine" do
+        user "root"
+        command <<-EOH
+            tee /etc/yum.repos.d/docker.repo <<-'EOF'
+[dockerrepo]
+name=Docker Repository
+baseurl=https://yum.dockerproject.org/repo/main/centos/$releasever/
+enabled=0
+gpgcheck=1
+gpgkey=https://yum.dockerproject.org/gpg
+            EOH
+        action :run
+    end
+
+    # Install Docker engine
+    package "docker-engine" do
+        options "--enablerepo=dockerrepo"
+        action [:install, :upgrade]
+    end
+
+    # Add service script for CA access
+    template "/etc/systemd/system/docker.service" do
+      source "docker.service.erb"
+      owner "root"
+      group "root"
+      mode 0644
+    end
+    
+    # Add generate CA  script
+    execute "make docker dir" do
+        user "root"
+        command <<-EOH
+            mkdir -p /root/docker_ca
+            EOH
+        action :run
+    end
+    template "/root/docker_ca/generate_ca.sh" do
+      source "generate_ca.sh.erb"
+      owner "root"
+      group "root"
+      mode 0700
     end
 end
 

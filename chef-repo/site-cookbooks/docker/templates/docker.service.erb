@@ -1,0 +1,17 @@
+[Unit]
+Description=Docker Application Container Engine
+Documentation=https://docs.docker.com
+After=network.target docker.socket
+Requires=docker.socket
+
+[Service]
+Type=notify
+ExecStart=/usr/bin/docker daemon --tlsverify --tlscacert=/root/.docker/certs/ca.pem --tlscert=/root/.docker/certs/server-cert.pem --tlskey=/root/.docker/certs/server-key.pem -H=0.0.0.0:2376
+MountFlags=slave
+LimitNOFILE=1048576
+LimitNPROC=1048576
+LimitCORE=infinity
+TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target
