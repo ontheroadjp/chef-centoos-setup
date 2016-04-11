@@ -71,8 +71,8 @@ gpgkey=https://yum.dockerproject.org/gpg
             EOH
         action :run
     end
-    template "/root/docker_ca/generate_ca.sh" do
-      source "generate_ca.sh.erb"
+    template "/root/docker_ca/inite_docker_user.sh" do
+      source "init_docker_user.sh.erb"
       owner "root"
       group "root"
       mode 0700

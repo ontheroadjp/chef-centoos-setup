@@ -1,29 +1,5 @@
 #!/bin/sh
 
-function main() {
-    if [ $# -eq 0 ]; then
-        print "Are you sure you want to generate RSA key-pair?(y/n): "
-        read answer
-        if [ ${answer} = "y" ]; then
-            _generate
-        else
-            exit 1
-        fi
-    elif [ $# -eq 1 ]; then
-        print "enter username: "
-        read username
-        
-        if ! cat /etc/passwd | grep "^${username}:.*"; then
-            echo "ERROR: user does not exist."
-            exit 1
-        fi
-        _user_permit ${username}
-    else
-        echo "ERROR: invalid argument"
-        exit 1
-    fi
-}
-
 certs_dir="/root/.docker/certs"
     
 function _generate() {
@@ -73,18 +49,57 @@ function _user_permit() {
         echo "ERROR: ${user} is not general user."
         exit 1
     fi
+
+    # copy Key-pair
     mkdir -pv ${home_dir}/.docker
-    cp -v ${certs}/{ca,cert,key}.pem ${home_dir}/.docker
+    cp -v ${certs_dir}/{ca,cert,key}.pem ${home_dir}/.docker
     chown ${user} ${home_dir}/.docker/{ca,cert,key}.pem
 
-    local out=${home_dir}/.bashrc
-    echo "" >> ${out}
-    echo "Docker security addition on xxx" >> ${out}
-    echo 'export DOCKER_HOST=tcp://localhost:2376 DOCKER_TLS_VERIFY=1' >> ${out}
-    echo "Finished for Docker security addition." >> ${out}
-    echo "" >> ${out}
+
+    # add settings into .bashrc
+    local bashrc=${home_dir}/.bashrc
+    echo "" >> ${bashrc}
+    echo "# Docker security addition on xxx" >> ${bashrc}
+    echo 'export DOCKER_HOST=tcp://localhost:2376 DOCKER_TLS_VERIFY=1' >> ${bashrc}
+    echo "# Finished for Docker security addition." >> ${bashrc}
+    echo "" >> ${bashrc}
+
+    # add docker group
+    if ! cat /etc/group | grep "^docker:.*$"; then
+        groupadd docker
+        echo "Create docker group"
+    fi
+
+    # add user into docker group
+    usermod -aG docker ${user}
+    echo "Add user(${user}) into docker group"
 }
 
-main $@
+function _main() {
+    if [ $# -eq 0 ]; then
+        echo -n "Are you sure you want to generate RSA key-pair?(y/n): "
+        read answer
+        if [ ${answer} = "y" ]; then
+            _generate
+        else
+            exit 1
+        fi
+    elif [ $# -eq 1 ]; then
+        #echo -n "enter username: "
+        #read username
+        username=$1
+        
+        if ! cat /etc/passwd | grep "^${username}:.*"; then
+            echo "ERROR: user does not exist."
+            exit 1
+        fi
+        _user_permit ${username}
+    else
+        echo "ERROR: invalid argument"
+        exit 1
+    fi
+}
+
+_main $@
 
 exit 0
