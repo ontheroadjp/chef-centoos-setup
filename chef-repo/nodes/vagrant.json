@@ -11,6 +11,7 @@
 		"port" : 8001
 	},
     "tools" : {
+        "wget" : true,
         "git" : true,
         "ctags" : true,
         "gettext" : true,
