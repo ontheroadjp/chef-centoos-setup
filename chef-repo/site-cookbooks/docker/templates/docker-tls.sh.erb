@@ -1,6 +1,6 @@
 #!/bin/sh
 
-certs_dir="/root/.docker/certs"
+certs_dir="/etc/docker/certs"
     
 function _generate() {
     
@@ -13,11 +13,11 @@ function _generate() {
     
     # printf "RSA private key(server-key.pem, server.csr)..."
     openssl genrsa -out server-key.pem 4096
-    openssl req -subj "/CN=localhost" -sha256 -new -key server-key.pem -out server.csr
+    openssl req -subj "/CN=$(ip r | grep 'docker0' | awk '{print $9}')" -sha256 -new -key server-key.pem -out server.csr
     echo "done."
     
     # printf "sign the public key with our CA(extfile.cnf, ca.pem, ca.srl)..."
-    echo subjectAltName = IP:10.10.10.20,IP:127.0.0.1 > extfile.cnf
+    echo subjectAltName = IP:172.17.0.1,IP:10.10.10.20,IP:127.0.0.1 > extfile.cnf
     openssl x509 -req -days 365 -sha256 -in server.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out server-cert.pem -extfile extfile.cnf
     echo "done."
     
@@ -60,7 +60,7 @@ function _user_permit() {
     local bashrc=${home_dir}/.bashrc
     echo "" >> ${bashrc}
     echo "# Docker security addition on xxx" >> ${bashrc}
-    echo 'export DOCKER_HOST=tcp://localhost:2376 DOCKER_TLS_VERIFY=1' >> ${bashrc}
+    echo 'export DOCKER_HOST=tcp://127.0.0.1:2376 DOCKER_TLS_VERIFY=1' >> ${bashrc}
     echo "# Finished for Docker security addition." >> ${bashrc}
     echo "" >> ${bashrc}
 

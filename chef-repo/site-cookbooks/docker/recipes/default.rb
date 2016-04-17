@@ -55,24 +55,37 @@ gpgkey=https://yum.dockerproject.org/gpg
         action [:install, :upgrade]
     end
 
-    # Add service script for CA access
-    template "/etc/systemd/system/docker.service" do
-      source "docker.service.erb"
+    ## Add service script enabled LTS
+    #template "/etc/systemd/system/docker.service" do
+    #  source "docker.service.erb"
+    #  owner "root"
+    #  group "root"
+    #  mode 0644
+    #end
+    
+    # Add service script enabled LTS
+    directory "/etc/systemd/system/docker.service.d" do
+        owner "root"
+        mode "0755"
+        action :create
+    end
+    template "/etc/systemd/system/docker.service.d/docker.conf" do
+      source "docker.conf.erb"
       owner "root"
       group "root"
       mode 0644
     end
-    
-    # Add generate CA  script
+
+    # Add Docker-TLS script
     execute "make docker dir" do
         user "root"
         command <<-EOH
-            mkdir -p /root/docker_ca
+            mkdir -p /root/docker_util
             EOH
         action :run
     end
-    template "/root/docker_ca/inite_docker_user.sh" do
-      source "init_docker_user.sh.erb"
+    template "/root/docker_util/docker-tls.sh" do
+      source "docker-tls.sh.erb"
       owner "root"
       group "root"
       mode 0700
