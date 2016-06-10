@@ -1,4 +1,10 @@
 require 'spec_helper'
+require 'ohai'
+
+ohai = Ohai::System.new
+ohai.all_plugins
+
+$ohaidata = ohai.data
 
 ## Create user:docker
 #describe user('docker') do
@@ -12,7 +18,7 @@ describe group('docker') do
 end
 
 # Install Build tools
-packages = ['docker']
+packages = ['docker','docker-engine']
 packages.each do |pkg|
     describe package("#{pkg}") do
         it { should be_installed }
@@ -28,7 +34,7 @@ describe command('docker-compose version') do
     its(:stdout) { should match /docker-compose version 1\.6\.2, build 4d72027/ }
 end
 
-# Install Docker Compose
+# Install Docker Complition
 describe file('/etc/bash_completion.d/docker-compose') do
     it { should be_file }
 end

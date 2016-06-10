@@ -33,8 +33,62 @@ if platform_family?('rhel') && node['platform_version'].to_i == 6 then
     	action [:install, :upgrade]
     end
 elsif platform_family?('rhel') && node['platform_version'].to_i == 7 then
-    package "docker-io" do
-    	action [:install, :upgrade]
+
+    # Add yum repository
+    execute "Install Docker Engine" do
+        user "root"
+        command <<-EOH
+            tee /etc/yum.repos.d/docker.repo <<-'EOF'
+[dockerrepo]
+name=Docker Repository
+baseurl=https://yum.dockerproject.org/repo/main/centos/$releasever/
+enabled=0
+gpgcheck=1
+gpgkey=https://yum.dockerproject.org/gpg
+            EOH
+        action :run
+    end
+
+    # Install Docker engine
+    package "docker-engine" do
+        options "--enablerepo=dockerrepo"
+        action [:install, :upgrade]
+    end
+
+    ## Add service script enabled LTS
+    #template "/etc/systemd/system/docker.service" do
+    #  source "docker.service.erb"
+    #  owner "root"
+    #  group "root"
+    #  mode 0644
+    #end
+    
+    # Add service script enabled LTS
+    directory "/etc/systemd/system/docker.service.d" do
+        owner "root"
+        mode "0755"
+        action :create
+    end
+    template "/etc/systemd/system/docker.service.d/docker.conf" do
+      source "docker.conf.erb"
+      owner "root"
+      group "root"
+      mode 0644
+    end
+
+    # Add Docker-TLS script
+    execute "make docker dir" do
+        user "root"
+        command <<-EOH
+            mkdir -p /root/docker_util
+            EOH
+        action :run
+    end
+    template "/root/docker_util/docker-tls.sh" do
+      source "docker-tls.sh.erb"
+      owner "root"
+      group "root"
+      mode 0700
     end
 end
 
