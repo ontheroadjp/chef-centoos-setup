@@ -9,34 +9,34 @@ CentOS6.x のサーバー環境を構築するための Chef レシピ
 
 ### 開発ツール
 
-* Chef Development Kit Version: 0.9.0
+* [Chef Development Kit](https://downloads.chef.io/chef-dk/) Version: 0.9.0
 	* chef-client version: 12.5.1
 	* berks version: 4.0.1
 	* kitchen version: 1.4.2
-* VirtualBox 5.0.6
-* vagrant 1.7.4
-* ruby 2.3.0p0
-* serverspec v2
+* [VirtualBox](https://www.virtualbox.org/) 5.0.6
+* [vagrant](https://www.vagrantup.com/) 1.7.4
+* [ruby](https://www.ruby-lang.org/en/) 2.3.0p0
+* [serverspec](http://serverspec.org/) v2
 
 ## 1. レシピ
 
 |No|クックブック名|本番<br>(レシピ名)|テスト<br>（レシピ名）|内容|
 |:---|:---|:---:|:---:|:---|
 |1|sakuravps_tunig|||不要なデーモン、パッケージの削除|
-|2|users|default|default|Root 権限のある一般ユーザーの作成|
+|2|users|default|default|sudo 可能な一般ユーザーの作成|
 |3|yum|default|default|各種レポジトリなどの追加 & 設定|
 |4|tools|default|default|vim(+lua), git などのインストール|
-|5|build_tools|default|default|gcc, ccache などのインストール(v1.2.0〜)|
+|5|build_tools|default|default|gcc, ccache, htop などのインストール(v1.2.0〜)|
 |6|openssl|default|default|OpenSSL 1.0.2f のソースビルド（v1.2.0〜）|
 |7|curl|default|default|cURL 7.47.0 のソースビルド（v1.2.0〜）|
 |8|apache2|2.4.18|2.4.18|Apache 2.2.18 のソースビルド|
 |9|mysql56|default|default|Mysql 5.6.28 のパッケージインストール|
 |10|php56|5.6.17|5.6.17|PHP 5.6.17 のソースビルド|
-|11|service|default|default|apache, mysql のサービス登録など|
+|11|service|default|default|apache, mysql などの systemd 設定|
 |12|webapp-dev-env|default|default|Nodejs, npm, Bower, Gulp, Composer, SASS のインストール|
 |13|ruby|default|default|rbenv による Ruby 2.3.0 のインストール（v1.2.0〜）|
 |14|ssh|default||sshd の設定（root 接続禁止など）|
-|15|iptables|default|flush|iptables の設定|
+|15|iptables|default|flush|firewalld（または iptables） の設定|
 
 * 空欄はレシピの適用なし
 * 本番環境の詳細は ``node/sakuraroot.json`` の ``run_list`` 参照
@@ -97,8 +97,9 @@ $ knife solo prepare sakuraroot
 # さくらVPS で chef 実行
 $ knife solo cook sakuraroot
 
-# 接続確認
-$ ssh sakura
+# テスト
+$ cd chef-centos-setup/chef-repo
+$ rake spec sakuraroot
 ```
 
 
@@ -181,7 +182,7 @@ $ knife data bag create --secret-file .chef/data_bag_key --local users nobita
 # wheel グループに所属させると、sudo（パスワードなし）と su の実行権限が付与される
 ```
 
-## Serverspec の実行
+## 5. Serverspec の実行
 
 Serverspec は ``chef-repo/`` 直下で実行すること。
 
@@ -195,6 +196,13 @@ $ rake spec:dockerhost
 ```
 
 とすることによって、chef で適用された ``run_list`` のレシピに対応するテストケースが実行される。
+
+### SSH で接続するユーザーがパスワード付き sudo 権限の場合
+
+```bash
+$ cd chef-repo/
+$ ASK_SUDO_PASSWORD=1 rake spec:dockerhost
+```
 
 ### run_list とテストケースの対応
 
@@ -220,6 +228,14 @@ $ rake spec:dockerhost
 
 が実行される。
 
+### ssh レシピを適用した場合
+
+ssh レシピを適用すると、
+
+1. 接続ポートの変更（#22 → #10022） 
+2. root ログインの禁止
+3. パスワードログインの禁止
+
 ## 参考
 
 ### Vagrant による仮想環境の設定内容
@@ -235,4 +251,4 @@ $ rake spec:dockerhost
 |NAT|DNS要求をホストマシンのDNSサーバーに要求し、ホストのリゾルバ機構を使う|vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]<br>vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]|
 |ユーザー名|vagrant||
 |パスワード|vagrant||
-|Root パスワード|vagrant||
+|root パスワード|vagrant||
