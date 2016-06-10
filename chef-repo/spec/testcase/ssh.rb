@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 
-# Install Docker Compose
+# Replace file sshd_config
 describe file('/etc/ssh/sshd_config') do
     it { should be_file }
     it { should be_owned_by 'root'}
