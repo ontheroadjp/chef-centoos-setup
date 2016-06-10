@@ -2,9 +2,8 @@ require 'serverspec'
 require 'net/ssh'
 require 'json'
 #require 'tempfile'
-require 'ohai'
 require 'json'
-
+require 'ohai'
 ohai = Ohai::System.new
 ohai.all_plugins
 
@@ -13,6 +12,7 @@ puts 'Hello! ' + ohai[:platform] + ' & test to ' + ENV['TARGET_HOST']
 puts '--------------------------------------'
 
 set :backend, :ssh
+set :request_pty, true
 
 if ENV['ASK_SUDO_PASSWORD']
   begin
@@ -48,3 +48,4 @@ set :ssh_options, options
 
 # Set PATH
 # set :path, '/sbin:/usr/local/sbin:$PATH'
+
