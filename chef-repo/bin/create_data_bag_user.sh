@@ -13,8 +13,16 @@ read password
 printf "add wheel?(true/false) : "
 read wheel
 
+if [ ${wheel} != "true" ] || [ ${wheel} != "false" ]; then
+    echo "ERROR: wheel value must be true or false."
+    echo "Please try again."
+    exit 1
+fi
+
 # data_bag_key
-openssl rand -base64 512 > $(dirname $0)/../.chef/data_bag_key
+if [ ! -f $(dirname $0)/../.chef.data_bag_key ]; then
+    openssl rand -base64 512 > $(cd $(dirname $0);pwd)/../.chef/data_bag_key
+fi
 
 # password
 exe='echo crypt("'${password}'","$6$".substr(uniqid(),0,8));'
@@ -24,16 +32,14 @@ encrypt_pass=$(php -r "${exe}")
 sshkey=$(cat $HOME/.ssh/id_rsa.pub)
 
 out=${username}.json
-echo '{' >> $out
-echo '  "id": "'${username}'",' >> $out
-echo '  "shell": "/bin/bash",' >> $out
-echo '  "password": "'${encrypt_pass}'",' >> $out
-echo '  "wheel": '${wheel}',' >> $out
-echo '  "sshkey": "'${sshkey}'"' >> $out
-echo '}' >> $out
+cat <<-EOF > ${out}
+{
+    "id": "${username}",
+    "shell": "/bin/bash",
+    "password": "${encrypt_pass}",
+    "wheel": ${wheel},
+    "sshkey": "${sshkey}"
+}
+EOF
 
-#knife data bag create -d --secret-file .chef/data_bag_key --local users $username
-    
-
-
-
+exit 0
